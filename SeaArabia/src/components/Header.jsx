@@ -2,20 +2,92 @@ import { View,Text, Image, Pressable, TextInput } from "react-native";
 import CloudIcon from "../assets/icon/CloudIcon";
 import LocationIcon from "../assets/icon/LocationIcon";
 import SearchIcon from "../assets/icon/SearchIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MicIcon from "../assets/icon/MicIcon";
 import Styles from "../public/Styles";
 import BackIcon from "../assets/icon/BackIcon";
+import getWeatherDataByCoordinates from "./weather";
+import Geolocation from '@react-native-community/geolocation';
+import { request, PERMISSIONS, check, RESULTS } from 'react-native-permissions';
+import { Linking } from 'react-native';
+
 
 function Header({page}){
     const [searchText, setSearchText] = useState('');
+    const [weather,setweather]=useState('')
+    const [location, setLocation] = useState({
+        latitude:'',
+        longitude:''
+    });
+    console.log(location.longitude)
+    const [icon,setIcon]=useState('')
+    useEffect(() => {
+       
+      }, []);
+    useEffect(() => {
+        // Geolocation.getCurrentPosition(info => console.log("Geolocation",info));
+        const requestLocationPermission = async () => {
+          try {
+            const locationPermissionStatus = await check(
+              Platform.OS === 'ios'
+                ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+                : PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION
+            );
+    
+            if (locationPermissionStatus === RESULTS.GRANTED) {
+              Geolocation.getCurrentPosition(
+                (position) => {
+                  setLocation(position.coords);
+                },
+                (error) => {
+                  console.log(error);
+                },
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+              );
+            } else {
+              const permissionResult = await request(
+                Platform.OS === 'ios'
+                  ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+                  : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+              );
+    
+              if (permissionResult === RESULTS.GRANTED) {
+                Geolocation.getCurrentPosition(
+                  (position) => {
+                    setLocation(position.coords);
+                  },
+                  (error) => {
+                    console.log(error);
+                  },
+                  { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+                );
+              } else {
+                console.log('Location permission denied');
+              }
+            }
+          } catch (err) {
+            console.warn(err);
+          }
+        };
+    
+        requestLocationPermission();
+        getWeatherDataByCoordinates(location.latitude,location.longitude).then((data) => {
+            setweather(data.current)
+            setIcon(data.current.condition.icon)
+          });
+      }, []);
     return(
         <View>
             {
                 page === 'Home' || page === "Activity" ? (
                 <View style={{marginLeft:15,marginTop:10,flexDirection:'row'}}>
-                    <CloudIcon/>
-                    <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:13, fontFamily:'Roboto-Regular', marginTop:2, marginLeft:5}}>Cloudy 29°C </Text>
+                 <Image
+                    style={{height:25,width:20}}
+                    source={{
+                    uri:"https:"+icon,
+                    }}
+                />
+                    <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:13, fontFamily:'Roboto-Regular', marginTop:2, marginLeft:5}}>{weather?.condition?.text} {weather.feelslike_c}°C </Text>
                 </View>
                 ) :
                 (
