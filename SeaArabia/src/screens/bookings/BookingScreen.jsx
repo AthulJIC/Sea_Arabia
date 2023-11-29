@@ -37,7 +37,7 @@ function BookingScreen() {
     const [selectedFilter, setSelectedFilter] = useState(filterTitle[0]);
     const [text, setText] = useState('Upcoming');
     function handlePress(item){
-        console.log('handlePress', item);
+        // console.log('handlePress', item);
         setSelectedFilter(item);
         if(item.title === 'Upcoming'){
             setText(item.title)
