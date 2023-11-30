@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import MicIcon from "../assets/icon/MicIcon";
 import Styles from "../public/Styles";
 import BackIcon from "../assets/icon/BackIcon";
-import getWeatherDataByCoordinates from "./weather";
+import { getWeatherDataByCoordinates } from "./weather";
 import Geolocation from '@react-native-community/geolocation';
 import { request, PERMISSIONS, check, RESULTS } from 'react-native-permissions';
 import { Linking } from 'react-native';
@@ -14,67 +14,42 @@ import { Linking } from 'react-native';
 
 function Header({ page }) {
     const [searchText, setSearchText] = useState('');
-    const [weather, setweather] = useState('')
+    const [weather, setWeather] = useState('')
     const [location, setLocation] = useState({
         latitude: '',
         longitude: ''
     });
     const [icon, setIcon] = useState('')
     useEffect(() => {
+        const locationAccess = () => {
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    //   console.log('Geolocation', position);
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ latitude, longitude });
+                },
+                (error) => {
+                    console.error('Error getting location:', error.message);
+                },
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            );
+        };
 
+        locationAccess();
     }, []);
-    // useEffect(() => {
-    //     // Geolocation.getCurrentPosition(info => console.log("Geolocation",info));
-    //     const requestLocationPermission = async () => {
-    //       try {
-    //         const locationPermissionStatus = await check(
-    //           Platform.OS === 'ios'
-    //             ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-    //             : PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION
-    //         );
 
-    //         if (locationPermissionStatus === RESULTS.GRANTED) {
-    //           Geolocation.getCurrentPosition(
-    //             (position) => {
-    //               setLocation(position.coords);
-    //             },
-    //             (error) => {
-    //               console.log(error);
-    //             },
-    //             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //           );
-    //         } else {
-    //           const permissionResult = await request(
-    //             Platform.OS === 'ios'
-    //               ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-    //               : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-    //           );
-
-    //           if (permissionResult === RESULTS.GRANTED) {
-    //             Geolocation.getCurrentPosition(
-    //               (position) => {
-    //                 setLocation(position.coords);
-    //               },
-    //               (error) => {
-    //                 console.log(error);
-    //               },
-    //               { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //             );
-    //           } else {
-    //             console.log('Location permission denied');
-    //           }
-    //         }
-    //       } catch (err) {
-    //         console.warn(err);
-    //       }
-    //     };
-
-    //     requestLocationPermission();
-    //     getWeatherDataByCoordinates(location.latitude,location.longitude).then((data) => {
-    //         setweather(data.current)
-    //         setIcon(data.current.condition.icon)
-    //       });
-    //   }, []);
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            getWeatherDataByCoordinates(location.latitude, location.longitude)
+                .then((data) => {
+                    setWeather(data.current);
+                    setIcon(data.current.condition.icon);
+                })
+                .catch((error) => {
+                    console.error('Error fetching weather data:', error);
+                });
+        }
+    }, [location]);
     return (
         <View>
             {

@@ -36,17 +36,17 @@ function Categories() {
     return (
         <View>
             <View style={{ flexDirection: 'row', padding: 15 }}>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Categories000</Text>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Categories</Text>
                 <Pressable style={{ marginLeft: 'auto' }}>
                     <Image source={require('../assets/images/Filter.png')} style={{ height: 28, width: 32 }}></Image>
                 </Pressable>
             </View>
-            {loading ? <ActivityIndicator size={24}color="#006875" /> :
-            <CustomFlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-                horizontal={true}></CustomFlatList> }
+            {loading ? <ActivityIndicator size={24} color="#006875" /> :
+                <CustomFlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal={true}></CustomFlatList>}
         </View>
     )
 }
