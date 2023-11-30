@@ -6,13 +6,13 @@ function UserScreen({navigation}){
     return (
         <SafeAreaView style={{backgroundColor:'white', flex:1}}>
            <View style={Styles.backIcon}>
-              <BackIcon></BackIcon>
+              <BackIcon color='#1B1E28'></BackIcon>
            </View>
            <View style={{alignItems:'center',top:70}}>
             <Pressable style={Styles.userButton} onPress={() => navigation.navigate('HomeScreen')}>
                 <Text style={Styles.userText}>Guest User</Text>
             </Pressable>
-            <Pressable style={Styles.userButton}>
+            <Pressable style={Styles.userButton} onPress={() => navigation.navigate('RegisterUser')}>
                 <Text style={Styles.userText}>Register User</Text>
             </Pressable>
             <Pressable style={Styles.userButton}>

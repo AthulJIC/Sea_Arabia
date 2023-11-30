@@ -16,6 +16,9 @@ import ActivityInactiveIcon from '../assets/icon/ActivityInactiveIcon';
 import ProfileActiveIcon from '../assets/icon/ProfileActiveIcon';
 import ProfileInactiveIcon from '../assets/icon/ProfileInactiveIcon';
 import SignUpScreen from '../screens/signup/SignUpScreen';
+import ServiceExpandScreen from '../screens/common/ServiceExpandScreen';
+import RegisterUserScreen from '../screens/users/RegisterUserScreen';
+import SignInScreen from '../screens/signin/SignInScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,8 +96,11 @@ function NavigationLinks() {
     <NavigationContainer>
         <Stack.Navigator>
         <Stack.Screen name="User" component={UserScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='RegisterUser' component={RegisterUserScreen} options={{headerShown:false}}></Stack.Screen>
         <Stack.Screen name='HomeScreen' component={MyTabs} options={{headerShown:false}}></Stack.Screen>
         <Stack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} ></Stack.Screen>
+        <Stack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} ></Stack.Screen>
+        <Stack.Screen name='ServiceExpand' component={ServiceExpandScreen} options={{headerShown:false}}></Stack.Screen>
         </Stack.Navigator>
     </NavigationContainer>
   );

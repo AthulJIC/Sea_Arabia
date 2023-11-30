@@ -36,7 +36,7 @@ function Header({page}){
             <View style={{flexDirection:'row'}}>
                 <View>
                     <View style={{flexDirection:'row', marginLeft:15,marginTop:5}}>
-                      <LocationIcon></LocationIcon>
+                      <LocationIcon color='rgba(25, 28, 29, 1)'></LocationIcon>
                       <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:14,fontFamily:'Roboto-Regular', marginLeft:5}}>Your location</Text>
                     </View>
                     <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:14,fontFamily:'Roboto-Regular', marginLeft:30,marginTop:2}}>Exact location name</Text>

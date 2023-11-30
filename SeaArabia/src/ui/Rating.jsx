@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import StarActiveIcon from '../assets/icon/StartActiveIcon';
-import StarInactiveIcon from '../assets/icon/StartInactiveIcon';
+import StarInactiveIcon from '../assets/icon/StarInactiveIcon';
 
 const  Rating= () => {
   // To set the default Star Selected
@@ -23,7 +23,7 @@ const  Rating= () => {
               key={item}
               onPress={() => setDefaultRating(item)}>
               {
-                item <= defaultRating ? <StarActiveIcon/> : <StarInactiveIcon/>
+                item <= defaultRating ? <StarActiveIcon height={13} width={14}/> : <StarInactiveIcon/>
               }
             </TouchableOpacity>
           );

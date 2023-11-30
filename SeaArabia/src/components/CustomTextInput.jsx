@@ -16,13 +16,13 @@ function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inp
           placeholder={placeholder}
           onChangeText={onChangeText}
           value={value}
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={secureTextEntry && !showPassword}
           placeholderTextColor='rgba(27, 30, 40, 0.3)'
         />
         {isPassword && (
         <TouchableOpacity
             onPress={togglePasswordVisibility}
-            style={{ position: 'absolute', right: 25, top: 15 }}>
+            style={{ position: 'absolute', right: 25, top: 50 }}>
             <Icon name={showPassword ? 'eye' : 'eye-slash'} size={20} color="gray" />
         </TouchableOpacity>
       )}

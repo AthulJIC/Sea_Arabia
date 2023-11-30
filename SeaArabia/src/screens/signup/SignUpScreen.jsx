@@ -1,6 +1,7 @@
 import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView } from "react-native"
 import CustomTextInput from "../../components/CustomTextInput";
 import { useState } from "react";
+import CustomDatePicker from "../../components/CustomDatePicker";
 
 function SignUpScreen(){
     const [fullName, setFullName] = useState('');
@@ -29,6 +30,15 @@ function SignUpScreen(){
                             value={email}
                             onChangeText={(text) => setEmail(text)}
                         />
+                        <View style={{marginLeft:20,marginTop:10, flexDirection:'row',marginBottom:7}}>
+                            <View>
+                                <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Date of Birth</Text>
+                                <CustomDatePicker/>
+                            </View>
+                            <View style={{marginLeft:'auto',right:50}}>
+                                <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Gender</Text>
+                            </View>
+                        </View>
                         <CustomTextInput placeholder='Enter Password'
                             inputHeader='Password'
                             value={password}
