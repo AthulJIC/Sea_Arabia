@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseURL } from "./config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AlertService } from "./alert/alertservice";
+import { AlertService } from "./utils/alertservice";
 import AlertMsg from "./utils/alertMsg";
 import { navigate } from '../providers/RootNavigator'
 import { decode as atob, encode as btoa } from 'base-64'
@@ -56,6 +56,7 @@ AxiosInstance.interceptors.request.use(async (config) => {
     if (token) {
         try {
             const tokenParts = token.split('.');
+            console.log("tokenParts",tokenParts)
             const tokenPayload = JSON.parse(atob(tokenParts[1]));
             const tokenExpiration = tokenPayload.exp * 1000; // Convert to timestamp in milliseconds
             // console.log("tokenExpiration",Date.now(), tokenExpiration);
