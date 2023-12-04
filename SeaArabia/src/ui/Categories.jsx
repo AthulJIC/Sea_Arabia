@@ -9,7 +9,7 @@ function Categories() {
         setLoading(true)
         getCategoryList()
             .then(response => {
-                // console.log("results", response)
+                console.log("results", response)
                 setData(response.results);
             })
             .catch(error => {
