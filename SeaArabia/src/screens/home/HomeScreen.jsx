@@ -14,7 +14,7 @@ function HomeScreen() {
                 <Categories/>
                 <ComboPackages/>
                 <TopSuggestions/>
-                <BestDeals/>
+                <BestDeals title='Best Deals'/>
                 <ExploreMore/>
             </ScrollView>
         </SafeAreaView>

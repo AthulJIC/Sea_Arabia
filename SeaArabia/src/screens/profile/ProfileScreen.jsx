@@ -67,7 +67,7 @@ function ProfileScreen({navigation}) {
                                         </View>
                                         <Text style={{color:'rgba(27, 30, 40, 1)',marginLeft:30,fontSize:15,fontFamily:'Roboto-Regular'}}>{item.title}</Text>
                                         <View style={{marginLeft:'auto',right:20}}>
-                                        <RightarrowIcon/>
+                                        <RightarrowIcon width={9} height={16}/>
                                         </View>
                                     </Pressable>
                                     <View style={{backgroundColor:'rgba(245, 245, 245, 1)',height:2,width:'90%',bottom:15,alignSelf:'center'}}></View>

@@ -19,6 +19,7 @@ import SignUpScreen from '../screens/signup/SignUpScreen';
 import ServiceExpandScreen from '../screens/common/ServiceExpandScreen';
 import RegisterUserScreen from '../screens/users/RegisterUserScreen';
 import SignInScreen from '../screens/signin/SignInScreen';
+import ServicesListExpand from '../ui/ServiceListExpand';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,6 +102,7 @@ function NavigationLinks() {
         <Stack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} ></Stack.Screen>
         <Stack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} ></Stack.Screen>
         <Stack.Screen name='ServiceExpand' component={ServiceExpandScreen} options={{headerShown:false}}></Stack.Screen>
+        <Stack.Screen name='ServicesListExpand' component={ServicesListExpand} options={{headerShown:false}}></Stack.Screen>
         </Stack.Navigator>
     </NavigationContainer>
   );

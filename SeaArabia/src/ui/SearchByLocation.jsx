@@ -1,5 +1,4 @@
 import { Text, View } from "react-native";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 function SearchByLocation(){
     return(

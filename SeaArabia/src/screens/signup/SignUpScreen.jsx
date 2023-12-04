@@ -2,12 +2,19 @@ import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView } from "react
 import CustomTextInput from "../../components/CustomTextInput";
 import { useState } from "react";
 import CustomDatePicker from "../../components/CustomDatePicker";
+import SelectDropdown from 'react-native-select-dropdown';
 
 function SignUpScreen(){
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [selectedGender, setSelectedGender] = useState(null);
+    const genderOptions = ['Male', 'Female', 'Other'];
+
+    const onSelectGender = (selectedItem, index) => {
+        setSelectedGender(selectedItem);
+    };
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <KeyboardAvoidingView
@@ -35,8 +42,33 @@ function SignUpScreen(){
                                 <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Date of Birth</Text>
                                 <CustomDatePicker/>
                             </View>
-                            <View style={{marginLeft:'auto',right:50}}>
-                                <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Gender</Text>
+                            <View style={{marginLeft:'auto',right:30}}>
+                                <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium',marginLeft:'auto',right:82}}>Gender</Text>
+                                <SelectDropdown
+                                    data={genderOptions}
+                                    onSelect={(selectedItem, index) => onSelectGender(selectedItem, index)}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                    // Display the selected gender as the button text
+                                    return selectedItem;
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                    // Display the gender options in the dropdown
+                                    return item;
+                                    }}
+                                    buttonStyle={{ backgroundColor: 'rgba(247, 247, 249, 1)', borderRadius: 12 , height:50,width: 130,marginTop:15}}
+                                    buttonTextStyle={{ color: selectedGender !== null ?  'black' :'rgba(27, 30, 40, 0.3)' , fontSize: 16,textAlign:'left' }}
+                                    dropdownStyle={{
+                                        marginTop: -10,
+                                        backgroundColor: 'white',
+                                        borderWidth: 1,
+                                        borderColor: 'gray',
+                                        borderRadius: 5,
+                                        width: '90%',
+                                        left:20
+    
+                                      }}
+                                    defaultButtonText="Select"
+                                />
                             </View>
                         </View>
                         <CustomTextInput placeholder='Enter Password'

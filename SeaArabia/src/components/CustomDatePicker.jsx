@@ -1,6 +1,6 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-date-picker';
 import { useState } from 'react';
-import { View,Text ,Pressable,Platform} from "react-native";
+import { View,Text ,Pressable,Platform,Modal,TouchableWithoutFeedback,StyleSheet} from "react-native";
 import DateIcon from '../assets/icon/DateIcon';
 import moment from 'moment';
 
@@ -9,15 +9,26 @@ function CustomDatePicker() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDateText, setSelectedDateText] = useState('Select Date');
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(Platform.OS === 'ios'); // Close the picker for iOS after selecting
-    setDate(currentDate);
-    setShowDatePicker(false);
-    setSelectedDateText(moment(currentDate).format('DD-MM-YYYY'));
+  const onChange = (selectedDate) => {
+    //setShowDatePicker(Platform.OS === 'ios'); // Close the picker for iOS after selecting
+    if (selectedDate) {
+      setDate(selectedDate); 
+    }
+    //setShowDatePicker(false);
   };
+  function onConfirmHandler(){
+    setSelectedDateText(moment(date).format('DD-MM-YYYY'));
+    setShowDatePicker(false);
+  }
+  function onCancelHandler(){
+    setSelectedDateText(selectedDateText);
+    setShowDatePicker(false);
+  }
   const showDatepicker = () => {
     setShowDatePicker(true);
+  };
+  const hideDatePicker = () => {
+    setShowDatePicker(false);
   };
   return (
     <View>
@@ -33,19 +44,47 @@ function CustomDatePicker() {
         </View>
       </Pressable>
       {showDatePicker && (
-        <View style={{right:5}}>
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          is24Hour={true}
-          display={Platform.OS === 'android' ? 'spinner' : 'spinner'}
-          onChange={onChange}
-        />
-        </View>
+        <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showDatePicker}
+        onRequestClose={hideDatePicker}
+      >
+        <TouchableWithoutFeedback>
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <DateTimePicker
+                date={date}
+                mode="date"
+                onDateChange={onChange}
+                textColor='rgba(0, 104, 117, 1)'
+              />
+              <View style={{flexDirection:'row', marginLeft:'auto',marginTop:10}}>
+                <Text style={{color:'rgba(0, 104, 117, 1)', fontSize:15, fontFamily:'Roboto-Medium',right:27}} onPress={onCancelHandler}>CANCEL</Text>
+                <Text style={{color:'rgba(0, 104, 117, 1)', fontSize:15, fontFamily:'Roboto-Medium',right:7}} onPress={onConfirmHandler}>CONFIRM</Text>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
       )}
     </View>
   );
 }
 
 export default CustomDatePicker;
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    height:'auto'
+  }
+});

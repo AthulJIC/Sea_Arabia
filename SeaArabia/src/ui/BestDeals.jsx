@@ -38,7 +38,7 @@ const data=[
 ]
 
 
-function BestDeals(){
+function BestDeals({title}){
     function renderItem({item}){
         return(
             <View>
@@ -53,9 +53,9 @@ function BestDeals(){
     return(
         <View>
             <View style={{flexDirection:'row',padding:15}}>
-                <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium'}}>Best Deals</Text>
+                <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium'}}>{title}</Text>
                 <Pressable style={{marginLeft:'auto'}}>
-                    <RightarrowIcon/>
+                    <RightarrowIcon width={9} height={16}/>
                 </Pressable>
             </View>
             <CustomFlatList

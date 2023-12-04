@@ -13,6 +13,7 @@ function ServicesList({data,title}){
         console.log('item====', item);
         navigation.navigate('ServiceExpand', {item});
     }
+
     function renderItem({item}){
         return(
             <View style={{marginHorizontal:5}}>
@@ -54,8 +55,8 @@ function ServicesList({data,title}){
         <View>
             <View style={{flexDirection:'row',padding:15}}>
                 <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium'}}>{title}</Text>
-                <Pressable style={{marginLeft:'auto'}}>
-                    <RightarrowIcon/>
+                <Pressable style={{marginLeft:'auto'}} onPress={() => navigation.navigate('ServicesListExpand',{title:title})} >
+                    <RightarrowIcon width={9} height={16} />
                 </Pressable>
             </View>
             <CustomFlatList
