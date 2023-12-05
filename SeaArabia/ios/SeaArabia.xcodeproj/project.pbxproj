@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SeaArabiaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SeaArabiaTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-SeaArabia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-SeaArabia.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3CFCA9FE169F4597A98C029E /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 267DDE2E195A4BAAB9A559A9 /* Roboto-BoldItalic.ttf */; };
 		5538B2ECA8F648BEA36E5958 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 255CC4F9A7544622987F8CEE /* Roboto-ThinItalic.ttf */; };
 		636FAAD93E8E4007BF1F9FDE /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84F3F6D4C2BC4DEAAED2ADAD /* Roboto-MediumItalic.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-SeaArabia-SeaArabiaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-SeaArabia-SeaArabiaTests.a */; };
 		76B4C91D6F1C442AA905B661 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 392992275EF84BE591AD01D9 /* Roboto-Light.ttf */; };
 		7A70568B04D14B6F935FF08B /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6594AE43E73C4C9E88643C26 /* Roboto-Black.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -25,7 +23,9 @@
 		B5E9260C2AEA4B82AE348AB2 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1954862215124E58B8F7D507 /* Roboto-Regular.ttf */; };
 		D0338348EDEE4E8A92582CAC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 867702AA41034F8BAFB76235 /* Roboto-Medium.ttf */; };
 		EF597BEFDCBD4DDFA6FB1F37 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 855CE23E2C024B59968E7D5A /* Roboto-Italic.ttf */; };
+		F2951DCC8A7044479103763E /* libPods-SeaArabia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0F6418F320C442925EDD86 /* libPods-SeaArabia.a */; };
 		F4220DB5EE8D43B0999510B6 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 216B0F1B0F31417BA1CC236D /* Roboto-LightItalic.ttf */; };
+		FE9C0E3EAF9BEDA3490AE64C /* libPods-SeaArabia-SeaArabiaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6698D3AC13BED48C2BB6B195 /* libPods-SeaArabia-SeaArabiaTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +42,7 @@
 		00E356EE1AD99517003FC87E /* SeaArabiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeaArabiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SeaArabiaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeaArabiaTests.m; sourceTree = "<group>"; };
+		011804D1E86C8A6941D82B8F /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia-SeaArabiaTests.debug.xcconfig"; path = "Target Support Files/Pods-SeaArabia-SeaArabiaTests/Pods-SeaArabia-SeaArabiaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SeaArabia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeaArabia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SeaArabia/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = SeaArabia/AppDelegate.mm; sourceTree = "<group>"; };
@@ -50,24 +51,23 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SeaArabia/main.m; sourceTree = "<group>"; };
 		143F2A5AE79D4CB8BDBEB29C /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		1954862215124E58B8F7D507 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../src/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-SeaArabia-SeaArabiaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaArabia-SeaArabiaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		216B0F1B0F31417BA1CC236D /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-LightItalic.ttf"; path = "../src/assets/fonts/Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
 		255CC4F9A7544622987F8CEE /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../src/assets/fonts/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		267DDE2E195A4BAAB9A559A9 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BoldItalic.ttf"; path = "../src/assets/fonts/Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		392992275EF84BE591AD01D9 /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../src/assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-SeaArabia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia.debug.xcconfig"; path = "Target Support Files/Pods-SeaArabia/Pods-SeaArabia.debug.xcconfig"; sourceTree = "<group>"; };
 		47A3F77AA3764B71A32A48F5 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../src/assets/fonts/Roboto-Thin.ttf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-SeaArabia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia.release.xcconfig"; path = "Target Support Files/Pods-SeaArabia/Pods-SeaArabia.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia-SeaArabiaTests.debug.xcconfig"; path = "Target Support Files/Pods-SeaArabia-SeaArabiaTests/Pods-SeaArabia-SeaArabiaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-SeaArabia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaArabia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		48E188006C99DD08320BB77D /* Pods-SeaArabia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia.debug.xcconfig"; path = "Target Support Files/Pods-SeaArabia/Pods-SeaArabia.debug.xcconfig"; sourceTree = "<group>"; };
+		5E0F6418F320C442925EDD86 /* libPods-SeaArabia.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaArabia.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6594AE43E73C4C9E88643C26 /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../src/assets/fonts/Roboto-Black.ttf"; sourceTree = "<group>"; };
+		6698D3AC13BED48C2BB6B195 /* libPods-SeaArabia-SeaArabiaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaArabia-SeaArabiaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SeaArabia/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84F3F6D4C2BC4DEAAED2ADAD /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../src/assets/fonts/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
 		855CE23E2C024B59968E7D5A /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../src/assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		867702AA41034F8BAFB76235 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia-SeaArabiaTests.release.xcconfig"; path = "Target Support Files/Pods-SeaArabia-SeaArabiaTests/Pods-SeaArabia-SeaArabiaTests.release.xcconfig"; sourceTree = "<group>"; };
+		AACFBE98D8832404DF75A69E /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia-SeaArabiaTests.release.xcconfig"; path = "Target Support Files/Pods-SeaArabia-SeaArabiaTests/Pods-SeaArabia-SeaArabiaTests.release.xcconfig"; sourceTree = "<group>"; };
 		D245BFB240964643B74F7E4A /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../src/assets/fonts/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F32D659EEC0F00A8DF8A045F /* Pods-SeaArabia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaArabia.release.xcconfig"; path = "Target Support Files/Pods-SeaArabia/Pods-SeaArabia.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-SeaArabia-SeaArabiaTests.a in Frameworks */,
+				FE9C0E3EAF9BEDA3490AE64C /* libPods-SeaArabia-SeaArabiaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-SeaArabia.a in Frameworks */,
+				F2951DCC8A7044479103763E /* libPods-SeaArabia.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,8 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-SeaArabia.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-SeaArabia-SeaArabiaTests.a */,
+				5E0F6418F320C442925EDD86 /* libPods-SeaArabia.a */,
+				6698D3AC13BED48C2BB6B195 /* libPods-SeaArabia-SeaArabiaTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -165,10 +165,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-SeaArabia.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-SeaArabia.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */,
+				48E188006C99DD08320BB77D /* Pods-SeaArabia.debug.xcconfig */,
+				F32D659EEC0F00A8DF8A045F /* Pods-SeaArabia.release.xcconfig */,
+				011804D1E86C8A6941D82B8F /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */,
+				AACFBE98D8832404DF75A69E /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -200,12 +200,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SeaArabiaTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				466AF11D93358FCE03BD175B /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				57A2C942E697258816B569F8 /* [CP] Embed Pods Frameworks */,
+				BBA235C276B902657A3FF58A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -221,14 +221,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SeaArabia" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				241E40FB9C3500B26D384E54 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				A7DD2B813ACA98F6FA0AD6CE /* [CP] Embed Pods Frameworks */,
+				B6939319ECE930FFA31A6F22 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -323,46 +323,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SeaArabia-SeaArabiaTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		241E40FB9C3500B26D384E54 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -384,7 +345,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
+		466AF11D93358FCE03BD175B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeaArabia-SeaArabiaTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		57A2C942E697258816B569F8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,7 +384,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaArabia-SeaArabiaTests/Pods-SeaArabia-SeaArabiaTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+		A7DD2B813ACA98F6FA0AD6CE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B6939319ECE930FFA31A6F22 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -418,7 +418,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaArabia/Pods-SeaArabia-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
+		BBA235C276B902657A3FF58A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -487,7 +487,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */;
+			baseConfigurationReference = 011804D1E86C8A6941D82B8F /* Pods-SeaArabia-SeaArabiaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -514,7 +514,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */;
+			baseConfigurationReference = AACFBE98D8832404DF75A69E /* Pods-SeaArabia-SeaArabiaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -538,7 +538,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-SeaArabia.debug.xcconfig */;
+			baseConfigurationReference = 48E188006C99DD08320BB77D /* Pods-SeaArabia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -565,7 +565,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-SeaArabia.release.xcconfig */;
+			baseConfigurationReference = F32D659EEC0F00A8DF8A045F /* Pods-SeaArabia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

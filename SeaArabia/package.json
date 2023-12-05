@@ -12,9 +12,10 @@
   "dependencies": {
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "^1.21.0",
-    "@react-native-community/datetimepicker": "^7.6.1",
+    "@react-native-community/datetimepicker": "^7.6.2",
     "@react-native-community/geolocation": "^3.1.0",
     "@react-native-google-signin/google-signin": "^10.1.1",
+    "@react-native-picker/picker": "^2.6.1",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",

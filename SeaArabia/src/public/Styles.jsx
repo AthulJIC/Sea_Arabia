@@ -39,7 +39,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     marginBottom:20,
-    marginLeft:15
+    marginLeft:15,
+    height:50
   },
   filterText: {
     color: 'black',

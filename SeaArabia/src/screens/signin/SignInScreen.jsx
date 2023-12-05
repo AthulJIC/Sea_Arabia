@@ -12,6 +12,7 @@ import {
     statusCodes,
   } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function SignInScreen({ navigation }) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -74,7 +75,7 @@ function SignInScreen({ navigation }) {
             </View>
             <View style={{ width: '100%', height: 380, marginTop: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.45)', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
                 <TextInput 
-                style={{ width: '95%', height: 45, borderBottomColor: 'rgba(255, 255, 255, 1)', borderBottomWidth: 1, alignSelf: 'center', marginTop: 10, fontSize: 16, color: 'rgba(255, 255, 255)' }}
+                style={{ width: '95%', height: 45, borderBottomColor: 'rgba(255, 255, 255, 1)', borderBottomWidth: 1, alignSelf: 'center', marginTop: 10, fontSize: 16, color: 'rgba(255, 255, 255,1)' }}
                     value={email}
                     onChangeText={(text) => setEmail(text)}
                     keyboardType='email-address'
@@ -83,7 +84,7 @@ function SignInScreen({ navigation }) {
                 <View>
                     <TextInput
                         secureTextEntry={!isPasswordVisible}
-                        style={{ width: '95%', height: 45, borderBottomColor: 'rgba(255, 255, 255, 1)', borderBottomWidth: 1, alignSelf: 'center', marginTop: 10, fontSize: 16,color: 'rgba(255, 255, 255)' }}
+                        style={{ width: '95%', height: 45, borderBottomColor: 'rgba(255, 255, 255, 1)', borderBottomWidth: 1, alignSelf: 'center', marginTop: 10, fontSize: 16,color: 'rgba(255, 255, 255,1)' }}
                         placeholder="Enter Password"
                         value={password}
                         onChangeText={(text) => setPassword(text)}

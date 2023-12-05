@@ -104,7 +104,7 @@ function ProfileScreen({ navigation }) {
                         data.map((item, index) => {
                             return (
                                 <View key={index} style={{ top: 15 }}>
-                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.onPress}>
+                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.navigation}>
                                         <View>
                                             {item.icon}
                                         </View>

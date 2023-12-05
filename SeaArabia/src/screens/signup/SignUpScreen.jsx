@@ -37,7 +37,7 @@ function SignUpScreen(){
                             value={email}
                             onChangeText={(text) => setEmail(text)}
                         />
-                        <View style={{marginLeft:20,marginTop:10, flexDirection:'row',marginBottom:7}}>
+                        <View style={{marginLeft:20,marginTop:10, flexDirection:'row',marginBottom:100}}>
                             <View>
                                 <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Date of Birth</Text>
                                 <CustomDatePicker/>
@@ -71,7 +71,7 @@ function SignUpScreen(){
                                 />
                             </View>
                         </View>
-                        <CustomTextInput placeholder='Enter Password'
+                        {/* <CustomTextInput placeholder='Enter Password'
                             inputHeader='Password'
                             value={password}
                             onChangeText={(text) => setPassword(text)}
@@ -84,7 +84,7 @@ function SignUpScreen(){
                             onChangeText={(text) => setConfirmPassword(text)}
                             secureTextEntry={true}
                             isPassword={true}
-                        />
+                        /> */}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
