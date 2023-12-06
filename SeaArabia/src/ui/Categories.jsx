@@ -1,13 +1,13 @@
 import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import CustomFlatList from "../components/CustomFlatlist";
-import { getCategoryList } from "../Services/HomeServices/HomeService";
+import { HomeApi } from "../Services/HomeServices/HomeService";
 import { useEffect, useState } from "react";
 function Categories() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(true)
-        getCategoryList()
+        HomeApi.GetCategoryList()
             .then(response => {
                 console.log("results", response)
                 setData(response.results);
