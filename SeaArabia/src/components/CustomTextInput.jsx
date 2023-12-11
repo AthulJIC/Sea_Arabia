@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextInput, StyleSheet, Text ,View,TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Styles from '../public/Styles';
+
 
 function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inputHeader,isPassword }){
     const [showPassword, setShowPassword] = useState(isPassword);
@@ -12,7 +14,7 @@ function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inp
     <View style={{width:'91%',justifyContent:'center',alignSelf:'center'}}>
         <Text style={{color:'rgba(27, 30, 40, 0.8)',fontSize:14, fontFamily:'Roboto-Medium',marginTop:10,marginLeft:7}}>{inputHeader}</Text>
         <TextInput
-          style={styles.input}
+          style={Styles.input}
           placeholder={placeholder}
           onChangeText={onChangeText}
           value={value}

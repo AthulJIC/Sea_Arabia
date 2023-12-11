@@ -33,16 +33,10 @@ function ServicesList({data,title,page}){
                         <Text style={{color:'rgba(0, 0, 0, 0.8)', fontFamily:'Roboto-Medium', fontSize:12, textAlign:'left',marginBottom:5,marginLeft:5}}>2</Text>
                         <Text style={{color:'rgba(121, 121, 128, 1)', fontFamily:'Roboto-Medium', fontSize:12, textAlign:'left',marginBottom:5,marginLeft:5}}>Hours</Text>
                     </View>
-                    { page === 'Acitivity' ? (
-                        <View style={{flexDirection:'row',marginLeft:25}}>
-                            <Text style={{color:'rgba(121, 121, 128, 1)',fontSize:10,fontFamily:'Roboto-Regular'}}>Starts from</Text>
-                            <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>70 KWD</Text>
-                        </View>
-                    ) : (
-                    <View>
-                        <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:25,marginTop:2}}>70 KWD</Text>
+                    <View style={{flexDirection:'row',marginLeft:25}}>
+                        <Text style={{color:'rgba(121, 121, 128, 1)',fontSize:10,fontFamily:'Roboto-Regular'}}>Starts from</Text>
+                        <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>70 KWD</Text>
                     </View>
-                    )}
                 </Pressable>
                 <View style={{flexDirection:'row', bottom:195,marginLeft:20}}>
                     <View style={{backgroundColor:'rgba(255, 255, 255, 0.85)',width:26,height:17,borderRadius:5,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -69,7 +63,8 @@ function ServicesList({data,title,page}){
             data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
-            horizontal={true}></CustomFlatList>
+            horizontal={true}
+            numColumns={0}></CustomFlatList>
             <View style={{backgroundColor:'rgba(245, 245, 245, 1)',height:4,width:'100%',marginTop:15}}></View>
 
         </View>

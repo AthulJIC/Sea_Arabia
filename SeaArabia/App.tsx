@@ -15,6 +15,7 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import NavigationLinks from './src/navigations/NavigationLinks';
+import { AppProvider } from './src/context/AppContext';
 
 
 function App(): JSX.Element {
@@ -25,7 +26,9 @@ function App(): JSX.Element {
   };
 
   return (
-    <NavigationLinks/>
+    <AppProvider>
+      <NavigationLinks/>
+    </AppProvider>
   );
 }
 

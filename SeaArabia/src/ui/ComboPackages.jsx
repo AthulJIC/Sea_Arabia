@@ -42,7 +42,8 @@ function ComboPackages(){
             data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
-            horizontal={true}></CustomFlatList>
+            horizontal={true}
+            numColumns={0}></CustomFlatList>
         </View>
     )
 }

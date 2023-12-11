@@ -121,7 +121,7 @@ dependencies {
     }
 }
 project.ext.vectoricons = [
-    iconFontNames: [ 'MaterialIcons.ttf','FontAwesome.ttf'] // Specify font files
+    iconFontNames: [ 'MaterialIcons.ttf','FontAwesome5.ttf'] // Specify font files
 ]
 project.ext.react = [
     entryFile: "index.js",

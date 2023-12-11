@@ -5,7 +5,7 @@ import Styles from '../../public/Styles';
 function RegisterUserScreen({navigation}){
     return (
         <SafeAreaView style={{backgroundColor:'white', flex:1}}>
-           <Pressable style={Styles.backIcon} onPress={() => navigation.navigate('User')}>
+           <Pressable style={[Styles.backIcon,{marginTop:15,}]} onPress={() => navigation.navigate('User')}>
               <BackIcon color='#1B1E28'></BackIcon>
            </Pressable>
            <View style={{alignItems:'center',top:70}}>

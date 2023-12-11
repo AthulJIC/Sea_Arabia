@@ -2,7 +2,10 @@ import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import CustomFlatList from "../components/CustomFlatlist";
 import { getCategoryList } from "../Services/HomeServices/HomeService";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 function Categories() {
+    const navigation = useNavigation();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -19,10 +22,14 @@ function Categories() {
                 setLoading(false);
             });
     }, []);
+    function categoryHandler(item){
+       console.log('item====', item);
+      navigation.navigate('CategoriesExpand',{serviceList:item})
+    }
     function renderItem({ item }) {
         return (
             <View>
-                <Pressable style={{ marginHorizontal: 5 }}>
+                <Pressable style={{ marginHorizontal: 5 }} onPress={() => categoryHandler(item)}>
                     <Image source={{ uri: item.image }} style={{ width: 115, height: 105, borderRadius: 5 }}
                         onError={(error) => console.error('Image load error:', error)}
                     />
@@ -46,7 +53,8 @@ function Categories() {
                     data={data}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
-                    horizontal={true}></CustomFlatList>}
+                    horizontal={true}
+                    numColumns={0}></CustomFlatList>}
         </View>
     )
 }

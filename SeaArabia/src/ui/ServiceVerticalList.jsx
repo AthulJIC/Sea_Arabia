@@ -78,7 +78,8 @@ function ServiceVerticalList({title}){
              data={data}
              horizontal={false}
              renderItem={renderItem}
-             keyExtractor={(item) => item.id.toString()}/>
+             keyExtractor={(item) => item.id.toString()}
+             numColumns={0}/>
         </View>
     )
 }

@@ -5,7 +5,7 @@ import Styles from '../../public/Styles';
 function UserScreen({navigation}){
     return (
         <SafeAreaView style={{backgroundColor:'white', flex:1}}>
-           <View style={Styles.backIcon}>
+           <View style={[Styles.backIcon,{marginTop:15,}]}>
               <BackIcon color='#1B1E28'></BackIcon>
            </View>
            <View style={{alignItems:'center',top:70}}>

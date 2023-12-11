@@ -12,7 +12,6 @@ export default StyleSheet.create({
   backIcon:{
     backgroundColor : 'rgba(247, 247, 249, 3)',
     marginLeft:15,
-    marginTop:25,
     width:'12%',
     height:44,
     justifyContent:'center',
@@ -51,5 +50,13 @@ export default StyleSheet.create({
     color: 'rgba(0, 104, 117, 1)',
     fontSize: 14,
     fontFamily: 'Roboto-Regular',
+  },
+  input: {
+    height: 50,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor:'rgba(247, 247, 249, 1)',
+    borderRadius:12,
+    marginTop:10,
   },
 });

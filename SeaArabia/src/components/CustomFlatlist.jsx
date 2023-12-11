@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-const CustomFlatList = ({ data, renderItem, keyExtractor, horizontal,...props }) => {
+const CustomFlatList = ({ data, renderItem, keyExtractor, horizontal ,numColumns,...props }) => {
   return (
     <FlatList
       data={data}
@@ -11,6 +11,7 @@ const CustomFlatList = ({ data, renderItem, keyExtractor, horizontal,...props })
       showsHorizontalScrollIndicator={false}
       {...props}
       style={{width:'98%',alignSelf:'center'}}
+      numColumns={numColumns}
     />
   );
 };
