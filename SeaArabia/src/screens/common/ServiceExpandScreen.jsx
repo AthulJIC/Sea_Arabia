@@ -1,8 +1,11 @@
-import { View,Text, SafeAreaView, Image, ScrollView,StyleSheet ,Pressable, Platform} from "react-native";
+import { View, Text, SafeAreaView, Image, Dimensions, TouchableOpacity, ScrollView,StyleSheet } from 'react-native';
 import LocationIcon from "../../assets/icon/LocationIcon";
 import Rating from "../../ui/Rating";
 import GuestIcon from "../../assets/icon/GuestIcon";
-import BackIcon from "../../assets/icon/BackIcon";
+import React, { useState } from 'react';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import BackIcon from '../../assets/icon/BackIcon';
+import { useNavigation } from '@react-navigation/native';
 import Styles from "../../public/Styles";
 import ShareIcon from "../../assets/icon/ShareIcon";
 import AmenitiesList from "../../ui/AmenitiesList";
@@ -63,33 +66,69 @@ const amenitiesList = [
 
 const detailsText = "A brand-new 112m yacht, Spectre is a temple of leisure, a sanctum of tranquillity, conceived to delight an unprecedented 36 guests on a hither-to unknown scale.  From her vast beach club, open on three sides for that life-affirming connection to the ocean, to her matchless spa, an entire deck devoted to fitness, wellness and pampering, this is a yacht that elevates the already extraordinary. Whether you land by air on the foredeck helipad or by sea in a fleet of custom tenders, you’ll know you’ve arrived. Her guest accommodation is uniquely flexible, including doubles, twins and cabins that convert into suites, welcoming parties of all kinds with consummate ease. An elevator serving all decks makes her the perfect choice – indeed the only choice – for large, multi-generational groups. "
 
-
-function ServiceExpandScreen({route,navigation}){
-    let item;
-    if( route?.params.item !== undefined){
-        item = route?.params.item;
-    }
-    console.log('item======', item);
-
+function ServiceExpandScreen({ route }) {
+    const navigation = useNavigation()
+    const item = route?.params.item;
+    console.log('item====== ServiceExpandScreen', item);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const nonThumbnailImages = item.service_image.filter(image => !image.is_thumbnail);
+    const handleSnapToItem = (index) => {
+        setActiveIndex(index);
+    };
     function proceedHandler(){
         navigation.navigate('ServiceDate',{item})
     }
+    return (
+        <SafeAreaView>
+            <ScrollView>
+                <TouchableOpacity style={{ position: 'absolute', top: 10, left: 10, zIndex: 1 }} onPress={() => navigation.goBack()}>
+                    <BackIcon />
+                </TouchableOpacity>
 
-    return(
-        <SafeAreaView style={{flex:1,backgroundColor:'white'}}>  
-            <ScrollView style={{marginBottom:20}}>
-                <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image>
-                <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{item?.title}</Text>
-                <View style={{flexDirection:'row',marginLeft:18,marginTop:10}}>
-                    <LocationIcon color='rgba(0, 0, 0, 0.8)'/>
-                    <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> Location name</Text>
+                <Carousel
+                    data={nonThumbnailImages}
+                    renderItem={({ item: image }) => (
+                        <Image
+                            source={{ uri: image.thumbnail }}
+                            style={{ width: Dimensions.get('window').width, height: 250, resizeMode: 'cover' }}
+                        />
+                    )}
+                    sliderWidth={Dimensions.get('window').width}
+                    itemWidth={Dimensions.get('window').width}
+                    onSnapToItem={handleSnapToItem}
+                />
+                <Pagination
+                    dotsLength={nonThumbnailImages.length}
+                    activeDotIndex={activeIndex}
+                    containerStyle={{ position: 'absolute', top: 240, alignSelf: 'center' }}
+                    dotStyle={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        marginHorizontal: 5,
+                        backgroundColor: 'rgba(0, 104, 117, 1)',
+                    }}
+                    inactiveDotStyle={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        marginHorizontal: 5,
+                        backgroundColor: 'rgba(128, 128, 128, 0.5)',
+                    }}
+                    inactiveDotOpacity={0.6}
+                    inactiveDotScale={0.8}
+                />
+                <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 16, fontFamily: 'Roboto-Medium', marginTop: 45, marginLeft: 10 }}>{item?.category}</Text>
+                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
+                    <LocationIcon color='rgba(0, 0, 0, 0.8)' />
+                    <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 12, fontFamily: 'Roboto-Regular' }}> {item?.pickup_point}</Text>
                 </View>
-                <View style={{flexDirection:'row',marginBottom:15}}>
-                    <Rating/>
-                    <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:11,fontFamily:'Roboto-Regular',marginLeft:'auto',bottom:27,textAlign:'right',left:55}}>Capacity</Text>
-                    <View style={{right:20,flexDirection:'row'}}>
-                        <GuestIcon/>
-                        <Text style={{color:'rgba(0, 0, 0, 1)', fontSize:14,fontFamily:'Roboto-Regular',bottom:2,left:2}}>12 People</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Rating />
+                    <Text style={{ color: 'rgba(25, 28, 29, 0.8)', fontSize: 11, fontFamily: 'Roboto-Regular', marginLeft: 'auto', bottom: 17, left: 40 }}>Capacity</Text>
+                    <View style={{ right: 20, marginTop: 10, flexDirection: 'row' }}>
+                        <GuestIcon />
+                        <Text style={{ color: 'rgba(0, 0, 0, 1)', fontSize: 14, fontFamily: 'Roboto-Regular', bottom: 2, left: 2 }}>{item?.capacity} People</Text>
                     </View>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
@@ -153,3 +192,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.2)', // Change the opacity (0.5) as needed
     },
 });
+
+
+
+
+
