@@ -1,10 +1,10 @@
 import { View,Text, SafeAreaView ,Pressable,Image,ScrollView} from "react-native"
 import Header from "../../components/Header";
 import Styles from "../../public/Styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActivityList from "../../ui/ActivityList";
 import BestDeals from "../../ui/BestDeals";
-
+import { Activity } from "../../Services/Activity/ActivityService";
 
 const filterTitle = [
     {
@@ -62,6 +62,25 @@ const filterTitle = [
   function ActivityScreen() {
     const [selectedFilter, setSelectedFilter] = useState(filterTitle[0]);
     const [text, setText] = useState('Upcoming');
+    const [loading,setLoading]=useState(false)
+    const [allActivityData,setAllActivityData]=useState([])
+    useEffect(() => {
+        setLoading(true)
+        let data={
+            type:"Activity"
+        }
+       Activity.AllActivityList(data)
+            .then(response => {
+             console.log("results AllActivityList", response)
+             setAllActivityData(response.results);
+            })
+            .catch(error => {
+                console.error('Error AllActivity List data:', error)
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <Header page='Activity'/>
@@ -102,7 +121,7 @@ const filterTitle = [
                     <ActivityList title='Top Activities'/>
                     <BestDeals title='Best Deals'/>
                     <ActivityList title='Top Activities' />
-                    <ActivityList title='All Activities' />
+                    <ActivityList data={allActivityData} title='All Activities' />
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -39,7 +39,7 @@ const data=[
     }
 ]
 
-function ActivityList({title}){
+function ActivityList({data,title}){
     return(
         <View>
             <ServicesList data={data} title={title} page='Acitivity'/>
