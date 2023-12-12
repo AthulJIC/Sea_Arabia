@@ -73,7 +73,7 @@ function SignInScreen({ navigation }) {
                 <Text style={{ fontSize: 16, textAlign: 'center', color: 'rgba(255, 255, 255, 1)', fontFamily: 'Roboto-Regular', marginTop: 9 }}>Please sign in to continue our app</Text>
             </View>
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'position' : 'padding'}
+                behavior={Platform.OS === 'ios' ? 'position' : ''}
                 style={{ width: '100%',marginTop:'auto'}}>
                 <View style={{ width: '100%', height: 380,backgroundColor: 'rgba(0, 0, 0, 0.45)', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
                     <TextInput 
@@ -103,7 +103,7 @@ function SignInScreen({ navigation }) {
                             />
                         </TouchableOpacity>
                     </View>
-                    <Pressable>
+                    <Pressable onPress={() => navigation.navigate('EmailVerification')}>
                         <Text style={{ marginLeft: 'auto', color: 'rgba(255, 255, 255, 1)', marginTop: 10, right: 10 }}>Forget Password?</Text>
                     </Pressable>
                     {erorr !== '' && (

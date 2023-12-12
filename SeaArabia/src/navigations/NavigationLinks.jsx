@@ -22,6 +22,9 @@ import SignInScreen from '../screens/signin/SignInScreen';
 import ServicesListExpand from '../screens/home/ServiceListExpand';
 import CategoriesExpandScreen from '../screens/home/CategoriesExpandScreen';
 import ServiceDateScreen from '../screens/common/ServiceDateScreen';
+import EmailVerification from '../screens/forgetpassword/EmailVerification';
+import OtpVerification from '../screens/forgetpassword/OtpVerification';
+import ResetPassword from '../screens/forgetpassword/ResetPassword';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -103,6 +106,9 @@ function NavigationLinks() {
         <Stack.Screen name='HomeScreen' component={MyTabs} options={{headerShown:false}}></Stack.Screen>
         <Stack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} ></Stack.Screen>
         <Stack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} ></Stack.Screen>
+        <Stack.Screen name='EmailVerification' component={EmailVerification} options={{headerShown:false}}/>
+        <Stack.Screen name='OtpVerification' component={OtpVerification} options={{headerShown:false}}/>
+        <Stack.Screen name='ResetPassword' component={ResetPassword} options={{headerShown:false}}/>
         <Stack.Screen name='ServiceExpand' component={ServiceExpandScreen} options={{headerShown:false}}></Stack.Screen>
         <Stack.Screen name='ServiceDate' component={ServiceDateScreen} options={{headerShown:false}}/>
         <Stack.Screen name='ServicesListExpand' component={ServicesListExpand} options={{headerShown:false}}></Stack.Screen>
