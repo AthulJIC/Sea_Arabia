@@ -69,7 +69,7 @@ const detailsText = "A brand-new 112m yacht, Spectre is a temple of leisure, a s
 function ServiceExpandScreen({ route }) {
     const navigation = useNavigation()
     const item = route?.params.item;
-    console.log('item====== ServiceExpandScreen', item);
+    // console.log('item====== ServiceExpandScreen', item);
     const [activeIndex, setActiveIndex] = useState(0);
     const nonThumbnailImages = item.service_image.filter(image => !image.is_thumbnail);
     const handleSnapToItem = (index) => {

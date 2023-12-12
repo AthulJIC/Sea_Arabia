@@ -74,17 +74,28 @@ function ProfileScreen({ navigation }) {
         refresh = {
             "refresh": refresh_token
         }
-        try {
-            const res = await LoginApi.userLogOut(refresh);
-            if (res.status === 200) {
-                console.log('loged out')
-                await AsyncStorage.removeItem('access_token')
-                await AsyncStorage.removeItem('refresh_token')
-                navigation.navigate('User')
-            }
-        } catch (error) {
-            console.error('Error LogOut:', error);
+        if(refresh_token===null)
+        {
+            setLogoutModalVisible(false)
+            await AsyncStorage.removeItem('access_token')
+            await AsyncStorage.removeItem('refresh_token')
+            navigation.navigate('User')
+            console.log('loged out')
         }
+        else{
+            try {
+                const res = await LoginApi.userLogOut(refresh);
+                if (res.status === 200) {
+                    console.log('loged out')
+                    await AsyncStorage.removeItem('access_token')
+                    await AsyncStorage.removeItem('refresh_token')
+                    navigation.navigate('User')
+                }
+            } catch (error) {
+                console.error('Error LogOut:', error);
+            }
+        }
+       
     }
     const cancelLogout = () => {
         setLogoutModalVisible(false);
@@ -104,7 +115,7 @@ function ProfileScreen({ navigation }) {
                         data.map((item, index) => {
                             return (
                                 <View key={index} style={{ top: 15 }}>
-                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.navigation}>
+                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.onPress}>
                                         <View>
                                             {item.icon}
                                         </View>
@@ -128,7 +139,7 @@ function ProfileScreen({ navigation }) {
                     <Pressable style={{ backgroundColor: 'rgba(255, 255, 255, 1)', padding: 10,width:100,height:40, borderRadius: 5, margin: 10 }} onPress={cancelLogout}>
                         <Text style={{ color: 'rgba(0, 104, 117, 1)', textAlign: 'center' }}>Cancel</Text>
                     </Pressable>
-                    <Pressable onPress={logOutHandler} style={{ backgroundColor: 'rgba(0, 104, 117, 1)', padding: 10,width:100,height:40, borderRadius: 5, margin: 10 }}>
+                    <Pressable onPress={()=>logOutHandler()} style={{ backgroundColor: 'rgba(0, 104, 117, 1)', padding: 10,width:100,height:40, borderRadius: 5, margin: 10 }}>
                         <Text style={{alignSelf:'center', color: 'rgba(255, 255, 255, 1)', textAlign: 'center',height:25,width:50,lineHeight:20,fontWeight:"400",fontFamily:'Roboto-Regular' }}>Logout</Text>
                     </Pressable>
                   
