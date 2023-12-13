@@ -8,6 +8,7 @@ import ShareIcon from "../../assets/icon/ShareIcon";
 import DestinationSelection from "../../ui/DestinationSelection";
 import CalendarPicker from "../../ui/CalendarPicker";
 import TimeScheduleScreen from "../../ui/TimeSchedule";
+import AdditionalHours from "../../ui/AdditionalHours";
 
 
 function ServiceDateScreen({route,navigation}){
@@ -43,6 +44,10 @@ function ServiceDateScreen({route,navigation}){
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Select Time Schedule</Text>
                     <TimeScheduleScreen/>
                 </View>
+                <View style={{ padding: 15,marginBottom:50 }}>
+                    <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Additional hours</Text>
+                    <AdditionalHours/>
+                </View>
             </ScrollView>
             <View style={styles.overlay}>
                 <View style={{flexDirection:'row',marginTop:Platform.OS === 'ios' ? 30 : 10}}>
@@ -57,7 +62,7 @@ function ServiceDateScreen({route,navigation}){
             <View style={{position: 'absolute', bottom: 0,left: 0,right: 0,backgroundColor: 'rgba(255, 255, 255, 1)',paddingBottom: Platform.OS === 'ios' ? 15 : 30,justifyContent:'center', alignItems:'center'}}>
                 <View style={{flexDirection:'row',marginTop:Platform.OS === 'ios' ? 30 : 10,height:30}}>
                     <Pressable style={{backgroundColor:'rgba(0, 104, 117, 1)', width:'90%', height:40, borderRadius:3,alignItems:'center',justifyContent:'center'}}>
-                        <Text style={{color:'rgba(255, 255, 255, 1)', fontSize:14,fontFamily:'Roboto-Bold'}}>Proceed</Text>
+                        <Text style={{color:'rgba(255, 255, 255, 1)', fontSize:14,fontFamily:'Roboto-Bold'}}>Proceed To Pay 50 KWD</Text>
                     </Pressable>
                 </View>
             </View>
