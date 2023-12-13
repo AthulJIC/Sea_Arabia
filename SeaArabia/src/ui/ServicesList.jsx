@@ -10,19 +10,18 @@ import { useNavigation } from "@react-navigation/native";
 function ServicesList({data,title,page}){
     const navigation = useNavigation();
     function serviceHandler(item) {
-        console.log('item====', item);
+        // console.log('item====', item);
         navigation.navigate('ServiceExpand', { item });
     }
-
     function renderItem({ item }) {
-        console.log('ServicesList item',item)
+        //  console.log('ServicesList item',item)
         // const firstTwoChars = item.name ? item.name.slice(0, 2) : '';
         const names = item.name?item.name.split(' '):'';
         const firstName =names[0]? names[0].substring(0,1):'';
         const lastName = names[1]? names[1].substring(0,1):'';
 
         return (
-            <View style={{ marginHorizontal: 8 }}>
+            <View>
 
                 <Pressable style={{ marginHorizontal: 10, backgroundColor: 'white', elevation: 8, borderRadius: 5, 
                  shadowColor: 'black', shadowOffset: { width: 2, height: 2 }, shadowOpacity: 0.25,
@@ -83,7 +82,7 @@ function ServicesList({data,title,page}){
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontFamily: 'Roboto-Medium', fontSize: 10, textAlign: 'left', marginLeft: 4, marginTop: 2 }}>4</Text>
                         <StarActiveIcon height={12} width={11} />
                     </View>
-                    <Pressable style={{marginLeft:'auto',right:7}}>
+                    <Pressable style={{marginLeft:'auto',right:25}}>
                        <BookmarkInactive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
                     </Pressable>
                 </View>

@@ -44,7 +44,7 @@ function ExploreMore(){
         setLoading(true)
         HomeApi.ExploreMoreList()
             .then(response => {
-                console.log("results ExploreMoreList", response.data.results)
+                // console.log("results ExploreMoreList", response.data.results)
                 setData(response.data.results);
             })
             .catch(error => {
