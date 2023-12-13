@@ -25,31 +25,31 @@ function ProfileScreen({ navigation }) {
             id: 2,
             title: 'Bookmarked',
             icon: <BookmarkInactive height={16} width={15} color='rgba(125, 132, 141, 1)' />,
-            navigation: () => navigation.navigate('SignUp')
+            navigation: () => navigation.navigate('BookMark',{title:'Bookmarked'})
         },
         {
             id: 3,
             title: 'Previous Trips',
             icon: <TripsIcon />,
-            navigation: () => navigation.navigate('SignUp')
+            navigation: () => navigation.navigate('PreviousTrip',{title:'Previous Trips'})
         },
         {
             id: 4,
             title: 'Settings',
             icon: <SettingsIcon />,
-            navigation: () => navigation.navigate('SignUp')
+            navigation: () => navigation.navigate('Settings',{title:'Settings'})
         },
         {
             id: 5,
             title: 'About',
             icon: <AboutIcon />,
-            navigation: () => navigation.navigate('SignUp')
+            navigation: () => navigation.navigate('About',{title:'About'})
         },
         {
             id: 6,
             title: 'Logout',
             icon: <LogoutIcon />,
-            onPress: () => setLogoutModalVisible(true),
+            navigation: () => setLogoutModalVisible(true),
             // navigation: () => navigation.navigate('SignUp')
 
         },
@@ -115,7 +115,7 @@ function ProfileScreen({ navigation }) {
                         data.map((item, index) => {
                             return (
                                 <View key={index} style={{ top: 15 }}>
-                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.onPress}>
+                                    <Pressable style={{ height: 60, marginLeft: 20, marginTop: 9, flexDirection: 'row' }} onPress={item.navigation}>
                                         <View>
                                             {item.icon}
                                         </View>

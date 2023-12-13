@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from 'react-native-check-box';
 import { LoginApi } from "../../Services/Login/login";
 import LoadingIndicator from "../../components/Loader";
+import { jwtDecode } from "jwt-decode";
 import {
     GoogleSignin,
     GoogleSigninButton,
@@ -54,6 +55,8 @@ function SignInScreen({ navigation }) {
         try {
             const res = await LoginApi.userLogin(requestData);
             if (res.status===200) {
+                // const decoded = jwtDecode(res.data.access);
+                // console.log('decoded=====', decoded);
                 // console.log("response login",res)
                 await AsyncStorage.setItem('access_token', res.data.access);
                 await AsyncStorage.setItem('refresh_token', res.data.refresh);

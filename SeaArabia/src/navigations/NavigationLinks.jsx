@@ -25,6 +25,10 @@ import ServiceDateScreen from '../screens/common/ServiceDateScreen';
 import EmailVerification from '../screens/forgetpassword/EmailVerification';
 import OtpVerification from '../screens/forgetpassword/OtpVerification';
 import ResetPassword from '../screens/forgetpassword/ResetPassword';
+import BookMarkScreen from '../screens/profile/BookMarkScreen';
+import PreviousTripScreen from '../screens/profile/PreviousTripScreen';
+import SettingsScreen from '../screens/profile/SettingsScreen';
+import AboutScreen from '../screens/profile/AboutScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -89,9 +93,8 @@ function MyTabs() {
           tabBarLabel: 'Activity',
         }}/>
         <Tab.Screen name="Profile" component={ProfileScreen} 
-        options={{tabBarLabel: 'Profile',
+        options={{tabBarLabel: 'Profile'
         }}/>
-       
         
     </Tab.Navigator>
   );
@@ -113,6 +116,10 @@ function NavigationLinks() {
         <Stack.Screen name='ServiceDate' component={ServiceDateScreen} options={{headerShown:false}}/>
         <Stack.Screen name='ServicesListExpand' component={ServicesListExpand} options={{headerShown:false}}></Stack.Screen>
         <Stack.Screen name='CategoriesExpand' component={CategoriesExpandScreen} options={{headerShown:false}}></Stack.Screen>
+        <Stack.Screen name='BookMark' component={BookMarkScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='PreviousTrip' component={PreviousTripScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='Settings' component={SettingsScreen} options={{headerShown:false}}/>
+        <Stack.Screen name='About' component={AboutScreen} options={{headerShown:false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );
