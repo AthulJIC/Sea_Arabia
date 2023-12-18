@@ -1,10 +1,11 @@
-import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView } from "react-native"
+import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView, Pressable, Image } from "react-native"
 import CustomTextInput from "../../components/CustomTextInput";
 import { useState } from "react";
 import CustomDatePicker from "../../components/CustomDatePicker";
 import { SelectList } from 'react-native-dropdown-select-list';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Styles from "../../public/Styles";
+import SelectDropdown from "react-native-select-dropdown";
 
 
 function SignUpScreen({navigation}){
@@ -87,7 +88,7 @@ function SignUpScreen({navigation}){
                             onChangeText={(text) => setConfirmPassword(text)}
                             secureTextEntry={true}
                             isPassword={true}
-                        /> */}
+                        /> 
                     </View>
                     <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 15,marginBottom:25 }}>
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 14, fontFamily: 'Roboto-Regular' }}>Or continue with</Text>

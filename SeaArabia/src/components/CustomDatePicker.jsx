@@ -33,7 +33,8 @@ function CustomDatePicker() {
       <Pressable onPress={showDatepicker} style={{backgroundColor:'rgba(247, 247, 249, 1)', height:50,width:'60%', marginTop:15,borderRadius:12,alignItems:'center',flexDirection:'row',right:3,marginTop:15}}>
       <Text style={{
           marginLeft: 10,
-          color: selectedDateText !== 'Select Date' ? 'black' : 'rgba(27, 30, 40, 0.3)',
+          // color: selectedDateText !== 'Select Date' ? 'black' : 'rgba(27, 30, 40, 0.3)',
+          color:'rgba(27, 30, 40, 0.3)',
           fontSize: 14,
           fontFamily: 'Roboto-Regular'
         }}>{selectedDateText}</Text>

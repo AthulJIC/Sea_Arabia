@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseURL } from '../config';
-const allActivityUrl=baseURL+'service/service-types'
+const allActivityUrl=baseURL+'service/service-list'
 
 export const Activity={
     AllActivityList: async function (data) {
@@ -10,7 +10,7 @@ export const Activity={
           console.log("AllActivityList response ",response.data)
           return response.data;
         } catch (error) {
-          console.log("erorr category list",error );
+          console.log("erorr AllActivity List",error );
         }
       },
 }
