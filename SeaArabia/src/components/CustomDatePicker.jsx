@@ -7,16 +7,18 @@ import moment from 'moment';
 function CustomDatePicker() {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const years = [];
-  const months = [];
-  const days = [];
-  console.log('years', years);
-  // Populate years, months, and days
-  for (let i = 1900; i <= new Date().getFullYear() + 20; i++) {
-    years.push(i);
-  }
-  for (let i = 1; i <= 12; i++) {
-    months.push(i);
+  const [selectedDateText, setSelectedDateText] = useState('Select Date');
+
+  const onChange = (selectedDate) => {
+    //setShowDatePicker(Platform.OS === 'ios'); // Close the picker for iOS after selecting
+    if (selectedDate) {
+      setDate(selectedDate); 
+    }
+    //setShowDatePicker(false);
+  };
+  function onConfirmHandler(){
+    setSelectedDateText(moment(date).format('DD-MM-YYYY'));
+    setShowDatePicker(false);
   }
   function onCancelHandler(){
     setSelectedDateText(selectedDateText);
@@ -33,8 +35,7 @@ function CustomDatePicker() {
       <Pressable onPress={showDatepicker} style={{backgroundColor:'rgba(247, 247, 249, 1)', height:50,width:'60%', marginTop:15,borderRadius:12,alignItems:'center',flexDirection:'row',right:3,marginTop:15}}>
       <Text style={{
           marginLeft: 10,
-          // color: selectedDateText !== 'Select Date' ? 'black' : 'rgba(27, 30, 40, 0.3)',
-          color:'rgba(27, 30, 40, 0.3)',
+          color: selectedDateText !== 'Select Date' ? 'black' : 'rgba(27, 30, 40, 0.3)',
           fontSize: 14,
           fontFamily: 'Roboto-Regular'
         }}>{selectedDateText}</Text>
