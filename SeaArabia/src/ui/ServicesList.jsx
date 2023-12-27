@@ -7,14 +7,52 @@ import BookmarkInactive from "../assets/icon/BookmarkInactive";
 import StarActiveIcon from "../assets/icon/StartActiveIcon";
 import { useNavigation } from "@react-navigation/native";
 import { useAppContext } from "../context/AppContext";
+import BookMarkActive from "../assets/icon/BookmarkActive";
+import { BookMarkLink } from "../Services/BookMarkService/BookMarkServices";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ServicesList({data,title,page}){
     const navigation = useNavigation();
     const {updateItem} = useAppContext();
+    const [loading,setLoading]=useState(false)
+    const [userName,setUserName]=useState('')
+    console.log('item====', data);
     function serviceHandler(item) {
         // console.log('item====', item);
         navigation.navigate('ServiceExpand');
         updateItem(item)
+    }
+    useEffect(()=>{
+        AsyncStorage.getItem('userName')
+        .then(username => {
+          // Do something with the retrieved username
+          let role = username;
+          setUserName(role);
+        })
+        .catch(error => {
+          console.error('Error retrieving username from AsyncStorage:', error);
+        });
+    },[])
+    const BookMarkhandler=(item)=>{
+        // console.log("pressed",item)
+        const data={
+            service:item.id,
+        }
+        if(item.is_bookmarked==false)
+        {
+            console.log("pressed",item)
+            BookMarkLink.BookMarkAdd(data)
+            .then(response => {
+                console.log("results BookMark Add", response)
+            })
+            .catch(error => {
+                console.error('Error category list data:', error)
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        }
     }
     function renderItem({ item }) {
         //  console.log('ServicesList item',item)
@@ -85,9 +123,16 @@ function ServicesList({data,title,page}){
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontFamily: 'Roboto-Medium', fontSize: 10, textAlign: 'left', marginLeft: 4, marginTop: 2 }}>4</Text>
                         <StarActiveIcon height={12} width={11} />
                     </View>
-                    <Pressable style={{marginLeft:'auto',right:25}}>
-                       <BookmarkInactive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
-                    </Pressable>
+                    {userName==='Guest'?'':
+                    item.is_bookmarked?
+                    <Pressable onPress={()=>BookMarkhandler(item)} style={{marginLeft:'auto',right:25}}>
+                    <BookMarkActive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
+                     </Pressable>:
+                         <Pressable onPress={()=>BookMarkhandler(item)} style={{marginLeft:'auto',right:25}}>
+                         <BookmarkInactive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
+                      </Pressable>
+                    }
+                   
                 </View>
             </View>
         )

@@ -7,16 +7,18 @@ import moment from 'moment';
 function CustomDatePicker() {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const years = [];
-  const months = [];
-  const days = [];
-  console.log('years', years);
-  // Populate years, months, and days
-  for (let i = 1900; i <= new Date().getFullYear() + 20; i++) {
-    years.push(i);
-  }
-  for (let i = 1; i <= 12; i++) {
-    months.push(i);
+  const [selectedDateText, setSelectedDateText] = useState('Select Date');
+
+  const onChange = (selectedDate) => {
+    //setShowDatePicker(Platform.OS === 'ios'); // Close the picker for iOS after selecting
+    if (selectedDate) {
+      setDate(selectedDate); 
+    }
+    //setShowDatePicker(false);
+  };
+  function onConfirmHandler(){
+    setSelectedDateText(moment(date).format('DD-MM-YYYY'));
+    setShowDatePicker(false);
   }
   function onCancelHandler(){
     setSelectedDateText(selectedDateText);

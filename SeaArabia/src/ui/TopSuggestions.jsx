@@ -2,6 +2,7 @@ import { View,Text, ActivityIndicator } from "react-native"
 import ServicesList from "./ServicesList";
 import { HomeApi } from "../Services/HomeServices/HomeService";
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const data=[
 //     {
@@ -45,10 +46,13 @@ import { useEffect, useState } from "react";
 function TopSuggestions(){
     const[data,setData]=useState([])
     const [loading,setLoading]=useState(false)
+    const [userName,setUserName]=useState('')
+    console.log(userName)
     useEffect(() => {
         setLoading(true)
         HomeApi.TopSuggestionList()
             .then(response => {
+              
                 setData(response.data.results);
             })
             .catch(error => {
@@ -56,6 +60,15 @@ function TopSuggestions(){
             })
             .finally(() => {
                 setLoading(false);
+            });
+            AsyncStorage.getItem('userName')
+            .then(username => {
+              // Do something with the retrieved username
+              let role = username;
+              setUserName(role);
+            })
+            .catch(error => {
+              console.error('Error retrieving username from AsyncStorage:', error);
             });
     }, []);
     return(

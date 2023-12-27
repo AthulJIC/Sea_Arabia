@@ -10,7 +10,7 @@ export const Activity={
           console.log("AllActivityList response ",response.data)
           return response.data;
         } catch (error) {
-          console.log("erorr category list",error );
+          console.log("erorr AllActivity List",error );
         }
       },
 }
