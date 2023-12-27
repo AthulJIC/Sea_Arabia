@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseURL } from '../config';
-const allActivityUrl=baseURL+'service/service-types'
+const allActivityUrl=baseURL+'service/service-list'
 
 export const Activity={
     AllActivityList: async function (data) {

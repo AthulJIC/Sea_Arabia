@@ -7,7 +7,7 @@ import CouponCode from "../../ui/CouponCode";
 
 function CategoriesExpandScreen({route,navigation}){
     const serviceList = route?.params.serviceList;
-    console.log('item====', serviceList);
+    console.log('serviceList',serviceList);
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={{flexDirection:'row'}}>
@@ -18,12 +18,11 @@ function CategoriesExpandScreen({route,navigation}){
             </View>
             <ScrollView>
                 <View>
-                    <CategoryList title='Nearest Spots'/>
                     <CouponCode page='Category'/>
-                    <CategoryList title='Recommendation'/>
+                    <CategoryList title='Recommendation' id={serviceList?.id} premium={false} recommended={true}/>
                     <BestDeals title='Offers'/>
-                    <CategoryList title='Premium'/>
-                    <CategoryList title='All'/>
+                    <CategoryList title='Premium' id={serviceList?.id} premium={true} recommended={false}/>
+                    <CategoryList title='All' id={serviceList?.id} premium={false} recommended={false}/>
                 </View>
             </ScrollView> 
         </SafeAreaView>

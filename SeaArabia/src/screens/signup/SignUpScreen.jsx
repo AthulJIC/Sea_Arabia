@@ -34,11 +34,13 @@ function SignUpScreen({navigation}){
                             inputHeader='Full Name'
                             value={fullName}
                             onChangeText={(text) => setFullName(text)}
+                            width='91%'
                         />
                         <CustomTextInput placeholder='Enter E- Mail'
                             inputHeader='E- Mail'
                             value={email}
                             onChangeText={(text) => setEmail(text)}
+                            width='91%'
                         />
                         <View style={{marginLeft:20,marginTop:10, flexDirection:'row',marginBottom:100}}>
                             <View>
@@ -80,6 +82,7 @@ function SignUpScreen({navigation}){
                             onChangeText={(text) => setPassword(text)}
                             secureTextEntry={true}
                             isPassword={true}
+                            width='91%'
                         />
                         <CustomTextInput placeholder='Enter Password'
                             inputHeader='Confirm Password'
@@ -87,7 +90,8 @@ function SignUpScreen({navigation}){
                             onChangeText={(text) => setConfirmPassword(text)}
                             secureTextEntry={true}
                             isPassword={true}
-                        /> */}
+                            width='91%'
+                        /> 
                     </View>
                     <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 15,marginBottom:25 }}>
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 14, fontFamily: 'Roboto-Regular' }}>Or continue with</Text>

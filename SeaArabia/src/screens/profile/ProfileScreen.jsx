@@ -11,15 +11,17 @@ import { useCallback, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LoginApi } from "../../Services/Login/login";
 import Modal from 'react-native-modal';
+import EditUserIcon from "../../assets/icon/EditUserIcon";
 function ProfileScreen({ navigation }) {
     const [refresh_token, setRefreshToken] = useState('')
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
+    const [userId, setUserId] = useState()
     const data = [
         {
-            id: 1,
-            title: 'Sign up',
-            icon: <ProfileInactiveIcon />,
-            navigation: () => navigation.navigate('SignUp')
+            id: userId ? 1 : 0,
+            title: userId ? 'Edit User' : 'Sign up',
+            icon: userId ? <EditUserIcon/> : <ProfileInactiveIcon />,
+            navigation: userId ? () => navigation.navigate('EditUser') : () => navigation.navigate('SignUp')
         },
         {
             id: 2,
@@ -60,6 +62,12 @@ function ProfileScreen({ navigation }) {
                 // setIsLoading(true);
                 try {
                     const refresh = await AsyncStorage.getItem('refresh_token');
+                    // if (value !== null) {
+                    //     const [header, payload, signature] = value.split('.');
+                    //     const decodedPayload = JSON.parse(atob(payload));
+                    //     console.log('Decoded Payload:', decodedPayload?.user_id);
+                    //     await AsyncStorage.setItem('userId',decodedPayload?.user_id)
+                    //   }
                     let newRefreshToken = refresh;
                     setRefreshToken(newRefreshToken);
                 } catch (error) {

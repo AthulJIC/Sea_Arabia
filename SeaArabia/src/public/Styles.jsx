@@ -36,15 +36,14 @@ export default StyleSheet.create({
   filterContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
     marginBottom:20,
-    marginLeft:15,
+    marginLeft:25,
     height:50
   },
   filterText: {
     color: 'black',
     fontFamily: 'Roboto-Regular',
-    fontSize:14
+    fontSize:15
   },
   selectedText: {
     color: 'rgba(0, 104, 117, 1)',

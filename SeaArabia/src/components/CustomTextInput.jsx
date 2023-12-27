@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { TextInput, StyleSheet, Text ,View,TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Styles from '../public/Styles';
 
 
-function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inputHeader,isPassword }){
+function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inputHeader,isPassword, width }){
     const [showPassword, setShowPassword] = useState(isPassword);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };
   return (
-    <View style={{width:'91%',justifyContent:'center',alignSelf:'center'}}>
+    <View style={{width:width,justifyContent:'center',alignSelf:'center',marginLeft:5}}>
         <Text style={{color:'rgba(27, 30, 40, 0.8)',fontSize:14, fontFamily:'Roboto-Medium',marginTop:10,marginLeft:7}}>{inputHeader}</Text>
         <TextInput
           style={Styles.input}
@@ -25,7 +25,7 @@ function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inp
         <TouchableOpacity
             onPress={togglePasswordVisibility}
             style={{ position: 'absolute', right: 25, top: 50 }}>
-            <Icon name={showPassword ? 'eye' : 'eye-slash'} size={20} color="gray" />
+            <Icon name={showPassword ? 'visibility-off' : 'visibility'} size={20} color="gray" />
         </TouchableOpacity>
       )}
     </View>

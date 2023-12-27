@@ -6,12 +6,15 @@ import GuestIcon from "../assets/icon/GuestIcon";
 import BookmarkInactive from "../assets/icon/BookmarkInactive";
 import StarActiveIcon from "../assets/icon/StartActiveIcon";
 import { useNavigation } from "@react-navigation/native";
+import { useAppContext } from "../context/AppContext";
 
 function ServicesList({data,title,page}){
     const navigation = useNavigation();
+    const {updateItem} = useAppContext();
     function serviceHandler(item) {
         // console.log('item====', item);
-        navigation.navigate('ServiceExpand', { item });
+        navigation.navigate('ServiceExpand');
+        updateItem(item)
     }
     function renderItem({ item }) {
         //  console.log('ServicesList item',item)
@@ -23,16 +26,16 @@ function ServicesList({data,title,page}){
         return (
             <View>
 
-                <Pressable style={{ marginHorizontal: 10, backgroundColor: 'white', elevation: 8, borderRadius: 5, 
+                <Pressable style={{ marginHorizontal: 4, backgroundColor: 'white', elevation: 8, borderRadius: 5, 
                  shadowColor: 'black', shadowOffset: { width: 2, height: 2 }, shadowOpacity: 0.25,
                  shadowRadius: 2, width: 150, height: 209, marginTop: 2 }} onPress={() => serviceHandler(item)}>
                     {/* <Image source={{ uri: item?.service_image[0]?.image }} style={{width:'92%', height:105,alignSelf:'center', borderRadius:5,marginTop:7}} resizeMode='stretch'></Image> */}
-                    {item.service_image && item.service_image.find(image => image.is_thumbnail) ? (
-                        <Image
-                            source={{ uri: item.service_image.find(image => image.is_thumbnail).thumbnail }}
-                            style={{ width: '92%', height: 105, alignSelf: 'center', borderRadius: 5, marginTop: 7 }}
-                            resizeMode='stretch'
-                        />
+                    {item.service_image && item.service_image.length > 0 ? (
+                          <Image
+                            source={{ uri: item.service_image[0]?.image}}
+                            style={{
+                                width:'92%', height:105,alignSelf:'center', borderRadius:5,marginTop:7}} resizeMode='stretch'
+                          />
                     ):
                     (
                         <View

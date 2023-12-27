@@ -9,15 +9,19 @@ import DestinationSelection from "../../ui/DestinationSelection";
 import CalendarPicker from "../../ui/CalendarPicker";
 import TimeScheduleScreen from "../../ui/TimeSchedule";
 import AdditionalHours from "../../ui/AdditionalHours";
+import { useAppContext } from "../../context/AppContext";
+import CarouselList from "../../components/CarouselList";
 
 
-function ServiceDateScreen({route,navigation}){
-    const item = route?.params.item;
+function ServiceDateScreen({navigation}){
+    const { item } = useAppContext();
     console.log('item======', item);
+    const serviceImages = item?.service_image || [];
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>  
             <ScrollView style={{marginBottom:20}}>
-                <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image>
+                {/* <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image> */}
+                <CarouselList data={serviceImages}/>
                 <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{item?.title}</Text>
                 <View style={{flexDirection:'row',marginLeft:18,marginTop:10}}>
                     <LocationIcon color='rgba(0, 0, 0, 0.8)'/>
@@ -61,7 +65,7 @@ function ServiceDateScreen({route,navigation}){
             </View>
             <View style={{position: 'absolute', bottom: 0,left: 0,right: 0,backgroundColor: 'rgba(255, 255, 255, 1)',paddingBottom: Platform.OS === 'ios' ? 15 : 30,justifyContent:'center', alignItems:'center'}}>
                 <View style={{flexDirection:'row',marginTop:Platform.OS === 'ios' ? 30 : 10,height:30}}>
-                    <Pressable style={{backgroundColor:'rgba(0, 104, 117, 1)', width:'90%', height:40, borderRadius:3,alignItems:'center',justifyContent:'center'}}>
+                    <Pressable style={{backgroundColor:'rgba(0, 104, 117, 1)', width:'90%', height:40, borderRadius:3,alignItems:'center',justifyContent:'center'}} onPress={()=> navigation.navigate('BookingDetails')}>
                         <Text style={{color:'rgba(255, 255, 255, 1)', fontSize:14,fontFamily:'Roboto-Bold'}}>Proceed To Pay 50 KWD</Text>
                     </Pressable>
                 </View>

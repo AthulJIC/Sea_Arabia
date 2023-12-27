@@ -29,6 +29,11 @@ import BookMarkScreen from '../screens/profile/BookMarkScreen';
 import PreviousTripScreen from '../screens/profile/PreviousTripScreen';
 import SettingsScreen from '../screens/profile/SettingsScreen';
 import AboutScreen from '../screens/profile/AboutScreen';
+import EditUserScreen from '../screens/profile/EditUserScreen';
+import BookingDetailsScreen from '../screens/common/BookingDetailsScreen';
+import CouponListScreen from '../screens/common/CouponListScreen';
+import PaymentSuccessScreen from '../screens/success/PaymentSuccessScreen';
+import { navigationRef } from '../providers/RootNavigator';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -102,24 +107,28 @@ function MyTabs() {
 
 function NavigationLinks() {
   return (
-    <NavigationContainer>
-        <Stack.Navigator>
-        <Stack.Screen name="User" component={UserScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='RegisterUser' component={RegisterUserScreen} options={{headerShown:false}}></Stack.Screen>
-        <Stack.Screen name='HomeScreen' component={MyTabs} options={{headerShown:false}}></Stack.Screen>
-        <Stack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} ></Stack.Screen>
-        <Stack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} ></Stack.Screen>
-        <Stack.Screen name='EmailVerification' component={EmailVerification} options={{headerShown:false}}/>
-        <Stack.Screen name='OtpVerification' component={OtpVerification} options={{headerShown:false}}/>
-        <Stack.Screen name='ResetPassword' component={ResetPassword} options={{headerShown:false}}/>
-        <Stack.Screen name='ServiceExpand' component={ServiceExpandScreen} options={{headerShown:false}}></Stack.Screen>
-        <Stack.Screen name='ServiceDate' component={ServiceDateScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='ServicesListExpand' component={ServicesListExpand} options={{headerShown:false}}></Stack.Screen>
-        <Stack.Screen name='CategoriesExpand' component={CategoriesExpandScreen} options={{headerShown:false}}></Stack.Screen>
-        <Stack.Screen name='BookMark' component={BookMarkScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='PreviousTrip' component={PreviousTripScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='Settings' component={SettingsScreen} options={{headerShown:false}}/>
-        <Stack.Screen name='About' component={AboutScreen} options={{headerShown:false}}/>
+    <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator initialRouteName='SignIn'>
+          <Stack.Screen name="User" component={UserScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='RegisterUser' component={RegisterUserScreen} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name='HomeScreen' component={MyTabs} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name='EmailVerification' component={EmailVerification} options={{headerShown:false}}/>
+          <Stack.Screen name='OtpVerification' component={OtpVerification} options={{headerShown:false}}/>
+          <Stack.Screen name='ResetPassword' component={ResetPassword} options={{headerShown:false}}/>
+          <Stack.Screen name='ServiceExpand' component={ServiceExpandScreen} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name='ServiceDate' component={ServiceDateScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='ServicesListExpand' component={ServicesListExpand} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name='CategoriesExpand' component={CategoriesExpandScreen} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name='BookMark' component={BookMarkScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='PreviousTrip' component={PreviousTripScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='Settings' component={SettingsScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='About' component={AboutScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='EditUser' component={EditUserScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='BookingDetails' component={BookingDetailsScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='CouponList' component={CouponListScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='PaymentSuccess' component={PaymentSuccessScreen} options={{headerShown:false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

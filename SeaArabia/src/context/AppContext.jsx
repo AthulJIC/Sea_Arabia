@@ -2,51 +2,28 @@ import React, { createContext, useContext, useState } from 'react';
 
 const AppContext = createContext();
 
-export const useAppContext = () => useContext(AppContext);
+// export const useAppContext = () => useContext(AppContext);
 
 export const AppProvider = ({ children }) => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [userDetails, setUserDetails] = useState(null);
-  const [language, setLanguage] = useState(' '); 
-  const [pointsValue,setPoints]=useState("")
-  const [orderData, setOrderData] = useState([]); 
-  const [isBookmarkDeleted, setIsBookmarkDeleted] = useState(false)
-  const updateUserDetails = (userData) => {
-    setUserDetails(userData);
-  };
- const UserPoints=(points)=>{
-  setPoints(points)
- }
-  const updateSelectedProduct = (productData) => {
-    setSelectedProduct(productData);
+  const [item, setItem] = React.useState(null);
+
+  const updateItem = (newItem) => {
+    setItem(newItem);
   };
 
-  const changeLanguage = (newLanguage) => {
-    setLanguage(newLanguage);
-  };
-  const updateOrderData = (newData) => {
-    setOrderData(newData);
-  };
-  const markBookmarkDeleted = (deleted) => {
-    setIsBookmarkDeleted(deleted);
-  }
   return (
     <AppContext.Provider
-      value={{
-        selectedProduct,
-        updateSelectedProduct,
-        userDetails,
-        updateUserDetails,
-        language,
-        changeLanguage,
-        UserPoints,
-        orderData,
-        updateOrderData, 
-        isBookmarkDeleted, 
-        markBookmarkDeleted,
-      }}
+        value={{ item, updateItem }}
     >
       {children}
     </AppContext.Provider>
   );
+};
+
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('useItem must be used within an ItemProvider');
+  }
+  return context;
 };

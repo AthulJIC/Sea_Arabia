@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-function ReadMore({ text, limit = 50 }) {
+function ReadMore({ text, limit = 20 }) {
   const [showAllText, setShowAllText] = useState(false);
 
   const toggleShowText = () => {

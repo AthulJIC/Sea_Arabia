@@ -22,6 +22,7 @@ function EmailVerification({navigation}){
                     placeholder='Enter E- Mail'
                     value={email}
                     onChangeText={(text) => setEmail(text)}
+                    width='91%'
                 />
                <Pressable  style={{ backgroundColor: 'rgba(0, 104, 117, 1)', width: '93%', height: 50, justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, borderRadius: 5,marginBottom:10 }} onPress={() => navigation.navigate('OtpVerification')}>
                     <Text style={{ fontSize: 16, color: 'rgba(255, 255, 255, 1)', fontFamily: 'Roboto-Medium' }}>Send OTP</Text>

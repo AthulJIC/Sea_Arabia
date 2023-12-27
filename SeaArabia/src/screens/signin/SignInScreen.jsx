@@ -6,13 +6,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from 'react-native-check-box';
 import { LoginApi } from "../../Services/Login/login";
 import LoadingIndicator from "../../components/Loader";
-import { jwtDecode } from "jwt-decode";
 import {
     GoogleSignin,
     GoogleSigninButton,
     statusCodes,
   } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import { baseURL } from "../../Services/config";
 // import jwt from 'jsonwebtoken';
 // import "core-js/stable/atob";
 function SignInScreen({ navigation }) {
@@ -47,22 +48,22 @@ function SignInScreen({ navigation }) {
           }
           
           setErorr('');
+        const url = baseURL + 'api/token/';
         const requestData = {
             email: email,
             password: password
         };
       setLoading(true)
         try {
-            const res = await LoginApi.userLogin(requestData);
-            if (res.status===200) {
-                // const decoded = jwtDecode(res.data.access);
-                // console.log('decoded=====', decoded);
-                // console.log("response login",res)
-                await AsyncStorage.setItem('access_token', res.data.access);
-                await AsyncStorage.setItem('refresh_token', res.data.refresh);
-                setLoading(false)
-                navigation.navigate('HomeScreen')
-            }
+            await axios.post(url,requestData).then(async (res) => {
+                if (res.status===200) {
+                    console.log("response login",res.data.access)
+                    await AsyncStorage.setItem('access_token', res.data.access);
+                    await AsyncStorage.setItem('refresh_token', res.data.refresh);
+                    setLoading(false)
+                    navigation.navigate('HomeScreen')
+                }
+            });
         } catch (error) {
             console.error('Error Login:', error);
         }finally{
@@ -82,13 +83,6 @@ function SignInScreen({ navigation }) {
     }
     return (
         <ImageBackground source={require('../../assets/images/signinbg.gif')} style={{ flex: 1 }} imageStyle={{ resizeMode: 'cover' }}>
-            <View>
-                <Pressable style={{ marginLeft: 20, marginTop: 30 }} onPress={() => navigation.navigate('RegisterUser')}>
-                    <BackIcon color='rgba(255, 255, 255, 1)' />
-                </Pressable>
-                <Text style={{ fontSize: 26, textAlign: 'center', color: 'rgba(255, 255, 255, 1)', fontFamily: 'Roboto-Medium', marginTop: 20 }}>Sign in now</Text>
-                <Text style={{ fontSize: 16, textAlign: 'center', color: 'rgba(255, 255, 255, 1)', fontFamily: 'Roboto-Regular', marginTop: 9 }}>Please sign in to continue our app</Text>
-            </View>
             <View style={{ width: '100%', height: 380, marginTop: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.45)', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
                 <TextInput 
                 style={{ width: '95%', height: 45, borderBottomColor: 'rgba(255, 255, 255, 1)', borderBottomWidth: 1, alignSelf: 'center', marginTop: 10, fontSize: 16, color: 'rgba(255, 255, 255,1)' }}
@@ -117,7 +111,7 @@ function SignInScreen({ navigation }) {
                         />
                     </TouchableOpacity>
                 </View>
-                <Pressable>
+                <Pressable onPress={() => navigation.navigate('EmailVerification')}>
                     <Text style={{ marginLeft: 'auto', color: 'rgba(255, 255, 255, 1)', marginTop: 10, right: 10 }}>Forget Password?</Text>
                 </Pressable>
                 {erorr !== '' && (

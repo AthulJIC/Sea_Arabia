@@ -9,6 +9,9 @@ import BestDeals from '../../ui/BestDeals';
 import ExploreMore from '../../ui/ExploreMore';
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import Toast from 'react-native-toast-message';
+import { decode as atob, encode as btoa } from 'base-64'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function HomeScreen() {
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = useState(false);
@@ -27,7 +30,25 @@ const [lastConnectionChange, setLastConnectionChange] = useState(null);
     // Fetch data
     fetchData();
   };
-
+  useFocusEffect(
+    useCallback(() => {
+      const getValueFromStorage = async () => {
+        try {
+          const value = await AsyncStorage.getItem('access_token');
+          console.log('value====',value);
+          if (value !== null) {
+            const [header, payload, signature] = value.split('.');
+            const decodedPayload = JSON.parse(atob(payload));
+            console.log('Decoded Payload:', decodedPayload?.user_id);
+            await AsyncStorage.setItem('userId',decodedPayload?.user_id)
+          }
+        } catch (error) {
+          console.error('Error fetching data from AsyncStorage:', error);
+        }
+      };
+      getValueFromStorage();
+    }, [])
+  );
   useFocusEffect(
     useCallback(() => {
       fetchData();

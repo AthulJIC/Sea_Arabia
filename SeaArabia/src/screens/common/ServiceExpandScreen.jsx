@@ -7,6 +7,8 @@ import Styles from "../../public/Styles";
 import ShareIcon from "../../assets/icon/ShareIcon";
 import AmenitiesList from "../../ui/AmenitiesList";
 import ReadMore from "../../ui/ReadMore";
+import { useAppContext } from "../../context/AppContext";
+import CarouselList from "../../components/CarouselList";
 
 const amenitiesList = [
     {
@@ -64,32 +66,47 @@ const amenitiesList = [
 const detailsText = "A brand-new 112m yacht, Spectre is a temple of leisure, a sanctum of tranquillity, conceived to delight an unprecedented 36 guests on a hither-to unknown scale.  From her vast beach club, open on three sides for that life-affirming connection to the ocean, to her matchless spa, an entire deck devoted to fitness, wellness and pampering, this is a yacht that elevates the already extraordinary. Whether you land by air on the foredeck helipad or by sea in a fleet of custom tenders, you’ll know you’ve arrived. Her guest accommodation is uniquely flexible, including doubles, twins and cabins that convert into suites, welcoming parties of all kinds with consummate ease. An elevator serving all decks makes her the perfect choice – indeed the only choice – for large, multi-generational groups. "
 
 
-function ServiceExpandScreen({route,navigation}){
-    let item;
-    if( route?.params.item !== undefined){
-        item = route?.params.item;
-    }
-    console.log('item======', item);
+function ServiceExpandScreen({navigation}){
+   const { item } = useAppContext();
+    console.log('useAppContext======', item);
 
     function proceedHandler(){
-        navigation.navigate('ServiceDate',{item})
+        navigation.navigate('ServiceDate')
     }
-
+    const serviceImages = item?.service_image || [];
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>  
             <ScrollView style={{marginBottom:20}}>
-                <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image>
-                <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{item?.title}</Text>
+                {/* <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image> */}
+                <CarouselList data={serviceImages}/>
+                <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{item?.name}</Text>
                 <View style={{flexDirection:'row',marginLeft:18,marginTop:10}}>
                     <LocationIcon color='rgba(0, 0, 0, 0.8)'/>
-                    <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> Location name</Text>
+                    <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> {item?.pickup_point}</Text>
                 </View>
                 <View style={{flexDirection:'row',marginBottom:15}}>
                     <Rating/>
                     <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:11,fontFamily:'Roboto-Regular',marginLeft:'auto',bottom:27,textAlign:'right',left:55}}>Capacity</Text>
                     <View style={{right:20,flexDirection:'row'}}>
                         <GuestIcon/>
-                        <Text style={{color:'rgba(0, 0, 0, 1)', fontSize:14,fontFamily:'Roboto-Regular',bottom:2,left:2}}>12 People</Text>
+                        <Text style={{color:'rgba(0, 0, 0, 1)', fontSize:14,fontFamily:'Roboto-Regular',bottom:2,left:2}}>{item?.capacity} People</Text>
+                    </View>
+                </View>
+                <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
+                <View style={{ padding: 15 }}>
+                    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                        <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center' }}>
+                            <Image source={require('../../assets/images/Bedrooms1.png')} style={{width:20, height:15,marginLeft:15}}></Image>
+                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.bedroom} Bedroom</Text>
+                        </View>
+                        <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center' }}>
+                            <Image source={require('../../assets/images/Lounge.png')} style={{width:20, height:15,marginLeft:15}}></Image>
+                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.lounge} Lounge</Text>
+                        </View>
+                    </View>
+                    <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center',marginTop:10 }}>
+                        <Image source={require('../../assets/images/Washroom.png')} style={{width:20, height:15,marginLeft:15}}></Image>
+                        <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.toilet} Washroom</Text>
                     </View>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
@@ -98,26 +115,26 @@ function ServiceExpandScreen({route,navigation}){
                     {/* <Pressable style={{ marginLeft: 'auto' }}>
                         <Image source={require('../assets/images/Filter.png')} style={{ height: 28, width: 32 }}></Image>
                     </Pressable> */}
-                    <AmenitiesList data={amenitiesList}/>
+                    <AmenitiesList data={item?.amenities}/>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Details</Text>
-                    <ReadMore text={detailsText}/>
+                    <ReadMore text={item?.description}/>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Cancellation Policy</Text>
-                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</Text>
+                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{item?.cancellation_policy}</Text>
                 </View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Refund</Text>
-                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</Text>
+                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{item?.refund_policy}</Text>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
-                <View style={{ padding: 15,marginBottom:20 }}>
+                <View style={{ padding: 15,marginBottom:25 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Location</Text>
-                    {/* <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</Text> */}
+                    <Image source={require('../../assets/images/LocationMap.png')} style={{width:'95%', height:150, borderRadius:3,alignSelf:'center',marginTop:9}}></Image>
                 </View>
             </ScrollView>
             <View style={styles.overlay}>

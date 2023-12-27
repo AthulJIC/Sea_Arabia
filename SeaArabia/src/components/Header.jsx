@@ -53,7 +53,7 @@ function Header({ page }) {
     return (
         <View>
             {
-                page === 'Home' || page === "Activity" ? (
+                page === 'Home' ? (
                     <View style={{ marginLeft: 15, marginTop: 10, flexDirection: 'row' }}>
                         <Image
                             style={{ height: 25, width: 20 }}
@@ -63,25 +63,17 @@ function Header({ page }) {
                         />
                         <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 13, fontFamily: 'Roboto-Regular', marginTop: 2, marginLeft: 5 }}>{weather?.condition?.text} {weather.feelslike_c}°C </Text>
                     </View>
-                ) :
+                ) 
+                :
                     (
-                        <View style={{
-                            backgroundColor: 'rgba(247, 247, 249, 1)',
-                            marginLeft: 10,
-                            marginTop: 5,
-                            width: '7%',
-                            height: 24,
-                            marginBottom: 7,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 25
-                        }}>
-                            <BackIcon></BackIcon>
-                        </View>
+                        <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium',marginLeft:15,marginTop:15}}>Bookings History</Text>
                     )
             }
 
             <View style={{ flexDirection: 'row' }}>
+                {
+                    page === 'Home' && 
+                
                 <View>
                     <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 5 }}>
                         <LocationIcon></LocationIcon>
@@ -89,7 +81,8 @@ function Header({ page }) {
                     </View>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 14, fontFamily: 'Roboto-Regular', marginLeft: 30, marginTop: 2 }}>Exact location name</Text>
                 </View>
-                <View style={{ flexDirection: 'row', marginLeft: 'auto' }}>
+                }
+                <View style={{ flexDirection: 'row', marginLeft: 'auto', bottom : page !== 'Home' ? 25 : 0 }}>
                     {
                         page === 'Home' ? (
                             <Pressable>
@@ -97,16 +90,17 @@ function Header({ page }) {
                             </Pressable>
                         ) : null
                     }
-
-                    <Pressable>
-                        <Image source={require('../assets/images/Notification.png')} style={{ height: 25, width: 20, marginRight: 15, marginTop: 8 }} />
-                    </Pressable>
-                    <Pressable>
-                        <Image source={require('../assets/images/Profile.png')} style={{ height: 30, width: 30, marginRight: 35 }}></Image>
-                        <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 10, fontFamily: 'Roboto-Regular', textAlign: 'left', marginTop: 5, right: 5 }}>Add Profile</Text>
-                    </Pressable>
+                   
+                            <Pressable>
+                                <Image source={require('../assets/images/Notification.png')} style={{ height: 25, width: 20, marginRight: 15, marginTop: 8 }} />
+                            </Pressable>
+                            <Pressable>
+                                <Image source={require('../assets/images/Profile.png')} style={{ height: 30, width: 30, marginRight: 35 }}></Image>
+                                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 10, fontFamily: 'Roboto-Regular', textAlign: 'left', marginTop: 5, right: 5 }}>Add Profile</Text>
+                            </Pressable>
                 </View>
             </View>
+            { page === 'Home' && 
             <View style={{ width: '93%', height: 40, borderColor: 'rgba(0, 0, 0, 0.5)', borderWidth: 0.5, borderRadius: 5, alignSelf: 'center', marginTop: 8, flexDirection: 'row' }}>
                 <SearchIcon></SearchIcon>
                 <TextInput
@@ -118,6 +112,7 @@ function Header({ page }) {
                 <View style={{ borderLeftColor: 'rgba(0, 0, 0, 0.8)', borderLeftWidth: 0.5, height: 25, alignSelf: 'center' }}></View>
                 <MicIcon></MicIcon>
             </View>
+            }
         </View>
     )
 }

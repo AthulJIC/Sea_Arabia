@@ -1,9 +1,11 @@
 import { View,Text, SafeAreaView,ScrollView ,Pressable} from "react-native"
 import Header from "../../components/Header";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Styles from "../../public/Styles";
 import EmptyIcon from "../../assets/icon/EmptyIcon";
 import BestDeals from "../../ui/BestDeals";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 const filterTitle = [
     {
@@ -36,6 +38,23 @@ const filterTitle = [
 function BookingScreen() {
     const [selectedFilter, setSelectedFilter] = useState(filterTitle[0]);
     const [text, setText] = useState('Upcoming');
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //        getComboPackages();
+    //     }, []) 
+    //   );
+    
+
+    // function getComboPackages(){
+    //     CommonApi.getComboPackages().then((res) => {
+    //         // console.log('res====', res.data)
+    //         if(res.status === 200){
+    //             setComboPackages(res.data.results)
+    //         }
+    //     })
+    // }
+
     function handlePress(item){
         // console.log('handlePress', item);
         setSelectedFilter(item);
@@ -57,9 +76,9 @@ function BookingScreen() {
     }
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
-            <Header page='Bookings'/>
+            <Header page='Bookings' title='Booking History'/>
             <ScrollView>
-                <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium',marginLeft:15,marginTop:15}}>Categories</Text>
+                {/* <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium',marginLeft:15,marginTop:15}}>Bookings History</Text> */}
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {filterTitle.map((item, index) => {
                     return (
@@ -91,7 +110,7 @@ function BookingScreen() {
                     <EmptyIcon/>
                 </View>
                 <View style={{backgroundColor:'rgba(245, 245, 245, 1)',height:4,width:'100%',marginTop:5}}></View>
-                <BestDeals/>
+                <BestDeals title='Great Deals'/>
             </ScrollView>
         </SafeAreaView>
     )

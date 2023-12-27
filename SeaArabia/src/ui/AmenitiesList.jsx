@@ -21,7 +21,7 @@ function AmenitiesList({ data }) {
           }}
         >
           <Image
-            source={item.image}
+            source={{ uri : item.image}}
             style={{ width: 50, height: 50 }}
             resizeMode="contain"
           />
