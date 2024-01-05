@@ -7,8 +7,14 @@ export const CommonApi = {
     getBestDeals : async function(params){
         return await AxiosInstance.get('offer/offers/beastdeals?is_enable='+params)
     },
-    getServiceList : async function(params1,params2,params3){
-        return await AxiosInstance.get(`service/service-listapp?type=Service&category=${params1}&is_premium=${params2}&is_recommended=${params3}`)
+    getServiceList : async function(params){
+        return await AxiosInstance.get('service/service-listapp?type=Service&category='+params)
+    },
+    getRecommendedService : async function(params){
+        return await AxiosInstance.get('service/service-listapp?is_recommended=true&type=Service&category='+params)
+    },
+    getPremiumService : async function(params){
+        return await AxiosInstance.get('service/service-listapp?type=Service&is_premium=true&category='+params)
     },
     getActivityList : async function(){
         return await AxiosInstance.get('service/service-listapp?type=Activity')
@@ -25,6 +31,15 @@ export const CommonApi = {
     getCategoryList : async function(){
         return await AxiosInstance.get('service/category-list')
     },
+    getTopSuggestions: async function(){
+        return await AxiosInstance.get('service/top-suggestions');
+    },
+    getIndividualService : async function(params){
+        return await AxiosInstance.get('service/service/'+params+'/')
+    },
+    getExploreMore: async function(){
+        return await AxiosInstance.get('service/explore-more')
+    }
    
 }
 

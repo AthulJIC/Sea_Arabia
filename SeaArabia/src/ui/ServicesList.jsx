@@ -1,60 +1,144 @@
-import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, Image, ActivityIndicator, Alert } from "react-native";
 import CustomFlatList from "../components/CustomFlatlist";
 import RightarrowIcon from "../assets/icon/RightarrowIcon";
 import LocationIcon from "../assets/icon/LocationIcon";
 import GuestIcon from "../assets/icon/GuestIcon";
 import BookmarkInactive from "../assets/icon/BookmarkInactive";
 import StarActiveIcon from "../assets/icon/StartActiveIcon";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useAppContext } from "../context/AppContext";
 import BookMarkActive from "../assets/icon/BookmarkActive";
-import { BookMarkLink } from "../Services/BookMarkService/BookMarkServices";
-import { useEffect, useState } from "react";
+import { BookMarkLink, BookmarkApi } from "../Services/BookMarkService/BookMarkServices";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ServicesList({data,title,page}){
     const navigation = useNavigation();
-    const {updateItem} = useAppContext();
+    const {updateItem,updateList, updateTitle} = useAppContext();
     const [loading,setLoading]=useState(false)
     const [userName,setUserName]=useState('')
-    console.log('item====', data);
+    const [is_BookMarked, setis_BookMarked] = useState(false)
+    const [disable, setDisable] = useState(false)
+    const [bookmarkedItems, setBookmarkedItems] = useState([]);
+    const [ bookmarkId,setBookmarkId]  = useState()
+    const [listData, setListData] = useState();
+    // console.log('item====',listData);
     function serviceHandler(item) {
         // console.log('item====', item);
         navigation.navigate('ServiceExpand');
         updateItem(item)
     }
-    useEffect(()=>{
-        AsyncStorage.getItem('userName')
-        .then(username => {
-          // Do something with the retrieved username
-          let role = username;
-          setUserName(role);
-        })
-        .catch(error => {
-          console.error('Error retrieving username from AsyncStorage:', error);
-        });
-    },[])
-    const BookMarkhandler=(item)=>{
-        // console.log("pressed",item)
-        const data={
-            service:item.id,
+    function serviceListHandler(){
+        navigation.navigate('ServicesListExpand')
+        updateList(data)
+        updateTitle(title)
+    }
+
+
+    useFocusEffect(
+        useCallback(() => {
+        const retrieveUserName = async () => {
+        try {
+            if (data && Array.isArray(data) && data.length > 0) {
+                setListData(data);
+            }
+            const username = await AsyncStorage.getItem('User');
+            // Do something with the retrieved username
+            let role = username;
+            setUserName(role);
+        } catch (error) {
+            console.error('Error retrieving username from AsyncStorage:', error);
         }
-        if(item.is_bookmarked==false)
-        {
-            console.log("pressed",item)
-            BookMarkLink.BookMarkAdd(data)
-            .then(response => {
-                console.log("results BookMark Add", response)
+        };
+
+        retrieveUserName();
+    }, [data])
+    );
+    function guestBookmarkHandler(){
+        Alert.alert('Please Register to add your bookmarks')
+    }
+    // const BookMarkhandler=(item)=>{
+    //     // console.log("pressed",item)
+    //     const data={
+    //         service:item.id,
+    //     }
+    //     if(item.is_bookmarked==false)
+    //     {
+    //         console.log("pressed",item)
+    //         BookmarkApi.addBookmark(data)
+    //         .then(response => {
+    //             console.log("results BookMark Add", response)
+    //         })
+    //         .catch(error => {
+    //             console.error('Error category list data:', error)
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    //     }
+    // }
+    function bookmarkHandler(item) {  
+        console.log('item======',item);         
+        if (item.is_bookmarked === true) {
+            console.log("delete")
+            const id = item.id ;
+            console.log('bookmarId====', id)
+            // setis_BookMarked(true)
+            BookmarkApi.deleteBookMark(id).then((res) => {
+                if (res.status === 200) {
+
+                    console.log('success')
+                    updateItemIsBookmarked(item.id, false);
+                   
+                }
+                // setis_BookMarked(false)
+                // console.log('Book Mark Delete Response:', res);
+                // setOrdersList(res.data.results)
+            }).catch((err) => {
+                console.error('err===', err);
             })
-            .catch(error => {
-                console.error('Error category list data:', error)
+
+        } 
+        else {
+            console.log('add')
+            setis_BookMarked(true)
+            setDisable(true)
+            setBookmarkedItems([...bookmarkedItems, item.id]);
+            updateItemIsBookmarked(item.id, true)
+            //console.log(itemId,bookMarkId)
+            const data = {
+                service: item.id,
+            }
+            // console.log('data====', data)
+            BookmarkApi.addBookMark(data).then((res) => {
+                console.log('res====', res.data);
+                // if (res.status === 200) {
+                //     // console.log('success',)
+                //     // setOrdersList(res.data.results)
+                   
+                // }
+                setis_BookMarked(false)
+                //setDisable(false)
+                //console.log('Received data Book Mark:', res);
+                setBookmarkId(res.id)
+                // setOrdersList(res.data.results)
             })
-            .finally(() => {
-                setLoading(false);
-            });
         }
     }
+    const updateItemIsBookmarked = (itemId, isBookmarked) => {
+        // Create a copy of the ordersList array
+        const updatedOrdersList = [...listData];
+        // Find the index of the item in the array
+        const itemIndex = updatedOrdersList.findIndex(item => item.id === itemId);
+        // If the item is found, update its is_bookmarked property
+        if (itemIndex !== -1) {
+            updatedOrdersList[itemIndex].is_bookmarked = isBookmarked;
+            // Set the updated ordersList
+            setListData(updatedOrdersList);
+        }
+    };
     function renderItem({ item }) {
+        // console.log('List=====', item);
         //  console.log('ServicesList item',item)
         // const firstTwoChars = item.name ? item.name.slice(0, 2) : '';
         const names = item.name?item.name.split(' '):'';
@@ -93,7 +177,7 @@ function ServicesList({data,title,page}){
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontFamily: 'Roboto-Medium', fontSize: 14, textAlign: 'left', marginTop: 6, marginBottom: 5, marginLeft: 10 }}>{item.name}</Text>
                     <View style={{ flexDirection: 'row', marginLeft: 7 }}>
                         <LocationIcon color='rgba(0, 104, 117, 1)' />
-                        <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 12, fontFamily: 'Roboto-Regular' }}> {item.pickup_point}</Text>
+                        <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 12, fontFamily: 'Roboto-Regular' }}> {item.pickup_point_or_location}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
                         <GuestIcon />
@@ -106,7 +190,7 @@ function ServicesList({data,title,page}){
                     { page === 'Acitivity' ? (
                         <View style={{flexDirection:'row',marginLeft:25}}>
                             <Text style={{color:'rgba(121, 121, 128, 1)',fontSize:10,fontFamily:'Roboto-Regular'}}>Starts from</Text>
-                            <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>70 KWD</Text>
+                            <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>{item.price?.price} KWD</Text>
                         </View>
                     ) : (
                     <View>
@@ -123,12 +207,17 @@ function ServicesList({data,title,page}){
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontFamily: 'Roboto-Medium', fontSize: 10, textAlign: 'left', marginLeft: 4, marginTop: 2 }}>4</Text>
                         <StarActiveIcon height={12} width={11} />
                     </View>
-                    {userName==='Guest'?'':
-                    item.is_bookmarked?
-                    <Pressable onPress={()=>BookMarkhandler(item)} style={{marginLeft:'auto',right:25}}>
-                    <BookMarkActive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
+                    {
+                    userName==='Guest'? (
+                        <Pressable onPress={guestBookmarkHandler} style={{marginLeft:'auto',right:25}}>
+                        <BookmarkInactive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
+                     </Pressable>
+                    ):
+                    item.is_bookmarked ?
+                    <Pressable onPress={()=>bookmarkHandler(item)} style={{marginLeft:'auto',right:25}}>
+                    <BookMarkActive/>
                      </Pressable>:
-                         <Pressable onPress={()=>BookMarkhandler(item)} style={{marginLeft:'auto',right:25}}>
+                         <Pressable onPress={()=>bookmarkHandler(item)} style={{marginLeft:'auto',right:25}}>
                          <BookmarkInactive height={19} width={15} color='rgba(255, 255, 255, 2)'/>
                       </Pressable>
                     }
@@ -142,13 +231,13 @@ function ServicesList({data,title,page}){
         <View>
             <View style={{ flexDirection: 'row', padding: 15 }}>
                 <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>{title}</Text>
-                <Pressable style={{ marginLeft: 'auto' }} onPress={() => navigation.navigate('ServicesListExpand', { title: title })} >
+                <Pressable style={{ marginLeft: 'auto' }} onPress={serviceListHandler} >
                     <RightarrowIcon width={9} height={16} />
                 </Pressable>
             </View>
 
             <CustomFlatList
-            data={data}
+            data={listData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
             horizontal={true}

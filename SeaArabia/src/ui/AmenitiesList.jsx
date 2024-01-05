@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import CustomFlatList from "../components/CustomFlatlist";
 
 function AmenitiesList({ data }) {
+  console.log('data====',typeof data);
   const [showAllRows, setShowAllRows] = useState(false);
   const initialRowCount = 6;
 

@@ -4,13 +4,17 @@ import Styles from "../../public/Styles";
 import BookingDetails from "../../ui/BookingDetails";
 import AddCoupon from "../../ui/AddCoupon";
 import PaymentInfo from "../../ui/PaymentInfo";
+import { useNavigation } from "@react-navigation/native";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
-function BookingDetailsScreen({navigation}){
+function BookingDetailsScreen(){
+    const navigation = useNavigation();
+    useBackButtonHandler(navigation, false);
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <ScrollView>
                <View style={{backgroundColor:'rgba(0, 104, 117, 1)', height:176, width:'100%'}}>
-                <Pressable style={[Styles.backIcon,{marginTop:12,}]} onPress={() => navigation.navigate('Home')}>
+                <Pressable style={[Styles.backIcon,{marginTop:12,}]} onPress={() => navigation.goBack()}>
                         <BackIcon color='#1B1E28'></BackIcon>
                 </Pressable>
                  <View style={{margin:20}}>

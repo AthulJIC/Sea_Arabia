@@ -30,57 +30,76 @@ const [lastConnectionChange, setLastConnectionChange] = useState(null);
     // Fetch data
     fetchData();
   };
-  useFocusEffect(
-    useCallback(() => {
-      const getValueFromStorage = async () => {
-        try {
-          const value = await AsyncStorage.getItem('access_token');
-          console.log('value====',value);
-          if (value !== null) {
-            const [header, payload, signature] = value.split('.');
-            const decodedPayload = JSON.parse(atob(payload));
-            console.log('Decoded Payload:', decodedPayload?.user_id);
-            await AsyncStorage.setItem('userId',decodedPayload?.user_id)
-          }
-        } catch (error) {
-          console.error('Error fetching data from AsyncStorage:', error);
-        }
-      };
-      getValueFromStorage();
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const getValueFromStorage = async () => {
+  //       try {
+  //         const value = await AsyncStorage.getItem('access_token');
+  //         console.log('value====',value);
+  //         if (value !== null) {
+  //           const [header, payload, signature] = value.split('.');
+  //           const decodedPayload = JSON.parse(atob(payload));
+  //           console.log('Decoded Payload:', decodedPayload?.user_id);
+  //           await AsyncStorage.setItem('userId',decodedPayload?.user_id)
+  //         }
+  //       } catch (error) {
+  //         console.error('Error fetching data from AsyncStorage:', error);
+  //       }
+  //     };
+  //     getValueFromStorage();
+  //   }, [])
+  // );
   useFocusEffect(
     useCallback(() => {
       fetchData();
     }, [])
   );
 
-  useEffect(() => {
-    const backAction = async () => {
+  // useEffect(() => {
+  //   const backAction = async () => {
       
-      BackHandler.exitApp();
-      return true;
-    };
-    const unsubscribeNetInfo = NetInfo.addEventListener((state) => {
-      console.log("state",state.details)
-      setIsConnected(state.isConnected);
-      setLastConnectionChange(new Date());
-      // Show toast message when connection changes
-      Toast.show({
-        type: state.isConnected ? 'success' : 'error',
-        text1: state.isConnected ? `Connected ${state.type}` : 'No Connection',
-        visibilityTime: 2000,
-      });
-    });
+  //     BackHandler.exitApp();
+  //     return true;
+  //   };
+  //   const unsubscribeNetInfo = NetInfo.addEventListener((state) => {
+  //     console.log("state",state.details)
+  //     setIsConnected(state.isConnected);
+  //     setLastConnectionChange(new Date());
+  //     // Show toast message when connection changes
+  //     Toast.show({
+  //       type: state.isConnected ? 'success' : 'error',
+  //       text1: state.isConnected ? `Connected ${state.type}` : 'No Connection',
+  //       visibilityTime: 2000,
+  //     });
+  //   });
 
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+  //   const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
-    return () => {
-      backHandler.remove();
-      unsubscribeNetInfo();
-    };
-  }, []);
-
+  //   return () => {
+  //     backHandler.remove();
+  //     unsubscribeNetInfo();
+  //   };
+  // }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = async () => {
+        // Your code here before exiting the app
+        // await AsyncStorage.setItem('LastScreen', 'Home');
+        // await AsyncStorage.setItem('isSelected', 'false');
+        BackHandler.exitApp();
+        return true;
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction
+      );
+  
+      return () => {
+        backHandler.remove();
+      };
+    }, [])
+  );
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <Header page="Home" />

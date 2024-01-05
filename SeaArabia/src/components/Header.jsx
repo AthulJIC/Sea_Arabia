@@ -10,9 +10,11 @@ import { getWeatherDataByCoordinates } from "./weather";
 import Geolocation from '@react-native-community/geolocation';
 import { request, PERMISSIONS, check, RESULTS } from 'react-native-permissions';
 import { Linking } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 
 
 function Header({ page }) {
+    const navigation = useNavigation();
     const [searchText, setSearchText] = useState('');
     const [weather, setWeather] = useState('')
     const [location, setLocation] = useState({
@@ -94,8 +96,8 @@ function Header({ page }) {
                             <Pressable>
                                 <Image source={require('../assets/images/Notification.png')} style={{ height: 25, width: 20, marginRight: 15, marginTop: 8 }} />
                             </Pressable>
-                            <Pressable>
-                                <Image source={require('../assets/images/Profile.png')} style={{ height: 30, width: 30, marginRight: 35 }}></Image>
+                            <Pressable onPress={() => navigation.navigate('SignUp')}>
+                                <Image source={require('../assets/images/Profile.png')} style={{ height: 30, width: 30, marginRight: 30 }}></Image>
                                 <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 10, fontFamily: 'Roboto-Regular', textAlign: 'left', marginTop: 5, right: 5 }}>Add Profile</Text>
                             </Pressable>
                 </View>
@@ -109,8 +111,8 @@ function Header({ page }) {
                     onChangeText={(text) => setSearchText(text)}
                     value={searchText}
                     style={{ width: '78%', marginLeft: 5 }}></TextInput>
-                <View style={{ borderLeftColor: 'rgba(0, 0, 0, 0.8)', borderLeftWidth: 0.5, height: 25, alignSelf: 'center' }}></View>
-                <MicIcon></MicIcon>
+                {/* <View style={{ borderLeftColor: 'rgba(0, 0, 0, 0.8)', borderLeftWidth: 0.5, height: 25, alignSelf: 'center' }}></View>
+                <MicIcon></MicIcon> */}
             </View>
             }
         </View>

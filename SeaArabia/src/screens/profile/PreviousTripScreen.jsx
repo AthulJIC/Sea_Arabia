@@ -2,10 +2,12 @@ import { View,Text, SafeAreaView,Pressable, ScrollView } from "react-native";
 import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import ServiceVerticalList from "../../ui/ServiceVerticalList";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 function PreviousTripScreen({navigation, route}){
     const title = route?.params.title;
     console.log('title', title);
+    useBackButtonHandler(navigation, false);
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <ScrollView>

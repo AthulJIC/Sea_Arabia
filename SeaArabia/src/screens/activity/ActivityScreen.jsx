@@ -8,6 +8,7 @@ import { Activity } from "../../Services/Activity/ActivityService";
 import { useFocusEffect } from "@react-navigation/native";
 import { CommonApi } from "../../Services/common/CommonApi";
 import { HomeApi } from "../../Services/HomeServices/HomeService";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 
 
@@ -87,6 +88,8 @@ function ActivityScreen({navigation}) {
     const [topActivity, setTopActivity] =useState();
     const [categoryList, setCategoryList] = useState();
     console.log('categoryList====', categoryList);
+
+    useBackButtonHandler(navigation, false);
    
     useFocusEffect(
         useCallback(() => {

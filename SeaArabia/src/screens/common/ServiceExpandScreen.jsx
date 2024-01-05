@@ -9,87 +9,135 @@ import AmenitiesList from "../../ui/AmenitiesList";
 import ReadMore from "../../ui/ReadMore";
 import { useAppContext } from "../../context/AppContext";
 import CarouselList from "../../components/CarouselList";
-
-const amenitiesList = [
-    {
-        id : 1,
-        image: require('../../assets/images/Bedrooms.png'),
-        name: 'Bedrooms'
-    },
-    {
-        id : 2,
-        image: require('../../assets/images/AC.png'),
-        name: 'AC'
-    },
-    {
-        id : 3,
-        image: require('../../assets/images/Icebox.png'),
-        name: 'Icebox'
-    },
-    {
-        id : 4,
-        image: require('../../assets/images/Bbq.png'),
-        name: 'BBQ'
-    },
-    {
-        id : 5,
-        image: require('../../assets/images/BeachChair.png'),
-        name: 'Beach Chair'
-    },
-    {
-        id : 6,
-        image: require('../../assets/images/CoffeeMachine.png'),
-        name: 'Coffee Machine'
-    },
-    {
-        id : 7,
-        image: require('../../assets/images/Coffeeshop.png'),
-        name: 'Coffeeshop'
-    },
-    {
-        id : 8,
-        image: require('../../assets/images/FishingTool.png'),
-        name: 'Fishing Tool'
-    },
-    {
-        id : 9,
-        image: require('../../assets/images/Fridge.png'),
-        name: 'Fridge'
-    },
-    {
-        id : 10,
-        image: require('../../assets/images/Guide.png'),
-        name: 'Guide'
-    },
-]
-
-const detailsText = "A brand-new 112m yacht, Spectre is a temple of leisure, a sanctum of tranquillity, conceived to delight an unprecedented 36 guests on a hither-to unknown scale.  From her vast beach club, open on three sides for that life-affirming connection to the ocean, to her matchless spa, an entire deck devoted to fitness, wellness and pampering, this is a yacht that elevates the already extraordinary. Whether you land by air on the foredeck helipad or by sea in a fleet of custom tenders, you’ll know you’ve arrived. Her guest accommodation is uniquely flexible, including doubles, twins and cabins that convert into suites, welcoming parties of all kinds with consummate ease. An elevator serving all decks makes her the perfect choice – indeed the only choice – for large, multi-generational groups. "
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useState } from "react";
+import { CommonApi } from "../../Services/common/CommonApi";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 
-function ServiceExpandScreen({navigation}){
-   const { item } = useAppContext();
-    console.log('useAppContext======', item);
+// const amenitiesList = [
+//     {
+//         id : 1,
+//         image: require('../../assets/images/Bedrooms.png'),
+//         name: 'Bedrooms'
+//     },
+//     {
+//         id : 2,
+//         image: require('../../assets/images/AC.png'),
+//         name: 'AC'
+//     },
+//     {
+//         id : 3,
+//         image: require('../../assets/images/Icebox.png'),
+//         name: 'Icebox'
+//     },
+//     {
+//         id : 4,
+//         image: require('../../assets/images/Bbq.png'),
+//         name: 'BBQ'
+//     },
+//     {
+//         id : 5,
+//         image: require('../../assets/images/BeachChair.png'),
+//         name: 'Beach Chair'
+//     },
+//     {
+//         id : 6,
+//         image: require('../../assets/images/CoffeeMachine.png'),
+//         name: 'Coffee Machine'
+//     },
+//     {
+//         id : 7,
+//         image: require('../../assets/images/Coffeeshop.png'),
+//         name: 'Coffeeshop'
+//     },
+//     {
+//         id : 8,
+//         image: require('../../assets/images/FishingTool.png'),
+//         name: 'Fishing Tool'
+//     },
+//     {
+//         id : 9,
+//         image: require('../../assets/images/Fridge.png'),
+//         name: 'Fridge'
+//     },
+//     {
+//         id : 10,
+//         image: require('../../assets/images/Guide.png'),
+//         name: 'Guide'
+//     },
+// ]
 
+// const detailsText = "A brand-new 112m yacht, Spectre is a temple of leisure, a sanctum of tranquillity, conceived to delight an unprecedented 36 guests on a hither-to unknown scale.  From her vast beach club, open on three sides for that life-affirming connection to the ocean, to her matchless spa, an entire deck devoted to fitness, wellness and pampering, this is a yacht that elevates the already extraordinary. Whether you land by air on the foredeck helipad or by sea in a fleet of custom tenders, you’ll know you’ve arrived. Her guest accommodation is uniquely flexible, including doubles, twins and cabins that convert into suites, welcoming parties of all kinds with consummate ease. An elevator serving all decks makes her the perfect choice – indeed the only choice – for large, multi-generational groups. "
+
+
+function ServiceExpandScreen(){
+   const { item , updateItem } = useAppContext();
+   const navigation = useNavigation();
+   const [service, setService] = useState();
+    console.log('useAppContext======', item.id);
+
+    useBackButtonHandler(navigation, false);
+
+    useFocusEffect(
+        useCallback(() => {
+            getServiceView();
+        }, []) 
+    )
+    function getServiceView() {
+        CommonApi.getIndividualService(item.id).then((res) => {
+            console.log('service====', res.data);
+            if(res.status === 200){
+                setService(res.data);
+            }
+        })
+        
+    }
     function proceedHandler(){
         navigation.navigate('ServiceDate')
+        updateItem(service)
     }
-    const serviceImages = item?.service_image || [];
+    const serviceImages = service?.service_image || [];
+    const amenitiesList = service?.amenities || [];
+    const description = service?.description;
+    const lowestPriceService = service?.service_price_service.reduce((lowest, current) => {
+        if (current.price < lowest.price) {
+          return current;
+        }
+        return lowest;
+      }, service?.service_price_service[0]);
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>  
             <ScrollView style={{marginBottom:20}}>
                 {/* <Image source={item?.image} style={{height:250, width:'auto'}} resizeMode='stretch'></Image> */}
                 <CarouselList data={serviceImages}/>
-                <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{item?.name}</Text>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:16,fontFamily:'Roboto-Medium', marginTop:15,marginLeft:20}}>{service?.name}</Text>
+                    {
+                        service?.service_price_service.length > 1 ?
+                        (
+                            <View style={{flexDirection:'row', marginLeft:'auto',right:20, marginTop:15,marginBottom:10}}>
+                                <Text style={{color:'rgba(121, 121, 128, 1)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:2}}>Starts from </Text>
+                                <Text style={{color:'rgba(0, 104, 117, 1)', fontSize:14, fontFamily:'Roboto-Medium'}}>{lowestPriceService?.price} KWD</Text>
+                            </View>
+                        ) 
+                        : (
+                            <View style={{flexDirection:'row', marginLeft:'auto',right:20, marginTop:15,marginBottom:10}}>
+                                <Text style={{color:'rgba(0, 104, 117, 1)', fontSize:14, fontFamily:'Roboto-Medium'}}>{service?.service_price_service[0]?.price} KWD</Text>
+                            </View>
+                        )
+                    }
+                </View>
                 <View style={{flexDirection:'row',marginLeft:18,marginTop:10}}>
                     <LocationIcon color='rgba(0, 0, 0, 0.8)'/>
-                    <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> {item?.pickup_point}</Text>
+                    <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> {service?.pickup_point_or_location}</Text>
                 </View>
                 <View style={{flexDirection:'row',marginBottom:15}}>
                     <Rating/>
-                    <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:11,fontFamily:'Roboto-Regular',marginLeft:'auto',bottom:27,textAlign:'right',left:55}}>Capacity</Text>
+                    <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:11,fontFamily:'Roboto-Regular',marginLeft:'auto',bottom:20,textAlign:'right',left:55}}>Capacity</Text>
                     <View style={{right:20,flexDirection:'row'}}>
                         <GuestIcon/>
-                        <Text style={{color:'rgba(0, 0, 0, 1)', fontSize:14,fontFamily:'Roboto-Regular',bottom:2,left:2}}>{item?.capacity} People</Text>
+                        <Text style={{color:'rgba(0, 0, 0, 1)', fontSize:14,fontFamily:'Roboto-Regular',bottom:2,left:2}}>{service?.capacity} People</Text>
                     </View>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
@@ -97,16 +145,16 @@ function ServiceExpandScreen({navigation}){
                     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                         <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center' }}>
                             <Image source={require('../../assets/images/Bedrooms1.png')} style={{width:20, height:15,marginLeft:15}}></Image>
-                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.bedroom} Bedroom</Text>
+                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{service?.bedroom} Bedroom</Text>
                         </View>
                         <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center' }}>
                             <Image source={require('../../assets/images/Lounge.png')} style={{width:20, height:15,marginLeft:15}}></Image>
-                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.lounge} Lounge</Text>
+                            <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{service?.lounge} Lounge</Text>
                         </View>
                     </View>
                     <View style={{flexDirection:'row', width:160, height:36, backgroundColor:'rgba(248, 248, 248, 1)',borderRadius:5,alignItems:'center',marginTop:10 }}>
                         <Image source={require('../../assets/images/Washroom.png')} style={{width:20, height:15,marginLeft:15}}></Image>
-                        <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{item?.toilet} Washroom</Text>
+                        <Text style={{fontSize:14, color:'rgba(0, 0, 0, 1)', fontFamily:'Roboto-Regular',marginLeft:15}}>{service?.toilet} Washroom</Text>
                     </View>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
@@ -115,21 +163,21 @@ function ServiceExpandScreen({navigation}){
                     {/* <Pressable style={{ marginLeft: 'auto' }}>
                         <Image source={require('../assets/images/Filter.png')} style={{ height: 28, width: 32 }}></Image>
                     </Pressable> */}
-                    <AmenitiesList data={item?.amenities}/>
+                    <AmenitiesList data={amenitiesList}/>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Details</Text>
-                    <ReadMore text={item?.description}/>
+                    <ReadMore text={description}/>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Cancellation Policy</Text>
-                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{item?.cancellation_policy}</Text>
+                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{service?.cancellation_policy}</Text>
                 </View>
                 <View style={{ padding: 15 }}>
                     <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium' }}>Refund</Text>
-                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{item?.refund_policy}</Text>
+                    <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:12, fontFamily:'Roboto-Regular',marginTop:10}}>{service?.refund_policy}</Text>
                 </View>
                 <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
                 <View style={{ padding: 15,marginBottom:25 }}>
@@ -139,7 +187,7 @@ function ServiceExpandScreen({navigation}){
             </ScrollView>
             <View style={styles.overlay}>
                 <View style={{flexDirection:'row',marginTop:Platform.OS === 'ios' ? 30 : 10}}>
-                    <Pressable style={[Styles.backIcon,{width:'10%',height:37}]} onPress={() => navigation.navigate('Home')}>
+                    <Pressable style={[Styles.backIcon,{width:'10%',height:37}]} onPress={() => navigation.goBack()}>
                         <BackIcon color='#1B1E28'></BackIcon>
                     </Pressable>
                     <Pressable style={{marginLeft:'auto',right:20}}>

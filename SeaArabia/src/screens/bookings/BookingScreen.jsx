@@ -4,7 +4,8 @@ import { useCallback, useState } from "react";
 import Styles from "../../public/Styles";
 import EmptyIcon from "../../assets/icon/EmptyIcon";
 import BestDeals from "../../ui/BestDeals";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 
 const filterTitle = [
@@ -36,8 +37,11 @@ const filterTitle = [
   ];
 
 function BookingScreen() {
+    const navigation = useNavigation();
     const [selectedFilter, setSelectedFilter] = useState(filterTitle[0]);
     const [text, setText] = useState('Upcoming');
+
+    useBackButtonHandler(navigation, false);
 
     // useFocusEffect(
     //     useCallback(() => {

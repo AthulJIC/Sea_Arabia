@@ -3,11 +3,14 @@ import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import { useState } from "react";
 import CustomTextInput from "../../components/CustomTextInput";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 function ResetPassword({navigation}){
     
     const[password,setPassword] = useState('');
     const[confirmPassword,setConfirmPassword] = useState('');
+
+    useBackButtonHandler(navigation, false);
     
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>

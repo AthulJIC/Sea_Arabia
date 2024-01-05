@@ -3,6 +3,7 @@ import ServicesList from "./ServicesList";
 import { HomeApi } from "../Services/HomeServices/HomeService";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CommonApi } from "../Services/common/CommonApi";
 
 // const data=[
 //     {
@@ -50,13 +51,15 @@ function TopSuggestions(){
     console.log(userName)
     useEffect(() => {
         setLoading(true)
-        HomeApi.TopSuggestionList()
+        CommonApi.getTopSuggestions()
             .then(response => {
               
                 setData(response.data.results);
+                setLoading(false);
             })
             .catch(error => {
                 console.error('Error category list data:', error)
+                setLoading(false);
             })
             .finally(() => {
                 setLoading(false);

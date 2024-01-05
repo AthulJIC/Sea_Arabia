@@ -4,31 +4,36 @@ import { View,Text ,Pressable,Platform,Modal,TouchableWithoutFeedback,StyleSheet
 import DateIcon from '../assets/icon/DateIcon';
 import moment from 'moment';
 
-function CustomDatePicker() {
+function CustomDatePicker({onValueChange, onDateError}) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDateText, setSelectedDateText] = useState('Select Date');
-
+  console.log('selectedDateText=======', selectedDateText);
   const onChange = (selectedDate) => {
     //setShowDatePicker(Platform.OS === 'ios'); // Close the picker for iOS after selecting
     if (selectedDate) {
-      setDate(selectedDate); 
+      const currentDate = selectedDate || date
+      setDate(currentDate); 
+      setSelectedDateText(moment(currentDate).format('DD-MM-YYYY'));
+      
     }
     //setShowDatePicker(false);
   };
   function onConfirmHandler(){
-    setSelectedDateText(moment(date).format('DD-MM-YYYY'));
     setShowDatePicker(false);
+    onValueChange(selectedDateText)
   }
   function onCancelHandler(){
     setSelectedDateText(selectedDateText);
     setShowDatePicker(false);
   }
   const showDatepicker = () => {
+    onDateError(false)
     setShowDatePicker(true);
   };
   const hideDatePicker = () => {
     setShowDatePicker(false);
+
   };
   return (
     <View>

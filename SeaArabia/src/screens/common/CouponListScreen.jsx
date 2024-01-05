@@ -3,6 +3,7 @@ import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import CustomFlatList from "../../components/CustomFlatlist";
 import { useState } from "react";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 const data=[
     {
@@ -44,6 +45,8 @@ const data=[
 
 function CouponListScreen(){
     const [selectedOption, setSelectedOption] = useState(null);
+
+    useBackButtonHandler(navigation, false);
 
     const handleOptionSelection = (option) => {
         setSelectedOption(option.id);

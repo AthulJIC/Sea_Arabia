@@ -12,50 +12,61 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LoginApi } from "../../Services/Login/login";
 import Modal from 'react-native-modal';
 import EditUserIcon from "../../assets/icon/EditUserIcon";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 function ProfileScreen({ navigation }) {
     const [refresh_token, setRefreshToken] = useState('')
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
-    const [userId, setUserId] = useState()
+    const [userId, setUserId] = useState();
+    const [userName,setUserName]=useState('')
     const data = [
-        {
-            id: userId ? 1 : 0,
-            title: userId ? 'Edit User' : 'Sign up',
-            icon: userId ? <EditUserIcon/> : <ProfileInactiveIcon />,
-            navigation: userId ? () => navigation.navigate('EditUser') : () => navigation.navigate('SignUp')
-        },
+        userName === 'Guest'
+            ? {
+                  id: 1,
+                  title: 'Sign up',
+                  icon: <ProfileInactiveIcon />,
+                  navigation: () => navigation.navigate('SignUp'),
+              }
+            : {
+                  id: 1,
+                  title: 'Edit User',
+                  icon: <EditUserIcon />,
+                  navigation: () => navigation.navigate('EditUser'),
+              },
         {
             id: 2,
             title: 'Bookmarked',
             icon: <BookmarkInactive height={16} width={15} color='rgba(125, 132, 141, 1)' />,
-            navigation: () => navigation.navigate('BookMark',{title:'Bookmarked'})
+            navigation: () => navigation.navigate('BookMark', { title: 'Bookmarked' }),
         },
         {
             id: 3,
             title: 'Previous Trips',
             icon: <TripsIcon />,
-            navigation: () => navigation.navigate('PreviousTrip',{title:'Previous Trips'})
+            navigation: () => navigation.navigate('PreviousTrip', { title: 'Previous Trips' }),
         },
         {
             id: 4,
             title: 'Settings',
             icon: <SettingsIcon />,
-            navigation: () => navigation.navigate('Settings',{title:'Settings'})
+            navigation: () => navigation.navigate('Settings', { title: 'Settings' }),
         },
         {
             id: 5,
             title: 'About',
             icon: <AboutIcon />,
-            navigation: () => navigation.navigate('About',{title:'About'})
+            navigation: () => navigation.navigate('About', { title: 'About' }),
         },
-        {
-            id: 6,
-            title: 'Logout',
-            icon: <LogoutIcon />,
-            navigation: () => setLogoutModalVisible(true),
-            // navigation: () => navigation.navigate('SignUp')
+        userName !== 'Guest'
+            ? {
+                  id: 6,
+                  title: 'Logout',
+                  icon: <LogoutIcon />,
+                  navigation: () => setLogoutModalVisible(true),
+              }
+            : null,
+    ].filter(Boolean);
 
-        },
-    ]
+    useBackButtonHandler(navigation, false);
     useFocusEffect(
         useCallback(() => {
             const getValueFromStorage = async () => {
@@ -70,6 +81,9 @@ function ProfileScreen({ navigation }) {
                     //   }
                     let newRefreshToken = refresh;
                     setRefreshToken(newRefreshToken);
+                    const username = await AsyncStorage.getItem('User');
+                    let role = username;
+                    setUserName(role);
                 } catch (error) {
                     console.error('Error fetching data from AsyncStorage:', error);
                     //   setIsLoading(false);
@@ -87,17 +101,18 @@ function ProfileScreen({ navigation }) {
             setLogoutModalVisible(false)
             await AsyncStorage.removeItem('access_token')
             await AsyncStorage.removeItem('refresh_token')
-            navigation.navigate('User')
+            navigation.navigate('SignIn')
             console.log('loged out')
         }
         else{
             try {
+                setLogoutModalVisible(false)
                 const res = await LoginApi.userLogOut(refresh);
                 if (res.status === 200) {
                     console.log('loged out')
                     await AsyncStorage.removeItem('access_token')
                     await AsyncStorage.removeItem('refresh_token')
-                    navigation.navigate('User')
+                    navigation.navigate('SignIn')
                 }
             } catch (error) {
                 console.error('Error LogOut:', error);

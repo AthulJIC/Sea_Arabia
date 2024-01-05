@@ -3,10 +3,12 @@ import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import { useState } from "react";
 import CustomTextInput from "../../components/CustomTextInput";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 function EmailVerification({navigation}){
     
     const[email,setEmail] = useState('')
+    useBackButtonHandler(navigation, false);
     
     return(
         <SafeAreaView style={{flex:1,backgroundColor:'white'}}>

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Styles from '../public/Styles';
 
 
-function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inputHeader,isPassword, width }){
+function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inputHeader,isPassword, width,keyboardType ,maxLength, onFocus}){
     const [showPassword, setShowPassword] = useState(isPassword);
 
     const togglePasswordVisibility = () => {
@@ -20,6 +20,9 @@ function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inp
           value={value}
           secureTextEntry={secureTextEntry && !showPassword}
           placeholderTextColor='rgba(27, 30, 40, 0.3)'
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          onFocus={onFocus}
         />
         {isPassword && (
         <TouchableOpacity

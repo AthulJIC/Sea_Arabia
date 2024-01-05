@@ -43,29 +43,29 @@ import { CommonApi } from "../Services/common/CommonApi";
 //     }
 // ]
 
-function CategoryList({title, id, premium,recommended}){
-    console.log('id====premium', id,premium,recommended);
+function CategoryList({title, data}){
+    console.log('id====premium', data);
     const [serviceList, setServiceList] = useState()
     
-    useFocusEffect(
-        useCallback(() => {
-           getServiceList();
-        }, []) 
-      );
+    // useFocusEffect(
+    //     useCallback(() => {
+    //        getServiceList();
+    //     }, []) 
+    //   );
     
 
-    function getServiceList(){
-        CommonApi.getServiceList(id,premium,recommended).then((res) => {
-            console.log('res====', res.data.results)
-            if(res.status === 200){
-                setServiceList(res.data.results)
-            }
-        })
-    }
+    // function getServiceList(){
+    //     CommonApi.getServiceList(id,premium,recommended).then((res) => {
+    //         console.log('res====', res.data.results)
+    //         if(res.status === 200){
+    //             setServiceList(res.data.results)
+    //         }
+    //     })
+    // }
 
     return(
         <View>
-            <ServicesList data={serviceList} title={title}/>
+            <ServicesList data={data} title={title}/>
         </View>
     )
 }

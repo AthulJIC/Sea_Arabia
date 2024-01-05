@@ -1,7 +1,9 @@
 import { View,Text,Pressable } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 function PaymentSuccessScreen({navigation}){
+    useBackButtonHandler(navigation, false);
     return(
         <>
             <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>

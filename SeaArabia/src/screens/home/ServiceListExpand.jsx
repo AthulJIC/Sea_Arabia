@@ -7,14 +7,28 @@ import RightarrowIcon from "../../assets/icon/RightarrowIcon";
 import BestDeals from "../../ui/BestDeals";
 import ServiceVerticalList from "../../ui/ServiceVerticalList";
 import CouponCode from "../../ui/CouponCode";
+import { useAppContext } from "../../context/AppContext";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 
-function ServicesListExpand({route, navigation}){
-    const title = route?.params.title;
+function ServicesListExpand(){
+    const navigation = useNavigation();
+    const routePage = useRoute();
+    const routeName = routePage.name;
+    console.log('routeName=====',routeName);
+    const {title, list} = useAppContext();
+
+    useBackButtonHandler(navigation, false);
+    
+    const navigateToRoute = () => {
+        navigation.goBack();
+    };
+
     return(
         <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <View style={{flexDirection:'row'}}>
-                <Pressable style={[Styles.backIcon,{marginTop:15,}]} onPress={() => navigation.navigate('Home')}>
+                <Pressable style={[Styles.backIcon,{marginTop:15,}]} onPress={() => navigateToRoute(routeName)}>
                     <BackIcon color='#1B1E28'></BackIcon>
                 </Pressable>
                 <Text style={{marginTop:30,marginLeft:15, fontSize:14, color:'rgba(25, 28, 29, 0.8)', fontFamily:'Roboto-Medium'}}>{title}</Text>
@@ -34,7 +48,7 @@ function ServicesListExpand({route, navigation}){
             <ScrollView>
                 <CouponCode/>
                 <BestDeals title='Offers'/>
-                <ServiceVerticalList title='See all Explore more'/>
+                <ServiceVerticalList title='See all Explore more' data={list}/>
             </ScrollView>
         </SafeAreaView>
     )

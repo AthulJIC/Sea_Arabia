@@ -82,6 +82,12 @@ android {
         versionName "1.0"
     }
     signingConfigs {
+         release{
+            storeFile file('seaarabia.keystore') // Path to your keystore file
+            storePassword 'Sea@2024'
+            keyAlias 'my-key-alias'
+            keyPassword 'Sea@2024'
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -90,16 +96,20 @@ android {
         }
     }
     buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            // Other configurations like minifyEnabled, proguardFiles, etc.
+        }
         debug {
             signingConfig signingConfigs.debug
         }
-        release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
+        // release {
+        //     // Caution! In production, you need to generate your own keystore file.
+        //     // see https://reactnative.dev/docs/signed-apk-android.
+        //     signingConfig signingConfigs.debug
+        //     minifyEnabled enableProguardInReleaseBuilds
+        //     proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        // }
     }
 }
 

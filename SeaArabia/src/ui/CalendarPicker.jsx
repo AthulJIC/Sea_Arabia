@@ -26,19 +26,70 @@ LocaleConfig.locales['en'] = {
 
 LocaleConfig.defaultLocale = 'en';
 
-function CalendarPicker(){
+function CalendarPicker({onValueChange}){
     const [selected, setSelected] = useState('');
+    console.log('selected====', selected);
 
     return(
         <View style={{backgroundColor:'rgba(247, 247, 249, 1)', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 2,elevation:2,marginTop:15,borderRadius:5}}>
           <Calendar
             onDayPress={day => {
               setSelected(day.dateString);
+              onValueChange(day.dateString)
             }}
             markedDates={{
-              [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+              [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange', selectedColor:'rgba(0, 104, 117, 1)'}
             }}
-            theme={theme}
+            theme={{
+              'stylesheet.calendar.header': {
+                dayTextAtIndex0: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex1: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex2: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex3: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex4: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex5: {
+                  color: 'rgba(0, 104, 117, 1)'
+                },
+                dayTextAtIndex6: {
+                  color: 'rgba(0, 104, 117, 1)'
+                }
+              },
+              backgroundColor: '#ffffff',
+              calendarBackground: '#ffffff',
+              textSectionTitleColor: '#b6c1cd',
+              textSectionTitleDisabledColor: '#d9e1e8',
+              selectedDayBackgroundColor: '#00adf5',
+              selectedDayTextColor: '#ffffff',
+              todayTextColor: 'black',
+              todayBackgroundColor:'rgba(0, 104, 117, 0.2)',
+              dayTextColor: 'black',
+              textDisabledColor: '#d9e1e8',
+              dotColor: '#00adf5',
+              selectedDotColor: '#ffffff',
+              arrowColor: 'rgba(0, 104, 117, 1)',
+              disabledArrowColor: '#d9e1e8',
+              monthTextColor: 'rgba(51, 51, 51, 1)',
+              indicatorColor: 'blue',
+              textDayFontFamily: 'Roboto-Regular',
+              textMonthFontFamily: 'Roboto-Regular',
+              textDayHeaderFontFamily: 'Roboto-Regular',
+              textDayFontWeight: '300',
+              textMonthFontWeight: 'bold',
+              textDayHeaderFontWeight: '300',
+              textDayFontSize: 16,
+              textMonthFontSize: 16,
+              textDayHeaderFontSize: 16
+            }}
           />
         </View>
     )
@@ -54,16 +105,16 @@ const theme = {
       }
     }
   },
-  // 'stylesheet.day.basic': {
-  //   today: {
-  //     borderColor: '#48BFE3',
-  //     borderWidth: 0.8
-  //   },
-  //   todayText: {
-  //     color: '#5390D9',
-  //     fontWeight: '800'
-  //   }
-  // }
+  'stylesheet.day.basic': {
+    today: {
+      borderColor: '#48BFE3',
+      borderWidth: 0.8
+    },
+    todayText: {
+      color: 'rgba(0, 104, 117, 1)',
+      fontWeight: '800'
+    }
+  }
 };
 
 export default CalendarPicker;

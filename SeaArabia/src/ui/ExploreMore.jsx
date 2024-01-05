@@ -2,6 +2,7 @@ import { View,Text, ActivityIndicator } from "react-native"
 import ServicesList from "./ServicesList";
 import { HomeApi } from "../Services/HomeServices/HomeService";
 import { useEffect, useState } from "react";
+import { CommonApi } from "../Services/common/CommonApi";
 
 // const data=[
 //     {
@@ -42,9 +43,9 @@ function ExploreMore(){
     const [loading,setLoading]=useState(false)
     useEffect(() => {
         setLoading(true)
-        HomeApi.ExploreMoreList()
+        CommonApi.getExploreMore()
             .then(response => {
-                // console.log("results ExploreMoreList", response.data.results)
+                console.log("results ExploreMoreList", response.data.results)
                 setData(response.data.results);
             })
             .catch(error => {

@@ -1,23 +1,18 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import React from 'react';
+import { View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 
-function BookMarkActive(props) {
+const BookMarkActive = () => {
   return (
-    <Svg
-      width={20}
-      height={20}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <Path fill="#fff" d="M0 0H20V20H0z" />
-      <Path
-        d="M14.167 2.5H5.833c-.916 0-1.658.75-1.658 1.667L4.167 17.5 10 15l5.833 2.5V4.167c0-.917-.75-1.667-1.666-1.667z"
-        fill="#006875"
-      />
-    </Svg>
-  )
-}
+    <View>
+      <Svg width={12} height={16} viewBox="0 0 12 16" fill="none">
+        <Path
+          d="M10.1667 0.5H1.83341C0.916748 0.5 0.175082 1.25 0.175082 2.16667L0.166748 15.5L6.00008 13L11.8334 15.5V2.16667C11.8334 1.25 11.0834 0.5 10.1667 0.5Z"
+          fill="#006875"
+        />
+      </Svg>
+    </View>
+  );
+};
 
-export default BookMarkActive
+export default BookMarkActive;

@@ -3,10 +3,13 @@ import OTPTextInput from 'react-native-otp-textinput';
 import BackIcon from '../../assets/icon/BackIcon';
 import Styles from '../../public/Styles';
 import { useState } from 'react';
+import useBackButtonHandler from '../../components/BackHandlerUtils';
 
 
 function OtpVerification({navigation}){
     const [otp, setOtp] = useState('');
+
+    useBackButtonHandler(navigation, false);
 
     const handleTextChange = (text) => {
       // Handle changes in the entire OTP input
