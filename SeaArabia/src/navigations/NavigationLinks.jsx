@@ -35,6 +35,7 @@ import CouponListScreen from '../screens/common/CouponListScreen';
 import PaymentSuccessScreen from '../screens/success/PaymentSuccessScreen';
 import { navigationRef } from '../providers/RootNavigator';
 import ReviewScreen from '../screens/bookings/ReviewScreen';
+import CancelReviewScreen from '../screens/bookings/CancelReviewScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -130,6 +131,7 @@ function NavigationLinks() {
           <Stack.Screen name='CouponList' component={CouponListScreen} options={{headerShown:false}}/>
           <Stack.Screen name='PaymentSuccess' component={PaymentSuccessScreen} options={{headerShown:false}}/>
           <Stack.Screen name='ReviewScreen' component={ReviewScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='CancelReviewScreen' component={CancelReviewScreen} options={{headerShown:false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

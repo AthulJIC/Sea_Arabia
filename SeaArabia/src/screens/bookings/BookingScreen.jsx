@@ -131,8 +131,8 @@ function BookingScreen() {
                                     <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
                                     <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
                                 </View>
-                                <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('BookingDetails')}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Upcoming </Text>
+                                <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('CancelReviewScreen')}>
+                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Cancel </Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -267,7 +267,7 @@ function BookingScreen() {
                                     <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
                                     <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
                                 </View>
-                                <Pressable style={{ backgroundColor: 'rgba(255, 218, 214, 1)', borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('BookingDetails')}>
+                                <Pressable style={{ backgroundColor: 'rgba(255, 218, 214, 1)', borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }}>
                                     <Text style={{ color: 'rgba(0, 0, 0, 0.7)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Check Out </Text>
                                 </Pressable>
                             </View>

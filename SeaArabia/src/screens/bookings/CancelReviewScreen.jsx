@@ -3,10 +3,8 @@ import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableHighl
 import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import useBackButtonHandler from "../../components/BackHandlerUtils";
-import RaviewRating from "../../ui/Raview_Rating";
 
-
-function ReviewScreen({ navigation, route }) {
+function CancelReviewScreen({ navigation, route }) {
     useBackButtonHandler(navigation, false);
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -19,7 +17,6 @@ function ReviewScreen({ navigation, route }) {
                 <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.8)', width: '100%', alignSelf: 'center', marginTop: 17 }}>
                     <Image source={require('../../assets/images/review-1.png')} style={styles.image} resizeMode='cover'></Image>
                     <Text style={styles.ImgTxt}>"Your experience fuels our flight!"</Text>
-                    <RaviewRating />
                 </View>
                 <Text style={{ alignSelf: 'center', marginTop: 30, fontSize: 18, color: 'rgba(0, 104, 117, 1)', fontWeight: '500', lineHeight: 16 }}>"Your experience fuels our flight!"</Text>
                 <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
@@ -137,4 +134,4 @@ const styles = StyleSheet.create({
         color: "#fff", // Set text color to white when selected
     },
 })
-export default ReviewScreen;
+export default CancelReviewScreen;
