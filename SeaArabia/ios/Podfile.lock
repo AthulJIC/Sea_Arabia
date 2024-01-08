@@ -389,13 +389,13 @@ PODS:
   - React-jsinspector (0.72.7)
   - React-logger (0.72.7):
     - glog
-  - react-native-date-picker (4.3.3):
+  - react-native-date-picker (4.3.5):
     - React-Core
   - react-native-geolocation (3.1.0):
     - React-Core
-  - react-native-netinfo (11.2.0):
+  - react-native-netinfo (11.2.1):
     - React-Core
-  - react-native-safe-area-context (4.7.4):
+  - react-native-safe-area-context (4.8.2):
     - React-Core
   - React-NativeModulesApple (0.72.7):
     - hermes-engine
@@ -509,7 +509,7 @@ PODS:
     - React-perflogger (= 0.72.7)
   - RNCAsyncStorage (1.21.0):
     - React-Core
-  - RNCClipboard (1.13.0):
+  - RNCClipboard (1.13.2):
     - React-Core
   - RNCPicker (2.6.1):
     - React-Core
@@ -523,12 +523,12 @@ PODS:
     - React-Core
   - RNPermissions (3.10.1):
     - React-Core
-  - RNScreens (3.27.0):
+  - RNScreens (3.29.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSVG (14.1.0):
     - React-Core
-  - RNVectorIcons (10.0.2):
+  - RNVectorIcons (10.0.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - SocketRocket (0.6.1)
@@ -783,10 +783,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c49502e5d02112247ee4526bc3ccfc891ae3eb9b
   React-jsinspector: 8baadae51f01d867c3921213a25ab78ab4fbcd91
   React-logger: 8edc785c47c8686c7962199a307015e2ce9a0e4f
-  react-native-date-picker: 1d61c76315098a6ad4c643a356f005916c7d4875
+  react-native-date-picker: 90d1d60802a20085125657940b944f2bb4e5c113
   react-native-geolocation: ef66fb798d96284c6043f0b16c15d9d1d4955db4
-  react-native-netinfo: 25c87e28495d955b30aeca9c22594691668c907a
-  react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
+  react-native-netinfo: 8a7fd3f7130ef4ad2fb4276d5c9f8d3f28d2df3d
+  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   React-NativeModulesApple: b6868ee904013a7923128892ee4a032498a1024a
   React-perflogger: 31ea61077185eb1428baf60c0db6e2886f141a5a
   React-RCTActionSheet: 392090a3abc8992eb269ef0eaa561750588fc39d
@@ -805,15 +805,15 @@ SPEC CHECKSUMS:
   React-utils: 56838edeaaf651220d1e53cd0b8934fb8ce68415
   ReactCommon: 5f704096ccf7733b390f59043b6fa9cc180ee4f6
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
-  RNCClipboard: 204b94473a99932e314b730a81363e0bf795a60d
+  RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
   RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
   RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
-  RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
+  RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
-  RNVectorIcons: 23b6e11af4aaf104d169b1b0afa7e5cf96c676ce
+  RNVectorIcons: 64e6a523ac30a3241efa9baf1ffbcc5e76ff747a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 4c3aa327e4a6a23eeacd71f61c81df1bcdf677d5
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
