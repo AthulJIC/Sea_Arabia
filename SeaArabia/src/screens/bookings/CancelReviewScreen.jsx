@@ -63,7 +63,7 @@ function CancelReviewScreen({ navigation, route }) {
                             underlayColor="#007479" // Change the background color when pressed
                             style={[styles.option, selectedOption === "value5" && styles.selectedOption]}
                         >
-                            <Text style={[styles.optionText, selectedOption === "value5" && styles.selectedOptionText]}>Inadequate Facilities</Text>
+                            <Text style={[styles.optionText, selectedOption === "value5" && styles.selectedOptionText]} >Inadequate Facilities</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
