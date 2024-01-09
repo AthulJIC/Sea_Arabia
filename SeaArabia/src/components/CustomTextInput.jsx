@@ -28,7 +28,7 @@ function CustomTextInput({ placeholder, onChangeText, value, secureTextEntry,inp
         <TouchableOpacity
             onPress={togglePasswordVisibility}
             style={{ position: 'absolute', right: 25, top: 50 }}>
-            <Icon name={showPassword ? 'visibility-off' : 'visibility'} size={20} color="gray" />
+            <Icon name={showPassword ? 'visibility' : 'visibility-off'} size={20} color="gray" />
         </TouchableOpacity>
       )}
     </View>

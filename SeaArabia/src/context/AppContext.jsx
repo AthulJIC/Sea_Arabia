@@ -7,7 +7,8 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [item, setItem] = React.useState(null);
   const [list, setList] = React.useState(null);
-  const [title, setTitle] = React.useState(null)
+  const [title, setTitle] = React.useState(null);
+  const [details, setDetails] = React.useState(null)
 
   const updateItem = (newItem) => {
     setItem(newItem);
@@ -18,10 +19,21 @@ export const AppProvider = ({ children }) => {
   }
   const updateTitle = (newList) => {
     setTitle(newList);
- }
+  }
+  const updateDetails = (newItem) => {
+    setDetails(newItem);
+  }
+
   return (
     <AppContext.Provider
-        value={{ item, updateItem, list,updateList, title, updateTitle }}
+        value={{ item,
+           updateItem, 
+           list,
+           updateList, 
+           title, 
+           updateTitle,
+           details,
+           updateDetails }}
     >
       {children}
     </AppContext.Provider>

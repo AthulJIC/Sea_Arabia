@@ -17,6 +17,7 @@ import { baseURL } from "../../Services/config";
 import NetInfo from '@react-native-community/netinfo';
 import { useFocusEffect } from "@react-navigation/native";
 import ErrorIcon from "../../assets/icon/ErrorIcon";
+import { decode as atob, encode as btoa } from 'base-64'
 
 // import jwt from 'jsonwebtoken';
 // import "core-js/stable/atob";
@@ -120,8 +121,12 @@ function SignInScreen({ navigation }) {
                     console.log("response login",res.data.access)
                     await AsyncStorage.setItem('access_token', res.data.access);
                     await AsyncStorage.setItem('refresh_token', res.data.refresh);
+                    const [header, payload, signature] = res.data.access.split('.');
+                    const decodedPayload = JSON.parse(atob(payload));
+                    console.log('Decoded Payload:', decodedPayload?.user_id);
+                    await AsyncStorage.setItem('userId',decodedPayload?.user_id)
                     setLoading(false)
-                    navigation.navigate('HomeScreen')
+                    await navigation.navigate('HomeScreen')
                 }
             })
             .catch((err) => {
@@ -214,7 +219,7 @@ function SignInScreen({ navigation }) {
                 {erorr !== '' && (
                     <Text style={{color: 'red',alignSelf: 'center',marginTop: 10,fontFamily: 'Roboto-Regular',}}>{erorr}</Text>
                     )}
-                <Pressable onPress={()=>{LoginAPI();}} style={{ backgroundColor: 'rgba(0, 104, 117, 1)', width: '95%', height: 40, justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 25, borderRadius: 5 }}>
+                <Pressable onPress={LoginAPI} style={{ backgroundColor: 'rgba(0, 104, 117, 1)', width: '95%', height: 40, justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 25, borderRadius: 5 }}>
                     <Text style={{ fontSize: 16, color: 'rgba(255, 255, 255, 1)', fontFamily: 'Roboto-Regular' }}>Sign In</Text>
                 </Pressable>
                 <Pressable onPress={guestHandler} style={{ backgroundColor: 'rgba(255, 255, 255, 1)', width: '95%', height: 40, justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 15, borderRadius: 5 }}>

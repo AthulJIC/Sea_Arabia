@@ -1,10 +1,10 @@
 import DateTimePicker from 'react-native-date-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View,Text ,Pressable,Platform,Modal,TouchableWithoutFeedback,StyleSheet} from "react-native";
 import DateIcon from '../assets/icon/DateIcon';
 import moment from 'moment';
 
-function CustomDatePicker({onValueChange, onDateError}) {
+function CustomDatePicker({onValueChange, onDateError,dateValue}) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDateText, setSelectedDateText] = useState('Select Date');
@@ -19,6 +19,12 @@ function CustomDatePicker({onValueChange, onDateError}) {
     }
     //setShowDatePicker(false);
   };
+
+  useEffect(() => {
+    console.log('value====',dateValue)
+      setSelectedDateText(moment(dateValue).format('DD-MM-YYYY') );
+  }, [dateValue]);
+  
   function onConfirmHandler(){
     setShowDatePicker(false);
     onValueChange(selectedDateText)

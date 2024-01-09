@@ -57,7 +57,7 @@ function ServiceVerticalList({title,data}){
     const [bookmarkedItems, setBookmarkedItems] = useState([]);
     const [ bookmarkId,setBookmarkId]  = useState();
     const [listData, setListData] = useState();
-    console.log('routeName=======', routeName);
+    console.log('routeName=======', data);
 
     function serviceHandler(item) {
         // console.log('item====', item);
@@ -69,8 +69,8 @@ function ServiceVerticalList({title,data}){
         useCallback(() => {
         const retrieveUserName = async () => {
         try {
-            if (list && Array.isArray(list) && list.length > 0) {
-                setListData(list);
+            if (data && Array.isArray(data) && data.length > 0) {
+                setListData(data);
             }
             const username = await AsyncStorage.getItem('User');
             // Do something with the retrieved username
@@ -170,7 +170,7 @@ function ServiceVerticalList({title,data}){
     };
 
     function renderItem({item}){
-        console.log('Vertical=====', item);
+        console.log('Vertical=====', item.service_image);
         const names = item.name?item.name.split(' '):'';
         const firstName =names[0]? names[0].substring(0,1):'';
         const lastName = names[1]? names[1].substring(0,1):'';

@@ -6,18 +6,68 @@ import SettingsIcon from "../../assets/icon/SettingsIcon";
 import AboutIcon from "../../assets/icon/AboutIcon";
 import LogoutIcon from "../../assets/icon/LogoutIcon";
 import RightarrowIcon from "../../assets/icon/RightarrowIcon";
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LoginApi } from "../../Services/Login/login";
 import Modal from 'react-native-modal';
 import EditUserIcon from "../../assets/icon/EditUserIcon";
 import useBackButtonHandler from "../../components/BackHandlerUtils";
-function ProfileScreen({ navigation }) {
+import { ProfileApi } from "../../Services/profile/ProfileService";
+import { useAppContext } from "../../context/AppContext";
+function ProfileScreen() {
+    const navigation = useNavigation();
     const [refresh_token, setRefreshToken] = useState('')
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
     const [userId, setUserId] = useState();
-    const [userName,setUserName]=useState('')
+    const [userName,setUserName]=useState('');
+    const [userDetails, setUserDetails] = useState();
+    const {updateDetails} = useAppContext();
+    console.log('userDetails', userDetails);
+    
+    function editHandler(){
+        navigation.navigate('EditUser');
+        updateDetails(userDetails)
+
+    }
+    useFocusEffect(
+        useCallback(async () => {
+          const getValueFromStorage = async () => {
+            try {
+              const refresh = await AsyncStorage.getItem('refresh_token');
+              let newRefreshToken = refresh;
+              setRefreshToken(newRefreshToken);
+              const username = await AsyncStorage.getItem('User');
+              console.log('username', userName);
+              let role = username;
+              setUserName(role);
+            //   const user_id = await AsyncStorage.getItem('userId');
+            //   setUserId(user_id);
+            //   console.log('user_id', userId);
+              // Call getUserDetails here to fetch user details
+            } catch (error) {
+                console.error('Error fetching data from AsyncStorage:', error);
+            }
+        };
+        getValueFromStorage();   
+        getUserDetails()       
+        }, [])
+    );    
+    async function getUserDetails() {
+        const user_id = await AsyncStorage.getItem('userId');
+        setUserId(user_id);
+        console.log('user_id', userId);
+        await ProfileApi.getProfileDetails(user_id)
+        .then((res) => {
+            console.log('user====', res.data);
+            setUserDetails(res.data);
+        })
+        .catch((err) => {
+            console.error('errr', err);
+        });
+
+    }
+
     const data = [
         userName === 'Guest'
             ? {
@@ -30,7 +80,7 @@ function ProfileScreen({ navigation }) {
                   id: 1,
                   title: 'Edit User',
                   icon: <EditUserIcon />,
-                  navigation: () => navigation.navigate('EditUser'),
+                  navigation: () => editHandler(),
               },
         {
             id: 2,
@@ -67,31 +117,17 @@ function ProfileScreen({ navigation }) {
     ].filter(Boolean);
 
     useBackButtonHandler(navigation, false);
-    useFocusEffect(
-        useCallback(() => {
-            const getValueFromStorage = async () => {
-                // setIsLoading(true);
-                try {
-                    const refresh = await AsyncStorage.getItem('refresh_token');
-                    // if (value !== null) {
-                    //     const [header, payload, signature] = value.split('.');
-                    //     const decodedPayload = JSON.parse(atob(payload));
-                    //     console.log('Decoded Payload:', decodedPayload?.user_id);
-                    //     await AsyncStorage.setItem('userId',decodedPayload?.user_id)
-                    //   }
-                    let newRefreshToken = refresh;
-                    setRefreshToken(newRefreshToken);
-                    const username = await AsyncStorage.getItem('User');
-                    let role = username;
-                    setUserName(role);
-                } catch (error) {
-                    console.error('Error fetching data from AsyncStorage:', error);
-                    //   setIsLoading(false);
-                }
-            };
-            getValueFromStorage();
-        }, [])
-    );
+    
+    // function getUserDetails(){
+    //     if(userName === 'Register'){
+    //         ProfileApi.getProfileDetails(userId).then((res) =>{
+    //            console.log('user====', res.data);
+    //            setUserDetails(res.data)
+    //         }).catch((err) => {
+    //             console.error('errr', err);
+    //         })
+    //     }
+    // }
     const logOutHandler = async () => {
         refresh = {
             "refresh": refresh_token
@@ -131,7 +167,21 @@ function ProfileScreen({ navigation }) {
                     <Pressable>
                         <Image source={require('../../assets/images/ProfilePic.png')} style={{ width: 96, height: 96, marginTop: 20 }}></Image>
                     </Pressable>
-                    <Text style={{ color: 'rgba(27, 30, 40, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium', marginTop: 30 }}>Guest User</Text>
+                    {
+                        userName === 'Guest' ? 
+                        (
+                            <Text style={{ color: 'rgba(27, 30, 40, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium', marginTop: 30 }}>Guest User</Text>
+                        ) 
+                        : (
+                            <View>
+                                 <Text style={{color:'rgba(27, 30, 40, 1)', fontSize:16, fontFamily:'Roboto-Medium',marginTop:20, textAlign:'center'}}>{userDetails?.first_name ? userDetails.first_name.charAt(0).toUpperCase() + userDetails.first_name.slice(1) : ''}
+                                    {' '}
+                                    {userDetails?.last_name ? userDetails.last_name.charAt(0).toUpperCase() + userDetails.last_name.slice(1) : ''}
+                                    </Text>
+                                <Text style={{color:'rgba(125, 132, 141, 1)', fontSize:14, fontFamily:'Roboto-Regular',marginTop:10,textAlign:'center'}}>{userDetails?.email}</Text>
+                            </View>
+                        )
+                    }
                 </View>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: 30, backgroundColor: 'white', borderRadius: 6, elevation: 3, justifyContent: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3, marginBottom: 20 }}>
                     {

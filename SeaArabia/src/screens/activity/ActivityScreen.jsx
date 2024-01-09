@@ -121,6 +121,8 @@ function ActivityScreen({navigation}) {
             if(res.status === 200){
                 setTopActivity(res.data.results)
             }
+        }).catch((err)=>{
+            console.error(err);
         })
     }
     function getCategoryList(){
