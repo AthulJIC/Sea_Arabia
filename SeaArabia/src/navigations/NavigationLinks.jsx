@@ -39,6 +39,7 @@ import CancelReviewScreen from '../screens/bookings/CancelReviewScreen';
 import PrivacySecurity from '../screens/settings/PrivacySecurity';
 import ChangePasswordScreen from '../screens/settings/ChangePasswordScreen';
 import HelpSupportScreen from '../screens/settings/HelpSupportScreen';
+import LanguageScreen from '../screens/settings/languageScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -138,6 +139,7 @@ function NavigationLinks() {
           <Stack.Screen name='PrivacySecurity' component={PrivacySecurity} options={{headerShown:false}}/>
           <Stack.Screen name='ChangePassword' component={ChangePasswordScreen} options={{headerShown:false}}/>
           <Stack.Screen name='HelpSupport' component={HelpSupportScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='Language' component={LanguageScreen} options={{headerShown:false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

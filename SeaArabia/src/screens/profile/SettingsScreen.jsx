@@ -13,12 +13,14 @@ function SettingsScreen({ navigation, route }) {
             title: 'Language',
             // icon: <BookmarkInactive height={16} width={15} color='rgba(125, 132, 141, 1)' />,
             // navigation: () => navigation.navigate('BookMark',{title:'Bookmarked'})
+            navigation: () => navigation.navigate('Language')
         },
         {
             id: 3,
             title: 'Change Password',
             // icon: <TripsIcon />,
-            navigation: () => navigation.navigate('ChangePassword')        },
+            navigation: () => navigation.navigate('ChangePassword')
+        },
         {
             id: 5,
             title: 'Help & Support',
