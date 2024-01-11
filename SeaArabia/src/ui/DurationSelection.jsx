@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View,Text,ScrollView,TouchableWithoutFeedback, Pressable } from "react-native";
 import LocationIcon from "../assets/icon/LocationIcon";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PackageIcon from "../assets/icon/PackageIcon";
 
 // const data = [
 //     {key:'1', place:'25, Persian،, Arabian Gulf St، السالمية،, Kuwait',time:'1 Hour',price:'150 KWD'},
@@ -13,14 +14,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //     {key:'7', place:'25, Persian،, Arabian Gulf St، السالمية،, Kuwait',time:'7 Hours',price:'150 KWD'},
 // ] 
 
-function DestinationSelection({data}){
-    console.log('destination====', data);
+function DurationSelection({data,onValueChange}){
     const [selected, setSelected] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     function handleSelectSuggestion(item,index){
         console.log(item);
         setSelected(item)
         setIsOpen(false);
+        onValueChange(item)
     }
     function destinationHandler(){
         setIsOpen(!isOpen);
@@ -28,14 +29,14 @@ function DestinationSelection({data}){
     return (
         <View style={{marginTop: 15}}>
             <Pressable style={{width:'100%', height: selected ? 67 : 50, backgroundColor : 'rgba(247, 247, 249, 1)', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 2,elevation:2,borderTopLeftRadius:5,borderTopRightRadius:5, borderBottomLeftRadius: isOpen ? 0 : 5 , borderBottomRightRadius: isOpen ? 0 : 5 ,flexDirection:'row',alignItems:'center',paddingLeft:10}} onPress={destinationHandler}>
-                <LocationIcon color='rgba(0, 0, 0, 0.6)'/>
+                <PackageIcon/>
                 <View style={{marginLeft:10,width:'75%'}}>
-                    <Text style={{color:selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.7)',fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left',marginTop: selected ? 0 : 5}}>{selected ? selected?.location?.name : 'Select Destination'}</Text>
+                    <Text style={{color:selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.7)',fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left',marginTop: selected ? 0 : 5}}>{selected ? selected?.name : 'Select Package'}</Text>
                     <View style={{flexDirection:'row',marginTop:6}}>
                         {selected ? (
                             <>
                             <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 12, fontFamily: 'Roboto-Regular', textAlign: 'left' }}>
-                                {selected.duration_hour} hours
+                                {selected.duration_hour} hour
                             </Text>
                             <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 12, fontFamily: 'Roboto-Regular', marginLeft: 'auto', textAlign: 'right' }}>
                                 {selected.price} KWD
@@ -67,9 +68,9 @@ function DestinationSelection({data}){
                                 marginBottom: isLastItem ? 20 : 0, // Apply marginBottom for all but the last item
                               }}>
                                 <View>
-                                    <Text style={{color:'rgba(0, 0, 0, 0.8)' ,fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left',marginTop:10}}>{item.location?.name}</Text>
+                                    <Text style={{color:'rgba(0, 0, 0, 0.8)' ,fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left',marginTop:10}}>{item.name}</Text>
                                     <View style={{flexDirection:'row',marginTop:6}}>
-                                        <Text style={{color:'rgba(0, 0, 0, 0.8)',fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left'}}>{item?.duration_hour} hours</Text>
+                                        <Text style={{color:'rgba(0, 0, 0, 0.8)',fontSize:12,fontFamily:'Roboto-Regular',textAlign:'left'}}>{item?.duration_hour} hour</Text>
                                         <Text style={{color:'rgba(0, 104, 117, 1)',fontSize:12,fontFamily:'Roboto-Regular',marginLeft:'auto',textAlign:'right',right:10}}>{item?.price} KWD</Text>
                                     </View>
                                     <View style={{borderBottomColor:'rgba(0, 0, 0, 0.7)',borderBottomWidth:1,marginTop:2,marginBottom:2,width:'97%'}}></View>
@@ -84,4 +85,4 @@ function DestinationSelection({data}){
         )
 }
 
-export default DestinationSelection;
+export default DurationSelection;

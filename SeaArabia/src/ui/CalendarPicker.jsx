@@ -28,6 +28,8 @@ LocaleConfig.defaultLocale = 'en';
 
 function CalendarPicker({onValueChange}){
     const [selected, setSelected] = useState('');
+    const currentDate = new Date();
+    const minDate = currentDate.toISOString().split('T')[0];
     console.log('selected====', selected);
 
     return(
@@ -40,6 +42,7 @@ function CalendarPicker({onValueChange}){
             markedDates={{
               [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange', selectedColor:'rgba(0, 104, 117, 1)'}
             }}
+            minDate={minDate}
             theme={{
               'stylesheet.calendar.header': {
                 dayTextAtIndex0: {
