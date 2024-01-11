@@ -84,7 +84,7 @@ function ReviewScreen({ navigation, route }) {
                     <Pressable style={{ flex: 1, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.goBack()}>
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Cancel</Text>
                     </Pressable>
-                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('BookingDetails')}>
+                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Submit</Text>
                     </Pressable>
                 </Pressable>

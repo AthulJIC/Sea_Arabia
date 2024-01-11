@@ -16,9 +16,8 @@ function CancelReviewScreen({ navigation, route }) {
             <ScrollView>
                 <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.8)', width: '100%', alignSelf: 'center', marginTop: 17 }}>
                     <Image source={require('../../assets/images/review-1.png')} style={styles.image} resizeMode='cover'></Image>
-                    <Text style={styles.ImgTxt}>"Your experience fuels our flight!"</Text>
+                    <Text style={styles.ImgTxt}>"Pick your compass points! Your feedback matters"</Text>
                 </View>
-                <Text style={{ alignSelf: 'center', marginTop: 30, fontSize: 18, color: 'rgba(0, 104, 117, 1)', fontWeight: '500', lineHeight: 16 }}>"Your experience fuels our flight!"</Text>
                 <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
                     <View style={styles.optionsContainer}>
                         <TouchableHighlight
@@ -64,7 +63,7 @@ function CancelReviewScreen({ navigation, route }) {
                             underlayColor="#007479" // Change the background color when pressed
                             style={[styles.option, selectedOption === "value5" && styles.selectedOption]}
                         >
-                            <Text style={[styles.optionText, selectedOption === "value5" && styles.selectedOptionText]}>Inadequate Facilities</Text>
+                            <Text style={[styles.optionText, selectedOption === "value5" && styles.selectedOptionText]} >Inadequate Facilities</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
@@ -81,7 +80,7 @@ function CancelReviewScreen({ navigation, route }) {
                     <Pressable style={{ flex: 1, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.goBack()}>
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Cancel</Text>
                     </Pressable>
-                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('BookingDetails')}>
+                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Submit</Text>
                     </Pressable>
                 </Pressable>
@@ -99,10 +98,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     ImgTxt: {
-        fontSize: 20,
+        fontSize: 14,
         // marginBottom: 140,
         marginTop: 40,
-        width: 300,
+        width: 350,
         height: 25,
         color: 'rgba(0, 104, 117, 1)',
         fontWeight: '500',
