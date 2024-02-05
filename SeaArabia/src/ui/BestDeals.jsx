@@ -4,6 +4,8 @@ import RightarrowIcon from '../assets/icon/RightarrowIcon';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CommonApi } from '../Services/common/CommonApi';
 import { useCallback, useState } from 'react';
+import { useAppContext } from '../context/AppContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const data=[
 //     {
@@ -43,7 +45,8 @@ import { useCallback, useState } from 'react';
 
 function BestDeals({title}){
     const navigation = useNavigation();
-    const [bestDeals, setBestDeals] = useState()
+    const [bestDeals, setBestDeals] = useState();
+    const {updateItem, bestDealsItem} = useAppContext();
     
     useFocusEffect(
         useCallback(() => {
@@ -60,7 +63,13 @@ function BestDeals({title}){
             }
         })
     }
-
+    async function serviceHandler(item) {
+        console.log('BestDealsitem====', item.services[0]);
+        navigation.navigate('ServiceExpand');
+        updateItem(item.services[0]);
+        await AsyncStorage.setItem('best_Deals', 'BestDeals')
+        bestDealsItem(item);
+    }
     function renderItem({item}){
         console.log('bestdeals', item.services);
         const thumbnailUrls = item.services.map(service => service.service_image[0]?.image) || [];
@@ -85,7 +94,7 @@ function BestDeals({title}){
         // )
         return(
             <View>
-                <Pressable style={{marginHorizontal:5,marginBottom:10}} onPress={() => navigation.navigate('ServiceExpand')}>
+                <Pressable style={{marginHorizontal:5,marginBottom:10}} onPress={() => serviceHandler(item)}>
                     <Image source={{uri: item.image }} style={{width:286, height:165,borderRadius:16}}></Image>
                 </Pressable>
                 {/* <View style={{marginLeft:15}}>

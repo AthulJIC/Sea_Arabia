@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { baseURL } from '../config';
 //url
-const categoryUrl =baseURL+'service/category-list';
+const categoryUrl =baseURL+'main/category-list';
 const exploreMoreURL=baseURL+'service/explore-more'
 const topSuggestionURL=baseURL+'service/top-suggestions'
 

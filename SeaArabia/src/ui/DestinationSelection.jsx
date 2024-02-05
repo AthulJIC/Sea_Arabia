@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //     {key:'7', place:'25, Persian،, Arabian Gulf St، السالمية،, Kuwait',time:'7 Hours',price:'150 KWD'},
 // ] 
 
-function DestinationSelection({data}){
+function DestinationSelection({data,onValueChange}){
     console.log('destination====', data);
     const [selected, setSelected] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +21,7 @@ function DestinationSelection({data}){
         console.log(item);
         setSelected(item)
         setIsOpen(false);
+        onValueChange(item)
     }
     function destinationHandler(){
         setIsOpen(!isOpen);

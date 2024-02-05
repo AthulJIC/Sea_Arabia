@@ -14,13 +14,14 @@ import PackageIcon from "../assets/icon/PackageIcon";
 //     {key:'7', place:'25, Persian،, Arabian Gulf St، السالمية،, Kuwait',time:'7 Hours',price:'150 KWD'},
 // ] 
 
-function DateSelection({data}){
+function DateSelection({data,onValueChange}){
     const [selected, setSelected] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     function handleSelectSuggestion(item,index){
         console.log(item);
         setSelected(item)
         setIsOpen(false);
+        onValueChange(item);
     }
     function destinationHandler(){
         setIsOpen(!isOpen);

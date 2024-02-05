@@ -11,12 +11,18 @@ import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import Toast from 'react-native-toast-message';
 import { decode as atob, encode as btoa } from 'base-64'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ProfileApi } from '../../Services/profile/ProfileService';
+import { useAppContext } from '../../context/AppContext';
 
 function HomeScreen() {
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = useState(false);
   const [isConnected, setIsConnected] = useState(netInfo?.isConnection);
-const [lastConnectionChange, setLastConnectionChange] = useState(null);
+  const [lastConnectionChange, setLastConnectionChange] = useState(null);
+  const [userId, setUserId] = useState();
+  const [userName,setUserName]=useState('');
+  const [userDetails, setUserDetails] = useState();
+  const {updateDetails} = useAppContext();
   const fetchData = () => {
     // Replace this with your actual logic to fetch or refresh data
     console.log('Data refreshed!');
@@ -52,9 +58,30 @@ const [lastConnectionChange, setLastConnectionChange] = useState(null);
   useFocusEffect(
     useCallback(() => {
       fetchData();
+      getUserDetails()
     }, [])
   );
+  async function getUserDetails() {
+    const user_id = await AsyncStorage.getItem('userId');
+    setUserId(user_id);
+    console.log('user_id', userId);
+    const user_name = await AsyncStorage.getItem('User');
+    // Do something with the retrieved username
+    setUserName(user_name );
+    if(user_name === 'Register'){
+        // getNotificationHandler();
+        await ProfileApi.getProfileDetails()
+        .then((res) => {
+            console.log('user====', res.data);
+            setUserDetails(res.data);
+            updateDetails(res.data)
+        })
+    }
+    // .catch((err) => {
+    //     console.error('errr', err);
+    // });
 
+}
   // useEffect(() => {
   //   const backAction = async () => {
       

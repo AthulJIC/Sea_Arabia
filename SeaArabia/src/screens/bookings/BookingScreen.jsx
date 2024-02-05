@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Pressable, StyleSheet, Image } from "react-native"
+import { View, Text, SafeAreaView, ScrollView, Pressable, StyleSheet, Image, FlatList } from "react-native"
 import Header from "../../components/Header";
 import { useCallback, useState } from "react";
 import Styles from "../../public/Styles";
@@ -10,26 +10,31 @@ import LocationIcon from "../../assets/icon/LocationIcon";
 import Rating from "../../ui/Rating";
 import RaviewRating from "../../ui/Raview_Rating";
 import Modal from 'react-native-modal';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BookingApi } from "../../Services/bookings/BookingService";
+import moment from 'moment';
+import { useAppContext } from "../../context/AppContext";
+
 const filterTitle = [
     {
         id: 1,
         title: 'Upcoming',
-        value: 'AllRequests '
+        value: 'Upcoming '
     },
     {
         id: 2,
         title: 'Cancellation',
-        value: 'Accepted '
+        value: 'Cancelled '
     },
     {
         id: 3,
         title: 'Completed',
-        value: 'Rejected '
+        value: 'Completed '
     },
     {
         id: 4,
         title: 'Unsuccessful',
-        value: 'Rejected '
+        value: 'Unsuccessful '
     },
 ];
 
@@ -38,8 +43,39 @@ function BookingScreen() {
     const [selectedFilter, setSelectedFilter] = useState(filterTitle[0]);
     const [text, setText] = useState('Upcoming');
     const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
-
+    const [userName, setUserName] = useState();
+    const [ bookingList, setBookingList] = useState([])
+    const {updateBookingId, updateBookingService} = useAppContext();
+    console.log(selectedFilter);
     useBackButtonHandler(navigation, false);
+    useFocusEffect(
+        useCallback(() => {
+        const retrieveUserName = async () => {
+        try {
+            const user_name = await AsyncStorage.getItem('User');
+            // Do something with the retrieved username
+            setUserName(user_name );
+            setSelectedFilter(filterTitle[0]);
+            if(user_name === 'Register'){
+                getBookingList(selectedFilter?.title);
+            }
+        } catch (error) {
+            console.error('Error retrieving username from AsyncStorage:', error);
+        }
+        };
+
+        retrieveUserName();
+       
+    }, [])
+    );
+    function getBookingList(value){
+        console.log('value=====', value);
+        BookingApi.getBookingList(value).then((res) => {
+            console.log('res====', res.data);
+            const filteredBookingList = res.data.results.filter(item => item.booking_item === "Service" || item.booking_item === "Activity");
+            setBookingList(filteredBookingList)
+        })
+    }
     function handlePress(item) {
         // console.log('handlePress', item);
         setSelectedFilter(item);
@@ -55,16 +91,90 @@ function BookingScreen() {
         else if (item.title === 'Unsuccessful') {
             setText(item.title)
         }
+        getBookingList(item?.value)
     }
 
     const cancelLogout = () => {
         setLogoutModalVisible(false);
     }
+    function cancelHandler(value){
+        console.log('value', value.id);
+        updateBookingId(value?.id)
+        navigation.navigate('CancelReviewScreen')
+    }
+    function rateHandler(item) {
+        console.log('item', item);
+        updateBookingService(item)
+        setLogoutModalVisible(true);
+
+    }
+    function renderItem({item}){
+        console.log('item====', item);
+        console.log('Vertical=====', item.service_image);
+        const names = item?.service?.name ? item?.service?.name.split(' '):'';
+        const firstName =names[0]? names[0].substring(0,1):'';
+        const lastName = names[1]? names[1].substring(0,1):'';
+        let imageUrl;
+        let name;
+        let location;
+        // let capacity;
+        // if(item?.service){
+        //     imageUrl = item?.service?.service_image[0]?.image;
+        //     name = item?.service?.name;
+        //     location = item?.service?.pickup_point_or_location;
+        // }
+        // if ( item?.package){
+        //     imageUrl = item?.package?.image;
+        //     name = item?.package?.name;
+        //     location = item?.package?.location;
+        // }
+        return(
+                <View style={{width:'95%', height:177,alignSelf:'center',elevation:8,backgroundColor:'white',shadowColor: '#000',shadowOffset:{ width: 0,height: 2 },shadowOpacity: 0.25, shadowRadius: 3,marginTop:9,borderRadius:16, flexDirection:'row',marginBottom:15}} onPress={() => serviceHandler(item)}>
+                    <Image
+                    source={{ uri: item?.service?.service_image[0]?.image}}
+                    style={{
+                        width:136, height:134,alignSelf:'center', borderRadius:5,alignSelf:'center',marginLeft:20}}
+                    /> 
+                    <View style={{marginTop:20, width:'55%'}}>
+                        <View style={{flexDirection:'row',marginLeft:15,}}>
+                            <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:15, fontFamily:'Roboto-Medium'}}>{item?.service?.name}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',marginLeft:15,marginTop:10}}>
+                            <LocationIcon color='rgba(25, 28, 29, 1)'/>
+                            <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}>{item?.service?.pickup_point_or_location}</Text>
+                        </View>
+                        <View style={{right:5}}>
+                            <Rating/>
+                        </View>
+                        <View style={{flexDirection:'row',marginTop:5,left:15}}>
+                            <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:12, textAlign:'left',marginBottom:5}}>{item?.price_total} KWD</Text>
+                            <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> / {item?.number_of_people ? item?.number_of_people : 0} People</Text>
+                        </View>
+                        {
+                            item?.status === 'Upcoming' ? (
+                                
+                                <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', width: '55%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center',marginLeft:15,marginTop:5 }} onPress={() => cancelHandler(item)}>
+                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Cancel </Text>
+                                </Pressable>
+                            ) : 
+                            item?.status === 'Cancelled' ? (
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '55%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center',marginLeft:15,marginTop:5, backgroundColor:'lightgray' }}>
+                                    <Text style={{ color: 'black', fontSize: 14, fontFamily: 'Roboto-regular' }}>Cancelled</Text>
+                                </View>
+                            ) : item?.status === 'Completed' ? (
+                                <Pressable style={{ borderWidth: 1, borderColor: 'white', width: '55%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center',marginLeft:15,marginTop:5, backgroundColor:'lightgray' }} onPress={() => rateHandler(item)}>
+                                    <Text style={{ color: 'black', fontSize: 14, fontFamily: 'Roboto-regular' }}>Rate Now</Text>
+                                </Pressable>
+                            ) : ''
+                        }
+                    </View>
+                </View>
+        )
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <Header page='Bookings' title='Booking History' />
-            <ScrollView>
-                {/* <Text style={{color:'rgba(0, 0, 0, 0.8)', fontSize:16, fontFamily:'Roboto-Medium',marginLeft:15,marginTop:15}}>Bookings History</Text> */}
+            <View style={styles.filterSection}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {filterTitle.map((item, index) => {
                         return (
@@ -88,199 +198,39 @@ function BookingScreen() {
                             </Pressable>
                         );
                     })}
-                </ScrollView>
-                <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%', marginTop: 5 }}></View>
-                <View style={styles.container}>
-                    {selectedFilter.title === 'Upcoming' && (
-                        <View style={styles.top} >
-                            {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>You’ve no  Trips</Text> */}
-                            <View style={styles.card}>
-                                {/* Card 1 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 1 Content</Text> */}
-                                <View
-                                    style={{
-                                        width: "92%",
-                                        height: 105,
-                                        alignSelf: "center",
-                                        backgroundColor: "lightgray", // Add a background color for the empty image
-                                        borderRadius: 5,
-                                        marginTop: 7,
-                                    }}
-                                >
-                                    <Text style={{ marginTop: 30, textAlign: 'center', color: 'rgba(57, 57, 57, 1)', fontSize: 27, fontFamily: 'Roboto-Bold', }}>
-                                    </Text>
-                                </View>
-                                <Rating />
+                </ScrollView>   
+            </View>
+            <View>
+                <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 1, width: '100%', marginTop: 5 }}></View>
+                {
+                    bookingList.length > 0 ? (
+                        <FlatList
+                            data={bookingList}
+                            renderItem={renderItem}
+                            keyExtractor={(item) => item.id.toString()}
+                            // onEndReached={onEndReached}
+                            >
+                        </FlatList>
+                    ) : (
+                        <>
+                            {/* <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%', marginTop: 5 }}></View> */}
+                            <View style={{ height: 'auto', width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 25 }}>
+                                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>You’ve no {text} Trips</Text>
+                                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 12, fontFamily: 'Roboto-Regular', marginTop: 10, marginBottom: 10 }}>Start Exploring for your next trip</Text>
+                                <EmptyIcon />
                             </View>
-                            <View style={styles.card}>
-                                {/* Card 2 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 2 Content</Text> */}
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Category : </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Yatch</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7 }}>
-                                    <LocationIcon color='#000' />
-                                    <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 14, fontFamily: 'Roboto-Regular' }}> Location Name</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023 - </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
-                                </View>
-                                <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.navigate('CancelReviewScreen')}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Cancel </Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    )}
+                            {/* <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%', marginTop: 5 }}></View> */}
+                        </>
+                    )
+                }
 
-                    {selectedFilter.title === 'Cancellation' && (
-                        <View style={styles.top} >
-                            {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>You’ve no  Trips</Text> */}
-                            <View style={styles.card}>
-                                {/* Card 1 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 1 Content</Text> */}
-                                <View
-                                    style={{
-                                        width: "92%",
-                                        height: 105,
-                                        alignSelf: "center",
-                                        backgroundColor: "lightgray", // Add a background color for the empty image
-                                        borderRadius: 5,
-                                        marginTop: 7,
-                                    }}
-                                >
-                                    <Text style={{ marginTop: 30, textAlign: 'center', color: 'rgba(57, 57, 57, 1)', fontSize: 27, fontFamily: 'Roboto-Bold', }}>
-                                    </Text>
-                                </View>
-                                <Rating />
-                            </View>
-                            <View style={styles.card}>
-                                {/* Card 2 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 2 Content</Text> */}
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Category : </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Yatch | </Text>
-                                    <Text style={{ color: '#FF0000', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Cancel</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7 }}>
-                                    <LocationIcon color='#000' />
-                                    <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 14, fontFamily: 'Roboto-Regular' }}> Location Name</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023 - </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
-                                </View>
-                            </View>
-                        </View>
-
-                    )}
-
-                    {selectedFilter.title === 'Completed' && (
-                        <View style={styles.top} >
-                            <View style={styles.card}>
-                                <View
-                                    style={{
-                                        width: "92%",
-                                        height: 105,
-                                        alignSelf: "center",
-                                        backgroundColor: "lightgray",
-                                        borderRadius: 5,
-                                        marginTop: 7,
-                                    }}
-                                >
-                                    <Text style={{ marginTop: 30, textAlign: 'center', color: 'rgba(57, 57, 57, 1)', fontSize: 27, fontFamily: 'Roboto-Bold', }}>
-                                    </Text>
-                                </View>
-                                <Rating />
-                            </View>
-                            <View style={styles.card}>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Category : </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Yatch</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7 }}>
-                                    <LocationIcon color='#000' />
-                                    <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 14, fontFamily: 'Roboto-Regular' }}> Location Name</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023 - </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
-                                </View>
-                                <Pressable style={{ backgroundColor: 'rgba(217, 217, 217, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => setLogoutModalVisible(true)}>
-                                    <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Rate Now </Text>
-                                </Pressable>
-                            </View>
-                        </View>
-
-                    )}
-
-                    {selectedFilter.title === 'Unsuccessful' && (
-                        <View style={styles.top} >
-                            {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>You’ve no  Trips</Text> */}
-                            <View style={styles.card}>
-                                {/* Card 1 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 1 Content</Text> */}
-                                <View
-                                    style={{
-                                        width: "92%",
-                                        height: 105,
-                                        alignSelf: "center",
-                                        backgroundColor: "lightgray", // Add a background color for the empty image
-                                        borderRadius: 5,
-                                        marginTop: 7,
-                                    }}
-                                >
-                                    <Text style={{ marginTop: 30, textAlign: 'center', color: 'rgba(57, 57, 57, 1)', fontSize: 27, fontFamily: 'Roboto-Bold', }}>
-                                    </Text>
-                                </View>
-                                <Rating />
-                            </View>
-                            <View style={styles.card}>
-                                {/* Card 2 content */}
-                                {/* <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-Medium' }}>Card 2 Content</Text> */}
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Category : </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>Yatch</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7 }}>
-                                    <LocationIcon color='#000' />
-                                    <Text style={{ color: 'rgba(102, 102, 102, 1)', fontSize: 14, fontFamily: 'Roboto-Regular' }}> Location Name</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023 - </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>24/07/2023</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 7, marginTop: 10 }}>
-                                    <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>504 KWD / </Text>
-                                    <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 2 }}>12 People</Text>
-                                </View>
-                                <Pressable style={{ backgroundColor: 'rgba(255, 218, 214, 1)', borderColor: 'rgba(0, 104, 117, 1)', width: '90%', height: 30, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ color: 'rgba(0, 0, 0, 0.7)', fontSize: 14, fontFamily: 'Roboto-regular' }}>Check Out </Text>
-                                </Pressable>
-                            </View>
-                        </View>
-
-                    )}
-
-                </View>
-
-                <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%', marginTop: 5 }}></View>
-            </ScrollView>
-
-            <Modal isVisible={isLogoutModalVisible}>
+                <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 1, width: '100%', marginTop: 5 }}></View>
+            </View>
+            <Modal isVisible={isLogoutModalVisible}
+            hasBackdrop={true}
+            backdropColor="black"
+            backdropOpacity={0.70}
+            onBackdropPress={() => setLogoutModalVisible(!isLogoutModalVisible)}>
                 <View style={styles.model}>
                     <Image source={require('../../assets/images/review-1.png')} style={styles.image} resizeMode='cover'></Image>
                     <Text style={styles.ImgTxt}>"Your experience fuels our flight!"</Text>
@@ -328,7 +278,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Regular',
         justifyContent: 'center',
         alignItems: 'center',
-        textAlign: 'center'
     },
     model: {
         backgroundColor: 'rgba(242, 244, 244, 1)',
@@ -339,6 +288,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         top: 110,
-    }
+    },
+    filterSection: {
+        height: 60,
+        justifyContent: 'center',
+        marginBottom: 10,
+      },
 })
 export default BookingScreen;

@@ -40,8 +40,24 @@ import PrivacySecurity from '../screens/settings/PrivacySecurity';
 import ChangePasswordScreen from '../screens/settings/ChangePasswordScreen';
 import HelpSupportScreen from '../screens/settings/HelpSupportScreen';
 import LanguageScreen from '../screens/settings/languageScreen';
+import NotificationScreen from '../screens/notifications/NotificationScreen';
+import ComboPackagesExpandScreen from '../screens/home/ComboPackageExpandScreen';
+import DummyScreen from '../screens/common/DummyScreen';
+import RaiseQueryScreen from '../screens/common/RaiseQueryScreen';
+import PaymentInitiateScreen from '../screens/payment/PaymentInitiateScreen';
+import { Linking } from 'react-native';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const linking = {
+  prefixes: ['seaarabia://', 'https://seaarabia.com'], // Replace 'yourapp' with your app scheme
+  config: {
+    screens: {
+      ServiceExpand: 'screen/:id', // Define the route for ShareScreen with a dynamic parameter
+    },
+  },
+};
 
 function MyTabs() {
   return (
@@ -112,7 +128,7 @@ function MyTabs() {
 
 function NavigationLinks() {
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} linking={linking}>
         <Stack.Navigator initialRouteName='SignIn'>
           <Stack.Screen name="User" component={UserScreen} options={{headerShown:false}}/>
           <Stack.Screen name='RegisterUser' component={RegisterUserScreen} options={{headerShown:false}}></Stack.Screen>
@@ -140,6 +156,11 @@ function NavigationLinks() {
           <Stack.Screen name='ChangePassword' component={ChangePasswordScreen} options={{headerShown:false}}/>
           <Stack.Screen name='HelpSupport' component={HelpSupportScreen} options={{headerShown:false}}/>
           <Stack.Screen name='Language' component={LanguageScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='Notification' component={NotificationScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='ComboPackagesExpand' component={ComboPackagesExpandScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='Dummy' component={DummyScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='RaiseQuery' component={RaiseQueryScreen} options={{headerShown:false}}/>
+          <Stack.Screen name='PaymentInitiate' component={PaymentInitiateScreen} options={{headerShown:false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView ,Pressable,Image, TextInput, Keyboard} from "react-native"
+import { View,Text, SafeAreaView, KeyboardAvoidingView, ScrollView ,Pressable,Image, TextInput, Keyboard, StyleSheet} from "react-native"
 import CustomTextInput from "../../components/CustomTextInput";
 import { useState } from "react";
 import CustomDatePicker from "../../components/CustomDatePicker";
@@ -9,6 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 import { SignupApi } from "../../Services/signup/SignupService";
 import moment from 'moment';
 import useBackButtonHandler from "../../components/BackHandlerUtils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Dropdown } from "react-native-element-dropdown";
 
 
 function SignUpScreen(){
@@ -22,7 +24,9 @@ function SignUpScreen(){
     const [confirmPassword, setConfirmPassword] = useState('');
     const [date, setDate] = useState('');
     const [selected, setSelected] = useState("");
-    const genderOptions = ['Male', 'Female'];
+    const genderOptions = [
+        {label:'Male',value:'1'}, {label:'Female',value : '2'}
+    ];
     const [isOpen, setIsOpen] = useState(false);
     const [firstNameError, setFirstNameError] = useState(false);
     const [lastNameError, setLastNameError] = useState(false)
@@ -43,7 +47,7 @@ function SignUpScreen(){
       const handleSelect = (value) => {
         console.log('value', value);
         setGenderError(false);
-        // setSelected(value);
+        setSelected(value);
         setIsOpen(false); // Close dropdown after selection
     };
     
@@ -98,17 +102,20 @@ function SignUpScreen(){
                 "mobile": mobileNo,
                 "password": password,
                 "profile_extra": {
-                    "location": 'c8fa1d04-d83c-4b05-8c78-9419e0a26965',
+                    "location": '887427df-88bc-4592-9a4f-6ae9572fcb07',
                     "dob":date,
-                    "gender": selected,
+                    "gender": selected?.label,
                     "images": ""
                 }
             }
             console.log('data=====', data);
-            SignupApi.postSignup(data).then((res) => {
+            SignupApi.postSignup(data).then(async (res) => {
                   console.log(res.status);
                   if(res.status === 201){
-                    navigation.navigate('HomeScreen');
+                    await AsyncStorage.setItem('User', 'Register');
+                    // console.log('Decoded Payload:', decodedPayload?.user_id);
+                    await AsyncStorage.setItem('userId',res.data.user_id)
+                    navigation.navigate('SignIn');
                   }
             }).catch((err) => {
                 console.error(err);
@@ -210,7 +217,7 @@ function SignUpScreen(){
                         <View style={{marginLeft:20,marginTop:10, flexDirection:'row',marginBottom:10}}>
                             <View>
                                 <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium'}}>Date of Birth</Text>
-                                <CustomDatePicker onValueChange={dateHandler} onDateError={onDateError}/>
+                                <CustomDatePicker onValueChange={dateHandler} onDateError={onDateError} dateValue=''/>
                                 {dateError && (
                                     <View style={{marginLeft:5}}>
                                         <Text style={{color:'red', fontFamily:'Roboto-Regular', fontSize:13,marginBottom:10}}>Please select DOB</Text>
@@ -219,7 +226,7 @@ function SignUpScreen(){
                             </View>
                             <View style={{marginLeft:'auto',right:15}}>
                                 <Text style={{color:'rgba(27, 30, 40, 0.8)', fontSize:14, fontFamily:'Roboto-Medium',left:5}}>Gender</Text>
-                                    <SelectList 
+                                    {/* <SelectList 
                                         onSelect={handleSelect}
                                         setSelected={setSelected}
                                         data={genderOptions} 
@@ -248,6 +255,34 @@ function SignUpScreen(){
                                         dropdownItemStyles={{color:'black'}}
                                         inputStyles={{alignSelf:'center',textAlign:'left',color: selected !== ''  ?'black' : 'rgba(27, 30, 40, 0.3)'}} 
                                         dropdownTextStyles={{color:'black'}}
+                                    /> */}
+                                <Dropdown
+                                    style={{
+                                        backgroundColor: 'rgba(247, 247, 249, 1)',
+                                        width: 150,
+                                        marginLeft: 'auto',
+                                        borderWidth: 1, // Adding a border
+                                        borderColor: 'white', // Border color
+                                        borderRadius: 8,
+                                        marginTop:15,
+                                        height:50 // Border radius
+                                    }}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    selectedTextStyle={[styles.selectedTextStyle]}
+                                    iconStyle={styles.iconStyle}
+                                    // iconColor= {disable ? GlobalColors.iconActive : GlobalColors.iconUnActive } 
+                                    data={genderOptions}
+                                    maxHeight={300}
+                                    // activeColor={selectedValue ? GlobalColors.activeColor : undefined}
+                                    itemTextStyle={styles.itemTextStyle}
+                                    placeholder='Select gender'
+                                    value={selected}
+                                    labelField='label'
+                                    valueField='value'
+                                    // onFocus={() => setIsFocus(true)}
+                                    // onBlur={() => setIsFocus(false)}
+                                    onChange={handleSelect}
+                                    // disable={disable}
                                     />
                             </View>
                         </View>
@@ -306,5 +341,31 @@ function SignUpScreen(){
         </SafeAreaView>
     )
 }
-
+const styles = StyleSheet.create({
+    dropdown: {
+        marginHorizontal: 10,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+        color: '#36454F',
+        // marginTop: 10,
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+        color: 'black',
+        // marginTop: 12,
+        marginLeft:5,
+        textAlign:'left'
+    },
+    iconStyle: {
+        width: 30,
+        height: 30,
+        // marginTop:10
+    },
+    itemTextStyle: {
+        color: 'black',
+        fontSize: 15,
+        marginTop:-10 
+    },
+})
 export default SignUpScreen;

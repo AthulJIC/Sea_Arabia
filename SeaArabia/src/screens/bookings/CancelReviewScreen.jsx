@@ -1,89 +1,109 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableHighlight, Pressable } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableHighlight, Pressable,FlatList, Alert,ToastAndroid } from "react-native";
 import BackIcon from "../../assets/icon/BackIcon";
 import Styles from "../../public/Styles";
 import useBackButtonHandler from "../../components/BackHandlerUtils";
+import { useNavigation } from "@react-navigation/native";
+import { useAppContext } from "../../context/AppContext";
+import { BookingApi } from "../../Services/bookings/BookingService";
 
-function CancelReviewScreen({ navigation, route }) {
+const filterTitle = [
+    {
+        id: 1,
+        title: 'Unexpected Circumstances',
+    },
+    {
+        id: 2,
+        title: 'Personal Reasons',
+    },
+    {
+        id: 3,
+        title: 'Accommodation Problems',
+        
+    },
+    {
+        id: 4,
+        title: 'Health Concerns',
+    },
+    {
+        id: 5,
+        title: 'Lack of Interest',
+    },
+    {
+        id: 6,
+        title: 'Safety Concerns',
+    },
+];
+
+
+function CancelReviewScreen() {
+
+    const navigation = useNavigation();
     useBackButtonHandler(navigation, false);
     const [selectedOption, setSelectedOption] = useState(null);
+    const {bookingId} = useAppContext();
 
     const handleOptionPress = (option) => {
+        console.log('option', option);
         setSelectedOption(option);
     };
+    function submitHandler(){
+        if(selectedOption) {
+            const data = {
+                cancellation_reason : selectedOption?.title
+            }
+            console.log(data,bookingId);
+            BookingApi.cancelBooking(bookingId, data).then((res) => {
+                console.log('res', res.data);
+                ToastAndroid.show('Your Booking is successfully cancelled', ToastAndroid.SHORT);
+                navigation.navigate('Bookings')
+            })
+        }
+        else {
+            Alert.alert('Choose any option')
+        }
+    }
+    function renderItem({item}){
+        return(
+            <View style={styles.optionsContainer}>
+                <TouchableHighlight
+                    onPress={() => handleOptionPress(item)}
+                    underlayColor="#007479" // Change the background color when pressed
+                    style={[styles.option, selectedOption?.id === item?.id && styles.selectedOption]}
+                >
+                    <Text style={[styles.optionText, selectedOption?.id ===  item?.id && styles.selectedOptionText]}>{item.title}</Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView>
-                <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.8)', width: '100%', alignSelf: 'center', marginTop: 17 }}>
+                <Pressable style={[Styles.backIcon,{marginTop:12,}]} onPress={() => navigation.goBack()}>
+                    <BackIcon color='#1B1E28'></BackIcon>
+                </Pressable>
+                <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.8)', width: '100%', alignSelf: 'center', marginTop: 10 }}>
                     <Image source={require('../../assets/images/review-1.png')} style={styles.image} resizeMode='cover'></Image>
                     <Text style={styles.ImgTxt}>"Pick your compass points! Your feedback matters"</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
-                    <View style={styles.optionsContainer}>
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value1")}
-                            underlayColor="#007479" // Change the background color when pressed
-                            style={[styles.option, selectedOption === "value1" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value1" && styles.selectedOptionText]}>Unprofessional Crew</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value2")}
-                            underlayColor="#007479"
-                            style={[styles.option, selectedOption === "value2" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value2" && styles.selectedOptionText]}>Mechanical Issues</Text>
-                        </TouchableHighlight>
-                    </View>
+                <View>
+                    <FlatList
+                        data={filterTitle}
+                        numColumns={2}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderItem}
+                        style={{width: '100%'}}
+                    />
                 </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
-                    <View style={styles.optionsContainer}>
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value3")}
-                            underlayColor="#007479" // Change the background color when pressed
-                            style={[styles.option, selectedOption === "value3" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value3" && styles.selectedOptionText]}>Communication Issues</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value4")}
-                            underlayColor="#007479"
-                            style={[styles.option, selectedOption === "value4" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value4" && styles.selectedOptionText]}>Safety Concerns</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
-                    <View style={styles.optionsContainer}>
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value5")}
-                            underlayColor="#007479" // Change the background color when pressed
-                            style={[styles.option, selectedOption === "value5" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value5" && styles.selectedOptionText]} >Inadequate Facilities</Text>
-                        </TouchableHighlight>
-
-                        <TouchableHighlight
-                            onPress={() => handleOptionPress("value6")}
-                            underlayColor="#007479"
-                            style={[styles.option, selectedOption === "value6" && styles.selectedOption]}
-                        >
-                            <Text style={[styles.optionText, selectedOption === "value6" && styles.selectedOptionText]}>Safety Concerns</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-                <Text style={{ alignSelf: 'center', marginTop: 40, fontSize: 14, color: 'rgba(0, 0, 0, 0.8)', fontWeight: '400', lineHeight: 20 }}>"Thank you for rating us! Your feedback helps us improve and create a better experience for you. We appreciate your support!"</Text>
-                <Pressable style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginTop: 20 }}>
-                    <Pressable style={{ flex: 1, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.goBack()}>
+                {/* <Text style={{ alignSelf: 'center', marginTop: 40, fontSize: 14, color: 'rgba(0, 0, 0, 0.8)', fontWeight: '400', lineHeight: 20 }}>"Thank you for rating us! Your feedback helps us improve and create a better experience for you. We appreciate your support!"</Text> */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginTop: 20 }}>
+                    {/* <Pressable style={{ flex: 1, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => navigation.goBack()}>
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Cancel</Text>
-                    </Pressable>
-                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }}>
+                    </Pressable> */}
+                    <Pressable style={{ borderWidth: 1, borderColor: 'rgba(0, 104, 117, 1)', flex: 1, marginLeft: 10, height: 50, borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={submitHandler}>
                         <Text style={{ color: 'rgba(0, 104, 117, 1)', fontSize: 18, fontFamily: 'Roboto-regular' }}>Submit</Text>
                     </Pressable>
-                </Pressable>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -113,13 +133,19 @@ const styles = StyleSheet.create({
     },
     optionsContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        flexWrap: 'wrap',  // Allow items to wrap into the next row
+        justifyContent: 'space-between', // Distribute items evenly between the columns
         marginTop: 10,
+        alignItems: 'center',
+        padding: 5,
     },
     option: {
+        flexBasis: '48%', // Set the width of each item to take up approximately half of the container
         padding: 5,
-        marginHorizontal: 5,
         borderRadius: 5,
+        // backgroundColor: 'red',
+        marginBottom: 5, 
+      
     },
     selectedOption: {
         backgroundColor: "#007479",
@@ -127,7 +153,8 @@ const styles = StyleSheet.create({
     optionText: {
         fontSize: 16,
         color: "#000",
-        opacity: 70
+        opacity: 70,
+        textAlign:'center'
     },
     selectedOptionText: {
         color: "#fff", // Set text color to white when selected

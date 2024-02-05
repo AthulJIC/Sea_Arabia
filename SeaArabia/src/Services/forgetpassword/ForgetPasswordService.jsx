@@ -10,5 +10,8 @@ export const ForgetPasswordApi = {
     resetpassword: async function (data) {
         return await AxiosInstance.post('account/reset-password-new-password/', data)
     },
+    changepassword : async function (data) {
+        return await AxiosInstance.post('account/profile-reset-password/', data)
+    },
  
 }

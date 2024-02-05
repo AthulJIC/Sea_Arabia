@@ -13,7 +13,7 @@ function Categories() {
         HomeApi.GetCategoryList()
             .then(response => {
                 console.log("results", response)
-                setData(response.results);
+                setData(response);
             })
             .catch(error => {
                 console.error('Error category list data:', error)

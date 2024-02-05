@@ -12,6 +12,7 @@ import useBackButtonHandler from "../../components/BackHandlerUtils";
 import { useAppContext } from "../../context/AppContext";
 import { ProfileApi } from "../../Services/profile/ProfileService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingIndicator from "../../components/Loader";
 
 
 function EditUserScreen(){
@@ -41,6 +42,7 @@ function EditUserScreen(){
     const [confirmPasswordError, setConfirmPasswordErrror] = useState(false);
     const {details} =useAppContext();
     const [userId, setUserId] = useState();
+    const [loading, setLoading] = useState(false);
     console.log('details====', selected);
     useBackButtonHandler(navigation, false);
 
@@ -81,7 +83,7 @@ function EditUserScreen(){
     }, [details])
     );
     function submitHandler(){
-        alert('test')
+        //alert('test')
         Keyboard.dismiss();
         let isValid = true;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -116,6 +118,7 @@ function EditUserScreen(){
             setGenderError(true);
         }
         if(isValid){
+            setLoading(true)
             console.log('Signup');
             const data = {
                     "first_name" : firstName,
@@ -123,7 +126,7 @@ function EditUserScreen(){
                     "email": email,
                     "mobile": mobileNo,
                     "profileextra": {
-                      "location": "c8fa1d04-d83c-4b05-8c78-9419e0a26965",
+                      "location": "887427df-88bc-4592-9a4f-6ae9572fcb07",
                       "dob":date,
                       "gender": gender
                     }
@@ -134,9 +137,11 @@ function EditUserScreen(){
                   console.log(res.status);
                   if(res.status === 200){
                     navigation.goBack();
+                    setLoading(false);
                   }
             }).catch((err) => {
                 console.error(err);
+                setLoading(false);
             })
         }
     }
@@ -224,7 +229,7 @@ function EditUserScreen(){
                                     onChangeText={(text) => setLocation(text)}
                                     value={location}
                                     placeholderTextColor='rgba(27, 30, 40, 0.3)'
-                                    style={{alignSelf:'center',marginLeft:15}}
+                                    style={{alignSelf:'center',marginLeft:15,color:'black'}}
                                     onFocus={() => setLocationError(false)}
                                 />
                             </View>
@@ -320,6 +325,7 @@ function EditUserScreen(){
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
+            {loading && <LoadingIndicator visible={loading} text='Loading...'/>}
         </SafeAreaView>
     )
 }

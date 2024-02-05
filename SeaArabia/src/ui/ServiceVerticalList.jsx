@@ -50,7 +50,7 @@ function ServiceVerticalList({title,data}){
     const navigation = useNavigation();
     const route = useRoute();
     const routeName = route.name;
-    const {list, updateItem} = useAppContext();
+    const {list, updateItem, bestDealsItem} = useAppContext();
     const [userName,setUserName]=useState('')
     const [is_BookMarked, setis_BookMarked] = useState(false)
     const [disable, setDisable] = useState(false)
@@ -63,6 +63,7 @@ function ServiceVerticalList({title,data}){
         // console.log('item====', item);
         navigation.navigate('ServiceExpand');
         updateItem(item)
+        bestDealsItem({})
     }
 
     useFocusEffect(

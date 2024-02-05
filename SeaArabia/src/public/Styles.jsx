@@ -36,9 +36,10 @@ export default StyleSheet.create({
   filterContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom:20,
-    marginLeft:25,
-    height:50
+    // marginBottom:20,
+    marginLeft:10,
+    height:50,
+    paddingRight:7
   },
   filterText: {
     color: 'black',
@@ -47,7 +48,7 @@ export default StyleSheet.create({
   },
   selectedText: {
     color: 'rgba(0, 104, 117, 1)',
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: 'Roboto-Regular',
   },
   input: {
@@ -57,5 +58,6 @@ export default StyleSheet.create({
     backgroundColor:'rgba(247, 247, 249, 1)',
     borderRadius:12,
     marginTop:10,
+    color:'black'
   },
 });

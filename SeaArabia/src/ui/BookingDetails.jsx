@@ -1,17 +1,44 @@
-import { useState } from "react";
-import { View,Text, Pressable ,Image,StyleSheet} from "react-native";
+import { useEffect, useState } from "react";
+import { View,Text, Pressable ,Image,StyleSheet, Alert} from "react-native";
 import CustomTextInput from "../components/CustomTextInput";
+import { useAppContext } from "../context/AppContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function BookingDetails(){
+function BookingDetails({updateBookingDetails,addGuest, capacity}){
     const [selectedOption, setSelectedOption] = useState('Myself');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [mobileNo, setMobileNo] = useState('');
     const [email, setEmail] =useState('');
     const [count, setCount] = useState(0);
+    const [ userType, setUserType] = useState();
+    const {details} =useAppContext();
+
+    useEffect(async () => {
+        const user_type = await AsyncStorage.getItem('User');
+        console.log('user_type',user_type);
+        setUserType(user_type);
+        if(selectedOption === 'Myself' && user_type === 'Register'){
+            if(details){
+                setFirstName(details?.first_name);
+                setLastName(details?.last_name);
+                setEmail(details?.email);
+                setMobileNo(details?.mobile)
+            }
+            else{
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setMobileNo('')
+            }
+        }
+    },[])
 
     const increment = () => {
-        setCount(count + 1);
+        if(capacity > count){
+            setCount(count + 1);
+        }
+        else Alert.alert('Maximum Reached')
     };
 
     const decrement = () => {
@@ -21,8 +48,29 @@ function BookingDetails(){
     };
 
     const handleOptionSelection = (option) => {
+        console.log('option====', option);
+        if(option === 'Myself' && userType === 'Register'){
+            setFirstName(details?.first_name);
+            setLastName(details?.last_name);
+            setEmail(details?.email);
+            setMobileNo(details?.mobile)
+        }
+        else{
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            setMobileNo('')
+        }
         setSelectedOption(option);
     };
+    updateBookingDetails({
+        selectedOption: selectedOption,
+        firstName: firstName,
+        lastName: lastName,
+        mobileNo: mobileNo,
+        email: email,
+        count: count,
+      });
     return(
         <View>
             <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Medium',margin:20 }}>Booking Details</Text>
@@ -66,12 +114,14 @@ function BookingDetails(){
                     value={firstName}
                     onChangeText={(text) => setFirstName(text)}
                     width='47%'
+                    editable={userType === 'Register' && selectedOption === 'Myself' ? false : true}
                 />
                 <CustomTextInput placeholder='Enter Last Name'
                     inputHeader='Last Name'
                     value={lastName}
                     onChangeText={(text) => setLastName(text)}
                     width='50%'
+                    editable={userType === 'Register' && selectedOption === 'Myself' ? false : true}
                 />
             </View>
             <View style={{right:9,bottom:15}}>
@@ -80,24 +130,30 @@ function BookingDetails(){
                     value={mobileNo}
                     onChangeText={(text) => setMobileNo(text)}
                     width='90%'
+                    editable={userType === 'Register' && selectedOption === 'Myself' ? false : true}
                 />
                 <CustomTextInput placeholder='Enter Email'
                     inputHeader='Email'
                     value={email}
                     onChangeText={(text) => setEmail(text)}
                     width='90%'
+                    editable={userType === 'Register' && selectedOption === 'Myself' ? false : true}
                 />
             </View>
-            <View style={{flexDirection:'row',alignItems:'center',marginBottom:20}}>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Regular',marginLeft:17,marginHorizontal:15 }}>Number Of Additional Guests</Text>
-                <Pressable onPress={decrement} style={styles.button}>
-                    <Text style={styles.buttonText}>-</Text>
-                </Pressable>
-                <Text style={styles.counter}>{count}</Text>
-                <Pressable onPress={increment} style={styles.button}>
-                    <Text style={styles.buttonText}>+</Text>
-                </Pressable>
-            </View>
+            {
+                addGuest && (
+                    <View style={{flexDirection:'row',alignItems:'center',marginBottom:20}}>
+                        <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontSize: 16, fontFamily: 'Roboto-Regular',marginLeft:17,marginHorizontal:15 }}>Number Of Additional Guests</Text>
+                        <Pressable onPress={decrement} style={styles.button}>
+                            <Text style={styles.buttonText}>-</Text>
+                        </Pressable>
+                        <Text style={styles.counter}>{count}</Text>
+                        <Pressable onPress={increment} style={styles.button}>
+                            <Text style={styles.buttonText}>+</Text>
+                        </Pressable>
+                    </View>
+                )
+            }
             <View style={{ backgroundColor: 'rgba(245, 245, 245, 1)', height: 4, width: '100%' }}></View>
         </View>
     )

@@ -29,7 +29,7 @@ export const CommonApi = {
         return await AxiosInstance.get('service/service-list-app?is_recommended=true&type=Activity')
     },
     getCategoryList : async function(){
-        return await AxiosInstance.get('service/category-list')
+        return await AxiosInstance.get('main/category-list')
     },
     getTopSuggestions: async function(){
         return await AxiosInstance.get('service/top-suggestions');
@@ -39,7 +39,16 @@ export const CommonApi = {
     },
     getExploreMore: async function(){
         return await AxiosInstance.get('service/explore-more')
-    }
+    },
+    getNotification:async function(params){
+        return await AxiosInstance.get('account/notifications/?limit=20&offset='+params)
+    },
+    notificationRead :async function(){
+        return await AxiosInstance.get('account/notifications/?mark_as_read=true')
+    },
+    getReviewCount : async function(params){
+        return await AxiosInstance.get('service/review/count/'+params)
+    },
    
 }
 

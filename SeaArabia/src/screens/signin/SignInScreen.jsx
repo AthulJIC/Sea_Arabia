@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ImageBackground, Pressable, ScrollView, TouchableOpacity, Image,KeyboardAvoidingView, Keyboard, Alert } from "react-native";
+import { View, Text, SafeAreaView, ImageBackground, Pressable, ScrollView, TouchableOpacity, Image,KeyboardAvoidingView, Keyboard, Alert,Linking } from "react-native";
 import BackIcon from "../../assets/icon/BackIcon";
 import { TextInput } from "react-native-gesture-handler";
 import { useCallback, useEffect, useState } from "react";
@@ -6,11 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from 'react-native-check-box';
 import { LoginApi } from "../../Services/Login/login";
 import LoadingIndicator from "../../components/Loader";
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-  } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { baseURL } from "../../Services/config";
@@ -31,7 +27,12 @@ function SignInScreen({ navigation }) {
     const [emailErorr,setEmailErorr]=useState(false)
     const [passwordErorr,setPasswordError]=useState(false)
     const [isLoading, setIsLoading] = useState(false);
-
+    const [googleUrl, setGoogleUrl] = useState();
+    GoogleSignin.configure({
+      // scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId: '605471858246-gsu3nnv1ek8osvvggo80mfnl5m3l660k.apps.googleusercontent.com', // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
     useFocusEffect(
         useCallback(() => {
           const addInputValues = async () => {
@@ -50,8 +51,17 @@ function SignInScreen({ navigation }) {
             }
           }
           addInputValues();
+          getGoogleAuth();
         }, [])
       );
+      function getGoogleAuth(){
+        
+          // const url = baseURL + 'account/google-auth';
+          // axios.get(url).then((res) => {
+          //   console.log('res===', res.data);
+          //   setGoogleUrl(res.data)
+          // })
+      }
       useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
           if (!state.isConnected) {
@@ -118,7 +128,7 @@ function SignInScreen({ navigation }) {
             // LoginApi.userLogin(data).then(async(res) => {
                 console.log('res', res.data);
                 if (res.status===200) {
-                    console.log("response login",res.data.access)
+                    console.log("response login",res.data)
                     await AsyncStorage.setItem('access_token', res.data.access);
                     await AsyncStorage.setItem('refresh_token', res.data.refresh);
                     const [header, payload, signature] = res.data.access.split('.');
@@ -143,17 +153,36 @@ function SignInScreen({ navigation }) {
           }
         });
       }
-    const googleSignIn= async ()=>{
+    // const googleSignIn= async ()=>{
+    //     try {
+    //         GoogleSignin.configure({
+    //             webClientId: 'YOUR_WEB_CLIENT_ID',
+    //             offlineAccess: true,
+    //         });
+    //         console.log('Google Sign-In configured successfully');
+    //       } catch (error) {
+    //         console.error('Error configuring Google Sign-In:', error);
+    //       }
+    // }
+    const handlePress = async () => {
         try {
-            GoogleSignin.configure({
-                webClientId: 'YOUR_WEB_CLIENT_ID',
-                offlineAccess: true,
-            });
-            console.log('Google Sign-In configured successfully');
-          } catch (error) {
-            console.error('Error configuring Google Sign-In:', error);
-          }
-    }
+          await GoogleSignin.hasPlayServices();
+          const userInfo = await GoogleSignin.signIn();
+          console.log('userInfo', userInfo);
+          // setState({ userInfo });
+        } catch (error) {
+          console.log('error', error);
+          // if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+          //   // user cancelled the login flow
+          // } else if (error.code === statusCodes.IN_PROGRESS) {
+          //   // operation (e.g. sign in) is in progress already
+          // } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          //   // play services not available or outdated
+          // } else {
+          //   // some other error happened
+          // }
+        }
+    };
     return (
         <ImageBackground source={require('../../assets/images/signinbg.gif')} style={{ flex: 1 }} imageStyle={{ resizeMode: 'cover' }}>
             <View style={{ width: '100%', height: 380, marginTop: 'auto', backgroundColor: 'rgba(0, 0, 0, 0.45)', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
@@ -213,7 +242,7 @@ function SignInScreen({ navigation }) {
                         uncheckedCheckBoxColor='rgba(255, 255, 255, 1)'
                         style={{ marginLeft: 10, marginTop: 10, width: '95%' }} />
                     <Pressable onPress={() => navigation.navigate('EmailVerification')}>
-                        <Text style={{ marginLeft: 'auto', color: 'rgba(255, 255, 255, 1)', marginTop: 10, right: 115 }}>Forget Password?</Text>
+                        <Text style={{ marginLeft: 'auto', color: 'rgba(255, 255, 255, 1)', marginTop: 10, right: 120 }}>Forget Password?</Text>
                     </Pressable>
                 </View>
                 {erorr !== '' && (
@@ -229,20 +258,20 @@ function SignInScreen({ navigation }) {
                     <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Roboto-Regular' }}>Don’t have an account?</Text>
                     <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Roboto-Bold' }} onPress={() => {navigation.navigate('SignUp')}}> Sign up</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 25 }}>
+                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 25,alignItems:'center',justifyContent:'center' }}>
                     <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Roboto-Regular' }}>Or continue with</Text>
-                    <Pressable style={{ marginLeft: 10 }}>
+                    <Pressable style={{ marginLeft: 10 }} onPress={handlePress}>
                         <Image source={require('../../assets/images/google.png')} style={{ width: 15, height: 14 }}></Image>
                     </Pressable>
                     {/* <Pressable style={{ marginLeft: 10 }}>
                         <Image source={require('../../assets/images/fb.png')} style={{ width: 15, height: 14 }}></Image>
                     </Pressable> */}
                 </View>
-                <View style={{flexDirection:'row',alignSelf:'center',marginTop:15}}>
-                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:13, fontFamily:'Roboto-Regular'}}>By continuing, you agree</Text>
-                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:13, fontFamily:'Roboto-Regular', textDecorationLine:'underline'}}> Terms of Service</Text>
-                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:13, fontFamily:'Roboto-Regular'}}> and</Text>
-                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:13, fontFamily:'Roboto-Regular',textDecorationLine:'underline'}}> Privacy Policy</Text>
+                <View style={{flexDirection:'row',marginTop:15,width:'70%',alignItems:'center',justifyContent:'center',alignSelf:'center'}}>
+                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:11, fontFamily:'Roboto-Regular',}}>By continuing, you agree</Text>
+                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:11, fontFamily:'Roboto-Regular', textDecorationLine:'underline',}}> Terms of Service</Text>
+                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:11, fontFamily:'Roboto-Regular'}}> and</Text>
+                    <Text style={{color:'rgba(255, 255, 255, 1)',fontSize:11, fontFamily:'Roboto-Regular',textDecorationLine:'underline',}}> Privacy Policy</Text>
                 </View>
             </View>
             {loading && <LoadingIndicator visible={loading} text='Loading...'></LoadingIndicator>}

@@ -22,12 +22,12 @@ function ProfileScreen() {
     const [userId, setUserId] = useState();
     const [userName,setUserName]=useState('');
     const [userDetails, setUserDetails] = useState();
-    const {updateDetails} = useAppContext();
+    const {details} =useAppContext();
     console.log('userDetails', userDetails);
     
     function editHandler(){
         navigation.navigate('EditUser');
-        updateDetails(userDetails)
+        // updateDetails(userDetails)
 
     }
     useFocusEffect(
@@ -50,7 +50,7 @@ function ProfileScreen() {
             }
         };
         getValueFromStorage();   
-        getUserDetails()       
+        // getUserDetails()       
         }, [])
     );    
     async function getUserDetails() {
@@ -174,11 +174,11 @@ function ProfileScreen() {
                         ) 
                         : (
                             <View>
-                                 <Text style={{color:'rgba(27, 30, 40, 1)', fontSize:16, fontFamily:'Roboto-Medium',marginTop:20, textAlign:'center'}}>{userDetails?.first_name ? userDetails.first_name.charAt(0).toUpperCase() + userDetails.first_name.slice(1) : ''}
+                                 <Text style={{color:'rgba(27, 30, 40, 1)', fontSize:16, fontFamily:'Roboto-Medium',marginTop:20, textAlign:'center'}}>{details?.first_name ? details.first_name.charAt(0).toUpperCase() + details.first_name.slice(1) : ''}
                                     {' '}
-                                    {userDetails?.last_name ? userDetails.last_name.charAt(0).toUpperCase() + userDetails.last_name.slice(1) : ''}
+                                    {details?.last_name ? details.last_name.charAt(0).toUpperCase() + details.last_name.slice(1) : ''}
                                     </Text>
-                                <Text style={{color:'rgba(125, 132, 141, 1)', fontSize:14, fontFamily:'Roboto-Regular',marginTop:10,textAlign:'center'}}>{userDetails?.email}</Text>
+                                <Text style={{color:'rgba(125, 132, 141, 1)', fontSize:14, fontFamily:'Roboto-Regular',marginTop:10,textAlign:'center'}}>{details?.email}</Text>
                             </View>
                         )
                     }

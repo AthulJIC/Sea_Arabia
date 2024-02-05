@@ -184,7 +184,7 @@ function ActivityScreen({navigation}) {
                 <View style={{bottom:45,marginTop:25}}>
                     <ActivityList data={topActivity} title='Top Activities'/>
                     <BestDeals title='Best Deals'/>
-                    <ActivityList data={sailActivity} title='Sail with Activity'/>
+                    <ActivityList data={sailActivity} title='Sale with Activity'/>
                     <ActivityList data={allActivityData} title='All Activities'/>
                 </View>
             </ScrollView>

@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ServicesList({data,title,page}){
     const navigation = useNavigation();
-    const {updateItem,updateList, updateTitle} = useAppContext();
+    const {updateItem,updateList, updateTitle,bestDealsItem} = useAppContext();
     const [loading,setLoading]=useState(false)
     const [userName,setUserName]=useState('')
     const [is_BookMarked, setis_BookMarked] = useState(false)
@@ -27,6 +27,7 @@ function ServicesList({data,title,page}){
         // console.log('item====', item);
         navigation.navigate('ServiceExpand');
         updateItem(item)
+        bestDealsItem({})
     }
     function serviceListHandler(){
         navigation.navigate('ServicesListExpand')
@@ -144,6 +145,12 @@ function ServicesList({data,title,page}){
         const names = item.name?item.name.split(' '):'';
         const firstName =names[0]? names[0].substring(0,1):'';
         const lastName = names[1]? names[1].substring(0,1):'';
+        const lowestPriceService = item?.service_price_service ? item?.service_price_service.reduce((lowest, current) => {
+            if (current.price < lowest.price) {
+              return current;
+            }
+            return lowest;
+          }, item?.service_price_service[0]) : '';
 
         return (
             <View>
@@ -187,18 +194,11 @@ function ServicesList({data,title,page}){
                         <Text style={{ color: 'rgba(0, 0, 0, 0.8)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 5 }}>2</Text>
                         <Text style={{ color: 'rgba(121, 121, 128, 1)', fontFamily: 'Roboto-Medium', fontSize: 12, textAlign: 'left', marginBottom: 5, marginLeft: 5 }}>Hours</Text>
                     </View>
-                    { page === 'Acitivity' ? (
-                        <View style={{flexDirection:'row',marginLeft:25}}>
-                            <Text style={{color:'rgba(121, 121, 128, 1)',fontSize:10,fontFamily:'Roboto-Regular'}}>Starts from</Text>
-                            <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>{item.price?.price} KWD</Text>
-                        </View>
-                    ) : (
-                    <View>
-                        {item.service_price && (
-                        <Text style={{ color: 'rgba(0, 104, 117, 1)', fontFamily: 'Roboto-Medium', fontSize: 10, textAlign: 'left', marginBottom: 5, marginLeft: 25, marginTop: 2 }}>{item.service_price[0]?.price} KWD</Text>
-                    )}
+                    <View style={{flexDirection:'row',marginLeft:25}}>
+                        <Text style={{color:'rgba(121, 121, 128, 1)',fontSize:10,fontFamily:'Roboto-Regular'}}>Starts from</Text>
+                        <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:5}}>{ lowestPriceService ? lowestPriceService.price : ''} KWD</Text>
                     </View>
-                    )}
+                    
                    
                     {/* <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:10, textAlign:'left',marginBottom:5,marginLeft:25,marginTop:2}}>70 KWD</Text> */}
                 </Pressable>

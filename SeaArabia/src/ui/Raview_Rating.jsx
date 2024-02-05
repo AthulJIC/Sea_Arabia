@@ -9,12 +9,18 @@ import StarActiveIcon from '../assets/icon/StartActiveIcon';
 // import StarInactiveIcon from '../assets/icon/StarInactiveIcon';
 import ReviewStartIcon from '../assets/icon/ReviewStartIcon';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useAppContext } from '../context/AppContext';
 
 const  RaviewRating= () => {
     const navigation = useNavigation();
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
-
+  const { updateRating} = useAppContext();
+   function ratingHandler(item) {
+         setDefaultRating(item);
+         updateRating(item)
+         navigation.navigate('ReviewScreen')
+    }
     return (
       <View style={styles.customRatingBarStyle}>
         {maxRating?.map((item, key) => {
@@ -23,7 +29,7 @@ const  RaviewRating= () => {
               activeOpacity={0.7}
               key={item}
             //   onPress={() => setDefaultRating(item)}
-              onPress={() => navigation.navigate('ReviewScreen')}
+              onPress={() => ratingHandler(item)}
               >
               {
                 item <= defaultRating ? <StarActiveIcon height={55} width={55}/> : <ReviewStartIcon/>

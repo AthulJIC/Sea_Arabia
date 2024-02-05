@@ -6,9 +6,10 @@ import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 // const timeSlots = ['7:00 AM', '7:30 AM', '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM', '11:30 PM', '12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM', '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM'];
 
 
-const TimeSchedule = ({data,hourValue}) => {
+const TimeSchedule = ({data,hourValue, onValueChange}) => {
   console.log('data=====', data, hourValue);
   const [selectedSlots, setSelectedSlots] = useState([]);
+  
 
   
   const renderTimeSlot = ({ item }) => {
@@ -108,7 +109,7 @@ const TimeSchedule = ({data,hourValue}) => {
             const nextSlot = timeSlots[nextIndex]?.time;
 
             // Check if there are subsequent slots available
-            if (!nextSlot) {
+            if (!nextSlot || !timeSlots[nextIndex].make_slot_available) {
               if (hourValue > 1) {
                 // Display an alert if there's no subsequent slot and hourValue > 1
                 alert("There's no subsequent slot. Please try another slot.");
@@ -135,7 +136,7 @@ const TimeSchedule = ({data,hourValue}) => {
             const nextSlot = timeSlots[nextIndex]?.time;
 
             // Check if there are subsequent slots available
-            if (!nextSlot) {
+            if (!nextSlot || !timeSlots[nextIndex].make_slot_available) {
               if (hourValue > 1) {
                 // Display an alert if there's no subsequent slot and hourValue > 1
                 alert("There's no subsequent slot. Please try another slot.");
@@ -145,7 +146,7 @@ const TimeSchedule = ({data,hourValue}) => {
               }
             }
 
-            if (timeSlots[nextIndex].make_slot_available) {
+            if (!updatedSelectedSlots.includes(nextSlot)) {
               updatedSelectedSlots.push(nextSlot);
             } else {
               break; // Break the loop if the consecutive slots are not available
@@ -153,6 +154,8 @@ const TimeSchedule = ({data,hourValue}) => {
           }
         }
 
+        console.log('selectedSlots===',updatedSelectedSlots);
+        onValueChange(updatedSelectedSlots);
         return updatedSelectedSlots;
       });
     };
@@ -173,6 +176,7 @@ const TimeSchedule = ({data,hourValue}) => {
     
       if (isSlotAvailable) {
         selectSlot(item.time);
+        
       }
     };
   
@@ -249,7 +253,10 @@ const styles = StyleSheet.create({
   },
   selectedSlotText:{
     color:'black'
-  }
+  },
+   disabledSlot: {
+    backgroundColor: 'rgba(255, 218, 214, 1)', // Change this to the desired color for disabled slots
+  },
 });
 
 export default TimeSchedule;

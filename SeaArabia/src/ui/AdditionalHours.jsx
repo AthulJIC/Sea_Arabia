@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 const AdditionalHours = () => {
   const [count, setCount] = useState(0);
 
   const increment = () => {
-    setCount(count + 1);
+    Alert.alert('No Additional Hours')
+    // setCount(count + 1);
   };
 
   const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
+    Alert.alert('No time slot available')
+    // if (count > 0) {
+    //   setCount(count - 1);
+    // }
   };
 
   return (

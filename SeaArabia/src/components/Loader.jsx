@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontFamily: 'Roboto-Medium', // Add font family styling as needed
     fontSize: 16, // Add font size styling as needed
-    color: '006875', // Add text color styling as needed
+    color: '#006875', // Add text color styling as needed
   },
 });
 

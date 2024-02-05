@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 
-const RangeSchedule = ({ data, serviceList }) => {
+const RangeSchedule = ({ data, serviceList, onValueChange }) => {
     console.log('datarange=====', data, serviceList); 
     const [selectedSlots, setSelectedSlots] = useState([]);
   
@@ -15,7 +15,8 @@ const RangeSchedule = ({ data, serviceList }) => {
   
     const formatTimeRange = (item) => {
       const startTime = formattedTime(item.time);
-      const endTime = formattedTime(item.end_time);
+      const endTime = item.end_time ? formattedTime(item.end_time) : null;
+    
       if (endTime) {
         return `${startTime} - ${endTime}`;
       } else {
@@ -23,81 +24,103 @@ const RangeSchedule = ({ data, serviceList }) => {
       }
     };
   
-    const isSlotAvailable = (start, end, data) => {
-        console.log('dataavailable', data);
-        if (data[0] && data[0].length > 0) {
-          const startTimeIndex = data[0].findIndex((slot) => slot.time === start);
-          const endTimeIndex = data[0].findIndex((slot) => slot.time === end);
+    const renderTimeSlot = ({ item }) => {
+      const timeRange = formatTimeRange(item);
+      const isSlotAvailable = checkSlotAvailability(item);
+    
+      const slotStyle = [
+        styles.slot,
+        selectedSlots.includes(item.time) ? styles.selectedSlot : null,
+        !isSlotAvailable ? styles.disabledSlot : null,
+      ];
+    
+      const textStyles = [
+        styles.slotText,
+        selectedSlots.includes(item.time) ? styles.selectedSlotText : null,
+        !isSlotAvailable ? styles.disabledSlot : null,
+      ];
+    
+      // const handlePress = () => {
+      //   if (isSlotAvailable) {
+      //     setSelectedSlots((prevSelectedSlots) => {
+      //       // Ensure that prevSelectedSlots is always an array
+      //       prevSelectedSlots = prevSelectedSlots || [];
+      //       if (prevSelectedSlots.includes(item.time)) {
+      //         // If the slot is already selected, unselect it
+      //         return prevSelectedSlots.filter((slot) => slot !== item.time);
+      //       } else {
+      //         // If the slot is not selected, select it
+      //         console.log('slots====', [...prevSelectedSlots, item.time]);
+      //         onValueChange([...prevSelectedSlots, item.time])
+      //         return [...prevSelectedSlots, item.time];
+      //       }
+            
+      //     });
+      //     // console.log('selecteslots===', selectedSlots);
+      //   }
+      // };
+      // const handlePress = () => {
+      //   if (isSlotAvailable) {
+      //     setSelectedSlots((prevSelectedSlots) => {
+      //       // Ensure that prevSelectedSlots is always an array
+      //       prevSelectedSlots = prevSelectedSlots || [];
       
-          if (startTimeIndex !== -1 && endTimeIndex !== -1) {
-            return data[0]
-              .slice(startTimeIndex, endTimeIndex + 1)
-              .every((slot) => slot.make_slot_available);
-          }
-        }
+      //       // If the slot is already selected, unselect all slots
+      //       if (prevSelectedSlots.includes(item.time)) {
+      //         onValueChange([]); // Clear all selected slots
+      //         return [];
+      //       } else {
+      //         // If the slot is not selected, select it
+      //         onValueChange([item.time]); // Select only the current slot
+      //         return [item.time];
+      //       }
+      //     });
+      //   }
+      // };
+      const handlePress = () => {
+        if (isSlotAvailable) {
+          setSelectedSlots((prevSelectedSlots) => {
+            // Ensure that prevSelectedSlots is always an array
+            prevSelectedSlots = prevSelectedSlots || [];
       
-        return false;
-      };
-  
-      const renderTimeSlot = ({ item }) => {
-        const timeRange = formatTimeRange(item);
-        const isSlotAvailable = item.make_slot_available;
-      
-        const slotStyle = [
-          styles.slot,
-          selectedSlots.includes(item.time) ? styles.selectedSlot : null,
-          !isSlotAvailable ? styles.disabledSlot : null,
-        ];
-      
-        const textStyles = [
-          styles.slotText,
-          selectedSlots.includes(item.time) ? styles.selectedSlotText : null,
-          !isSlotAvailable ? styles.disabledSlotText : null,
-        ];
-      
-        const onPressHandler = () => {
-          if (isSlotAvailable) {
-            selectSlot(item.time);
-          }
-        };
-      
-        // Check availability for each slot in the range
-        const isRangeAvailable = () => {
-            if (Array.isArray(serviceList) && serviceList.length > 0 && Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
-                for (const service of serviceList) {
-                    const startTime = parseInt(service.time, 10);
-                    const endTime = parseInt(service.end_time, 10);
-        
-                    const rangeAvailable = data[0].slice(startTime, endTime + 1).every((slot) => slot.make_slot_available);
-                    console.log('rangeAvailable',rangeAvailable);
-                    if (!rangeAvailable) {
-                        return false; // If any part of the range is not available, return false
-                    }
-                }
-        
-                return true; // If all parts of the range are available, return true
+            // If the slot is already selected, unselect all slots
+            if (prevSelectedSlots.some(slot => slot === item.time || slot === item.end_time)) {
+              onValueChange([]); // Clear all selected slots
+              return [];
+            } else {
+              // If the slot is not selected, select it
+              const selectedSlot = item.end_time ? [item.time, item.end_time] : [item.time];
+              onValueChange(selectedSlot); // Select the current slot or range
+              return selectedSlot;
             }
-        
-            return false;
-        };
-        
-      
-        return (
-          <Pressable
-            style={slotStyle}
-            onPress={onPressHandler}
-            disabled={!isRangeAvailable()}
-          >
-            <Text style={textStyles}>{timeRange}</Text>
-          </Pressable>
-        );
+          });
+        }
       };
-  
-    const selectSlot = (slot) => {
-      // Your selectSlot logic here
-      console.log('Selected Slot:', slot);
+      
+      return (
+        <Pressable
+          style={slotStyle}
+          onPress={handlePress}
+          disabled={!isSlotAvailable}
+        >
+          <Text style={textStyles}>{timeRange}</Text>
+        </Pressable>
+      );
     };
-  
+    
+    const checkSlotAvailability = (item) => {
+      const startTime = parseInt(item.time, 10);
+      const endTime = parseInt(item.end_time, 10);
+    
+      for (let i = startTime; i <= endTime; i++) {
+        const slotData = data[0].find((slot) => slot.time === i);
+        if (!slotData || !slotData.make_slot_available) {
+          return false;
+        }
+      }
+    
+      return true;
+    };  
     return (
       <View style={styles.container}>
         <FlatList

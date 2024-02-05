@@ -9,7 +9,7 @@ function PrivacySecurity({ navigation, route }) {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView>
                 <View style={{ flexDirection: 'row' }}>
-                    <Pressable style={[Styles.backIcon, { marginTop: 12, }]} onPress={() => navigation.navigate('Profile')}>
+                    <Pressable style={[Styles.backIcon, { marginTop: 12, }]} onPress={() => navigation.goBack()}>
                         <BackIcon color='#1B1E28'></BackIcon>
                     </Pressable>
                     <Text style={{ marginTop: 25, marginLeft: 15, fontSize: 14, color: 'rgba(25, 28, 29, 0.8)', fontFamily: 'Roboto-Medium' }}>Privacy & Security</Text>

@@ -1,4 +1,4 @@
-import { View,Text, SafeAreaView, Image, ScrollView,StyleSheet ,Pressable, Platform} from "react-native";
+import { View,Text, SafeAreaView, Image, ScrollView,StyleSheet ,Pressable, Platform,Linking} from "react-native";
 import LocationIcon from "../../assets/icon/LocationIcon";
 import Rating from "../../ui/Rating";
 import GuestIcon from "../../assets/icon/GuestIcon";
@@ -10,9 +10,12 @@ import ReadMore from "../../ui/ReadMore";
 import { useAppContext } from "../../context/AppContext";
 import CarouselList from "../../components/CarouselList";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CommonApi } from "../../Services/common/CommonApi";
 import useBackButtonHandler from "../../components/BackHandlerUtils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Share from 'react-native-share';
+import { generateAppUrl } from '../../navigations/navigationUtils';
 
 
 // const amenitiesList = [
@@ -72,18 +75,65 @@ import useBackButtonHandler from "../../components/BackHandlerUtils";
 
 
 function ServiceExpandScreen(){
-   const { item , updateItem } = useAppContext();
+   const { item , updateItem,bestDealsItem } = useAppContext();
    const navigation = useNavigation();
    const [service, setService] = useState();
+   const [deals, setDeals] = useState();
+   const [ratingCount, setRatingCount] = useState();
     console.log('useAppContext======', item.id);
-
+    const { uniqueID } = item?.id;
     useBackButtonHandler(navigation, false);
 
     useFocusEffect(
         useCallback(() => {
-            getServiceView();
+            const fetchData = async () => {
+                const bestDeals = await AsyncStorage.getItem('best_Deals');
+                setDeals(bestDeals);
+                getServiceView();
+                getRatingCount();
+            };
+            fetchData(); 
         }, []) 
     )
+    useEffect(() => {
+        // Handle deep linking here
+        const deepLinkingHandler = (event) => {
+          if (event.url) {
+            const url = event.url;
+            const route = Linking.parse(url);
+            console.log('route', route);
+            // if (route && route.route) {
+            //   navigation.navigate(route.route.name, route.route.params);
+            // }
+          }
+        };
+    
+        // Subscribe to deep linking events
+        Linking.addEventListener('url', deepLinkingHandler);
+    
+        // Clean up the event listener when the component unmounts
+        return () => {
+          Linking.removeEventListener('url', deepLinkingHandler);
+        };
+      }, [navigation]);
+    const handleShare = async () => {
+        // const url = `https://seaarabia.com/screen/${item?.id}`;
+        // const url = generateAppUrl('ServiceExpand', { itemId: item?.id });
+        const url = `seaarabia://details/${item.id}`
+        console.log('url=====', url);
+        try {
+          const result = await Share.open({ message: url });
+          console.log(result);
+        } catch (error) {
+          console.error('Error sharing:', error.message);
+        }
+      };
+    function getRatingCount(){
+        CommonApi.getReviewCount(item?.id).then((res) => {
+            console.log('res====', res.data.total_reviews_count);
+            setRatingCount(res.data.total_reviews_count);
+        })
+    }
     function getServiceView() {
         CommonApi.getIndividualService(item.id).then((res) => {
             console.log('service====', res.data);
@@ -94,8 +144,10 @@ function ServiceExpandScreen(){
         
     }
     function proceedHandler(){
+        if(deals){}
+        updateItem(service);
         navigation.navigate('ServiceDate')
-        updateItem(service)
+        // BestDealsItem({});
     }
     const serviceImages = service?.service_image || [];
     const amenitiesList = service?.amenities || [];
@@ -133,7 +185,7 @@ function ServiceExpandScreen(){
                     <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> {service?.pickup_point_or_location}</Text>
                 </View>
                 <View style={{flexDirection:'row',marginBottom:15}}>
-                    <Rating/>
+                    <Rating initialRating={ratingCount}/>
                     <Text style={{color:'rgba(25, 28, 29, 0.8)', fontSize:11,fontFamily:'Roboto-Regular',marginLeft:'auto',bottom:20,textAlign:'right',left:55}}>Capacity</Text>
                     <View style={{right:20,flexDirection:'row'}}>
                         <GuestIcon/>
@@ -190,7 +242,7 @@ function ServiceExpandScreen(){
                     <Pressable style={[Styles.backIcon,{width:'10%',height:37}]} onPress={() => navigation.goBack()}>
                         <BackIcon color='#1B1E28'></BackIcon>
                     </Pressable>
-                    <Pressable style={{marginLeft:'auto',right:20}}>
+                    <Pressable style={{marginLeft:'auto',right:20}} onPress={handleShare}>
                         <ShareIcon/>
                     </Pressable>
                 </View>

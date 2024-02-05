@@ -44,9 +44,9 @@ function BookMarkScreen({navigation,route}){
     }, [])
     );
     function serviceHandler(item) {
-        // console.log('item====', item);
+        console.log('item====', item);
         navigation.navigate('ServiceExpand');
-        updateItem(item)
+        updateItem(item?.service)
     }
      function getBookMarkList(){
         BookmarkApi.getBookMarkList().then((res) => {
@@ -159,8 +159,8 @@ function BookMarkScreen({navigation,route}){
                         <Text style={{color:'rgba(0, 104, 117, 1)', fontFamily:'Roboto-Medium', fontSize:12, textAlign:'left',marginBottom:5}}>{item.service?.service_price_service[0]?.price} KWD</Text>
                         <Text style={{color:'rgba(102, 102, 102, 1)', fontSize:12, fontFamily:'Roboto-Regular'}}> / {item.service?.capacity} People</Text>
                     </View>
-                    <Pressable style={{height:35,backgroundColor:'rgba(0, 104, 117, 1)',width:111,alignItems:'center',justifyContent:'center',left:15,marginTop:10,borderRadius:5}}>
-                        <Text style={{fontSize:12, color:'white', fontFamily:'Roboto-Regular'}}>Confirm Booking</Text>
+                    <Pressable style={{height:35,backgroundColor:'rgba(0, 104, 117, 1)',width:111,alignItems:'center',justifyContent:'center',left:15,marginTop:10,borderRadius:5}} onPress={() => serviceHandler(item)}>
+                        <Text style={{fontSize:12, color:'white', fontFamily:'Roboto-Regular'}}>Book now</Text>
                     </Pressable>
                 </View>
             </Pressable>
